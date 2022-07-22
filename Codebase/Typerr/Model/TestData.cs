@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Typerr.Model
 {
-    class TestData
+    public class TestData
     {
         private bool _testStarted;
 
