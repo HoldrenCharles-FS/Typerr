@@ -4,9 +4,203 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Typerr"
+        xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome"
         mc:Ignorable="d"
-        Title="Typerr" Height="450" Width="800">
+        Height="650" Width="1000"
+        WindowStyle="None"
+        WindowState="Maximized"
+        ResizeMode="CanResize"
+        MinHeight="650" MinWidth="1000">
+    <Window.Resources>
+        
+    </Window.Resources>
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="32" 
+            ResizeBorderThickness=
+            "{x:Static SystemParameters.WindowResizeBorderThickness}" 
+            />
+    </WindowChrome.WindowChrome>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="225"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Border Background="{StaticResource AppTheme}" 
+                    Width="auto" 
+                    Height="auto"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Border Background="{StaticResource AppTheme}" 
+                    Width="auto" 
+                    Height="auto">
+                <StackPanel>
+                    <TextBlock Text="Typerr"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
+                   Margin="30,20,0,52"
+                   Foreground="White"
+                   FontSize="28"/>
+                    <RadioButton Content="Home"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="14"
+                                 IsChecked="True"
+                             Style="{StaticResource MenuButtonTheme}"/>
+                    <RadioButton Content="Library"
+                             Height="50"
+                             Foreground="White"
+                             FontSize="14"
+                             Style="{StaticResource MenuButtonTheme}"
+                             
+                             Command="{Binding HomeViewCommand}"/>
+                    <RadioButton Content="Subscriptions"
+                             Height="50"
+                                 IsEnabled="False"
+                             Foreground="#bbb"
+                             FontSize="14"
+                             Style="{StaticResource MenuButtonTheme}"/>
 
+                </StackPanel>
+            </Border>
+        </Grid>
+        <Grid VerticalAlignment="Top" Grid.Column="1">
+            <StackPanel WindowChrome.IsHitTestVisibleInChrome="True" 
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal"
+                        Height="32">
+                <Button x:Name="WindowMinimize"
+                        BorderThickness="0" 
+                        Width="46" 
+                        Background="{StaticResource AppTheme}">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" 
+                                    Value="0, 0,0,14"/>
+                        </Style>
+                    </Button.Resources>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="wButton" 
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" 
+                                                     Value="True">
+                                                <Setter Property="Background" 
+                                                        Value="#73b9ef" 
+                                                        TargetName="wButton" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" 
+                                                     Value="True">
+                                                <Setter Property="Background" 
+                                                        Value="#6eb4ea" 
+                                                        TargetName="wButton" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Button.Content>
+                        <fa:FontAwesomeIcon SolidIcon="WindowMinimize"  
+                                            Foreground="White" 
+                                            FontSize="20"/>
+                    </Button.Content>
+                </Button>
+                <Button x:Name="WindowMaximize" 
+                        BorderThickness="0" 
+                        Width="46" 
+                        Background="{StaticResource AppTheme}">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="wButton" 
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" 
+                                                     Value="True">
+                                                <Setter Property="Background" 
+                                                        Value="#73b9ef" 
+                                                        TargetName="wButton" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" 
+                                                     Value="True">
+                                                <Setter Property="Background" 
+                                                        Value="#6eb4ea" 
+                                                        TargetName="wButton" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Button.Content>
+                        <fa:FontAwesomeIcon SolidIcon="WindowMaximize"  
+                                            Foreground="White" 
+                                            FontSize="20"/>
+                    </Button.Content>
+                </Button>
+                <Button x:Name="WindowClose" 
+                        BorderThickness="0" 
+                        Width="46" 
+                        Background="{StaticResource AppTheme}">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="wButton" 
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" 
+                                                     Value="True">
+                                                <Setter Property="Background" 
+                                                        Value="#ea3023" 
+                                                        TargetName="wButton" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" 
+                                                     Value="True">
+                                                <Setter Property="Background"
+                                                        Value="#da2013" 
+                                                        TargetName="wButton" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Button.Content>
+                        <fa:FontAwesomeIcon SolidIcon="Times" 
+                                            Foreground="White" 
+                                            FontSize="20"/>
+                    </Button.Content>
+                    
+                </Button>
+                
+            </StackPanel>
+            <Grid></Grid>
+        </Grid>
     </Grid>
+    
 </Window>

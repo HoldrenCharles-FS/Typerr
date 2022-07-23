@@ -10,9 +10,13 @@
     <Folder Include="Model\" />
     <Folder Include="Exception\" />
     <Folder Include="Commands\" />
-    <Folder Include="Service\" />
     <Folder Include="ViewModel\" />
     <Folder Include="View\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Meziantou.WpfFontAwesome" Version="5.15.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 </Project>
