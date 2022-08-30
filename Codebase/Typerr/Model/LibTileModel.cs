@@ -20,5 +20,14 @@ namespace Typerr.Model
             WordCount = testModel.article.WordCount;
             TimeRemaining = WordCount / user.RecentWpm;
         }
+
+        public LibTileModel()
+        {
+            Title = "Default Title";
+            AuthorName = "Default Author";
+            WebsiteName = "defaultwebsite.com";
+            WordCount = -1;
+            TimeRemaining = -1;
+        }
     }
 }
