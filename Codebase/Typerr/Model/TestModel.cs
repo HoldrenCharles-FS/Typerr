@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Typerr.Model
 {
-    class TestModel
+    public class TestModel
     {
-        public Article article { get; private set; }
+        public Article article { get; set; }
         public TestData testData { get; private set; }
     }
 }

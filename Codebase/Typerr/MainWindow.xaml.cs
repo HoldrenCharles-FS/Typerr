@@ -1,20 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
+using Typerr.Model;
+using TyperrDemo.Services;
 
 namespace Typerr
 {
@@ -23,7 +15,8 @@ namespace Typerr
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        // Source: https://pastebin.com/HAsA3bWJ
+        #region Proper C# Borderless Window Maximization v1.2 by THEFANATR, March 9, 2018
         CompositionTarget WindowCompositionTarget { get; set; }
 
         double CachedMinWidth { get; set; }
@@ -104,25 +97,26 @@ namespace Typerr
         [DllImport("User32")]
         internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
 
+        #endregion, 
+
         public MainWindow()
         {
-
             InitializeComponent();
-            WindowMinimize.Click += (s, e) =>
+
+            WindowMinimize.Click += (sender, e) =>
             {
                 WindowStyle = WindowStyle.SingleBorderWindow;
                 WindowState = WindowState.Minimized;
                 WindowStyle = WindowStyle.None;
 
             };
-            WindowMaximize.Click += (s, e) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
-            WindowClose.Click += (s, e) => Close();
-            SourceInitialized += (s, e) =>
+            WindowMaximize.Click += (sender, e) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+            WindowClose.Click += (sender, e) => Close();
+            SourceInitialized += (sender, e) =>
             {
                 WindowCompositionTarget = PresentationSource.FromVisual(this).CompositionTarget;
                 HwndSource.FromHwnd(new WindowInteropHelper(this).Handle).AddHook(WindowProc);
             };
-            InitializeComponent();
         }
     }
 }

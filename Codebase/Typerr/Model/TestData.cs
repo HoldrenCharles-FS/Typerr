@@ -22,7 +22,6 @@ namespace Typerr.Model
         private int _wordsRemaining;
         private int _incorrectWords;
 
-
         public TestData(TestData testData = null)
         {
             if (testData != null)

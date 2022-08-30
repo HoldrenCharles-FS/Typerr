@@ -55,9 +55,7 @@
                              Height="50"
                              Foreground="White"
                              FontSize="14"
-                             Style="{StaticResource MenuButtonTheme}"
-                             
-                             Command="{Binding HomeViewCommand}"/>
+                             Style="{StaticResource MenuButtonTheme}"/>
                     <RadioButton Content="Subscriptions"
                              Height="50"
                                  IsEnabled="False"
@@ -195,11 +193,11 @@
                                             Foreground="White" 
                                             FontSize="20"/>
                     </Button.Content>
-                    
+
                 </Button>
-                
+
             </StackPanel>
-            <Grid></Grid>
+
         </Grid>
     </Grid>
     
