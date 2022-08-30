@@ -8,35 +8,31 @@
              x:Name="LibraryTile"
              d:DesignHeight="450" d:DesignWidth="800">
     <Border Width="300"
-                    Height="150"
-                    BorderThickness="1"
+            Height="150"
+            BorderThickness="2"
             BorderBrush="Black"
-                    Margin="0,0,10,0">
-        <!-->
+            Margin="0,0,10,0"
+            CornerRadius="30">
+        <!--> Background image 
         <Border.Background>
             <ImageBrush ImageSource="/Images/knox.jpg"/>
         </Border.Background>
         <-->
-        <Border.Clip>
-            <RectangleGeometry RadiusX="30"
-                                       RadiusY="30"
-                                       Rect="0,0,300,150"/>
-        </Border.Clip>
-        <Border Width="300"
-                    Height="150"
-                    BorderThickness="0"
-                        Background="#88FFFFFF">
-
-            <Border.Clip>
-                <RectangleGeometry RadiusX="30"
-                                       RadiusY="30"
-                                       Rect="0,0,300,150"/>
-            </Border.Clip>
-            <Grid Width="300">
-                <Button Width="300"
-                    Height="150"
+        <Border Width="auto"
+                Height="auto"
+                CornerRadius="30"
+                Background="#88EBEBEB">
+            <Grid Width="auto" Height="auto">
+                <Button Width="auto"
+                    Height="auto"
                     OpacityMask="#222"
                     BorderThickness="0">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="30"/>
+                        </Style>
+                    </Button.Resources>
+                    
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Template">
@@ -58,25 +54,18 @@
                             </Setter>
                         </Style>
                     </Button.Style>
+                   
                     <Button.Background>
                         <LinearGradientBrush StartPoint="2,0" EndPoint="2,6">
                             <GradientStop Color="Transparent" Offset="0.0"/>
-                            <GradientStop Color="#444444" Offset="1"/>
+                            <GradientStop Color="#fdfdfd" Offset="1"/>
                         </LinearGradientBrush>
                     </Button.Background>
-                    <Button.Clip>
-                        <RectangleGeometry RadiusX="30"
-                                       RadiusY="30"
-                                       Rect="0,0,300,150"/>
-                    </Button.Clip>
 
-                    <Grid Width="300" Height="150">
-                        <Grid.Background>
-                            <LinearGradientBrush StartPoint="2,0" EndPoint="2,6">
-                                <GradientStop Color="Transparent" Offset="0.0"/>
-                                <GradientStop Color="#fdfdfd" Offset="1"/>
-                            </LinearGradientBrush>
-                        </Grid.Background>
+
+
+                    <Grid Width="auto" Height="auto">
+
                         <StackPanel VerticalAlignment="Bottom">
                             <TextBlock Text="{Binding Model.Title, ElementName=LibraryTile}"
                                    Foreground="Black"

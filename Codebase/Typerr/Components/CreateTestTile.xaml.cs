@@ -22,5 +22,10 @@ namespace Typerr.Components
         {
             InitializeComponent();
         }
+
+        private void CreateTestButton_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("test");
+        }
     }
 }

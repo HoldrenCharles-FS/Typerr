@@ -12,13 +12,14 @@
             BorderBrush="Black"
             Margin="0,0,10,0"
             CornerRadius="30"
-            Background="#88FFFFFF">
+            Background="#88EBEBEB">
 
         <Grid Width="auto">
-            <Button Width="auto"
+            <Button x:Name="CreateTestButton" 
+                Width="auto"
                     Height="auto"
-                    OpacityMask="#222"
-                    BorderThickness="0">
+                    BorderThickness="0"
+                    Click="CreateTestButton_Click">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="30"/>
