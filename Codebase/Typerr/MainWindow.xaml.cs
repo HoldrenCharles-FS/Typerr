@@ -111,7 +111,7 @@ namespace Typerr
 
             };
             WindowMaximize.Click += (sender, e) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
-            WindowClose.Click += (sender, e) => Close();
+            WindowClose.Click += (sender, e) => Application.Current.Shutdown();
             SourceInitialized += (sender, e) =>
             {
                 WindowCompositionTarget = PresentationSource.FromVisual(this).CompositionTarget;

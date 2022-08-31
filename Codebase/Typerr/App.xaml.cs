@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Typerr.Stores;
+using Typerr.ViewModel;
 
 namespace Typerr
 {
@@ -19,6 +20,19 @@ namespace Typerr
         public App()
         {
             _navigationStore = new NavigationStore();
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            _navigationStore.CurrentViewModel = new HomeViewModel();
+
+            MainWindow = new MainWindow() 
+            { 
+                DataContext = new MainViewModel(_navigationStore) 
+            };
+            MainWindow.Show();
+
+            base.OnStartup(e);
         }
     }
 }

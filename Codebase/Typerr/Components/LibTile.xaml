@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              x:Name="LibraryTile"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Border Width="300"
+    <Border Width="250"
             Height="150"
             BorderThickness="2"
             BorderBrush="Black"
@@ -22,31 +22,41 @@
                 Height="auto"
                 CornerRadius="30"
                 Background="#88EBEBEB">
-            <Grid Width="auto" Height="auto">
+            <Grid Width="auto" 
+                  Height="auto">
                 <Button Width="auto"
-                    Height="auto"
-                    OpacityMask="#222"
-                    BorderThickness="0">
+                        Height="auto"
+                        OpacityMask="#222"
+                        BorderThickness="0">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="30"/>
+                            <Setter Property="CornerRadius" 
+                                    Value="30"/>
                         </Style>
                     </Button.Resources>
-                    
+
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        <Border x:Name="Border" 
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center" />
                                         </Border>
                                         <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="#88000000" TargetName="Border" />
+                                            <Trigger Property="IsMouseOver" 
+                                                     Value="True">
+                                                <Setter Property="Background" 
+                                                        Value="#bbfdfdfd" 
+                                                        TargetName="Border" />
                                             </Trigger>
-                                            <Trigger Property="IsPressed" Value="True">
-                                                <Setter Property="Background" Value="#a8000000" TargetName="Border" />
+                                            <Trigger Property="IsPressed" 
+                                                     Value="True">
+                                                <Setter Property="Background" 
+                                                        Value="#a8aaaaaa" 
+                                                        TargetName="Border" />
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
@@ -54,36 +64,40 @@
                             </Setter>
                         </Style>
                     </Button.Style>
-                   
+
                     <Button.Background>
-                        <LinearGradientBrush StartPoint="2,0" EndPoint="2,6">
-                            <GradientStop Color="Transparent" Offset="0.0"/>
-                            <GradientStop Color="#fdfdfd" Offset="1"/>
+                        <LinearGradientBrush StartPoint="2,0" 
+                                             EndPoint="2,6">
+                            <GradientStop Color="Transparent" 
+                                          Offset="0.0"/>
+                            <GradientStop Color="#fdfdfd" 
+                                          Offset="1"/>
                         </LinearGradientBrush>
                     </Button.Background>
 
 
 
-                    <Grid Width="auto" Height="auto">
 
-                        <StackPanel VerticalAlignment="Bottom">
-                            <TextBlock Text="{Binding Model.Title, ElementName=LibraryTile}"
-                                   Foreground="Black"
-                                   FontSize="20"
-                                   FontWeight="Bold"
-                                   Margin="20,0,0,0" 
-                                   Height="80"
-                                   VerticalAlignment="Bottom"
-                                   HorizontalAlignment="Left" Width="260"
-                                   />
+                    <StackPanel VerticalAlignment="Center" 
+                                Height="auto" 
+                                Width="auto">
+                        <Label Content="{Binding VM.Title, ElementName=LibraryTile}"
+                               VerticalContentAlignment="Bottom"
+                               Padding="5 0"
+                               Foreground="Black"
+                               FontSize="21"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Left" 
+                               Width="210" 
+                               Height="91"/>
 
-                            <TextBlock Text="{Binding FooterInfo, ElementName=LibraryTile}"
-                                   Foreground="Black"
-                                   FontSize="14"
-                                   Margin="20,10,20,10"
-                                   />
-                        </StackPanel>
-                    </Grid>
+                        <Label VerticalContentAlignment="Bottom"
+                               Content="{Binding FooterInfo, ElementName=LibraryTile}"
+                               Foreground="Black"
+                               Padding="5 0 "
+                               FontSize="13"/>
+                    </StackPanel>
+
                 </Button>
             </Grid>
         </Border>

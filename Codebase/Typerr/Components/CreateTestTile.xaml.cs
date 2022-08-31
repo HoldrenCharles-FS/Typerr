@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Typerr.ViewModel;
 
 namespace Typerr.Components
 {
@@ -18,6 +19,20 @@ namespace Typerr.Components
     /// </summary>
     public partial class CreateTestTile : UserControl
     {
+
+
+        public CreateTestViewModel ViewModel
+        {
+            get { return (CreateTestViewModel)GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register("ViewModel", typeof(CreateTestViewModel), typeof(CreateTestTile), new PropertyMetadata(new CreateTestViewModel()));
+
+
+
         public CreateTestTile()
         {
             InitializeComponent();

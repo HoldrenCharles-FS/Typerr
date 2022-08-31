@@ -14,7 +14,15 @@ namespace Typerr.Stores
             set
             {
                 _currentViewModel = value;
+                OnCurrentViewModelChaged();
             }
+        }
+
+        public event Action CurrentViewModelChanged;
+
+        private void OnCurrentViewModelChaged()
+        {
+            CurrentViewModelChanged?.Invoke();
         }
     }
 }

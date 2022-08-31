@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Typerr.Model;
+using Typerr.View;
+using Typerr.ViewModel;
 
 namespace Typerr.Components
 {
@@ -10,15 +12,15 @@ namespace Typerr.Components
     public partial class LibTile : UserControl
     {
 
-        public LibTileModel Model
+        public LibTileViewModel VM
         {
-            get { return (LibTileModel)GetValue(ModelProperty); }
+            get { return (LibTileViewModel)GetValue(ModelProperty); }
             set { SetValue(ModelProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Model.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ModelProperty =
-            DependencyProperty.Register("Model", typeof(LibTileModel), typeof(LibTile), new PropertyMetadata(new LibTileModel()));
+            DependencyProperty.Register("ViewModel", typeof(LibTileViewModel), typeof(LibTile), new PropertyMetadata(new LibTileViewModel()));
 
 
 
@@ -32,12 +34,19 @@ namespace Typerr.Components
         public static readonly DependencyProperty FooterInfoProperty =
             DependencyProperty.Register("FooterInfo", typeof(string), typeof(LibTile), new PropertyMetadata(string.Empty));
 
-
-
-
         public LibTile()
         {
+            VM = new LibTileViewModel();
+            FooterInfo = $"{VM.AuthorName} | {VM.WebsiteName}\n{VM.WordCount} words | {VM.TimeRemaining} remaining";
             InitializeComponent();
         }
+
+        public LibTile(LibTileModel model)
+        {
+            VM = new LibTileViewModel(model);
+            FooterInfo = $"{VM.AuthorName} | {VM.WebsiteName}\n{VM.WordCount} words | {VM.TimeRemaining} remaining";
+            InitializeComponent();
+        }
+
     }
 }

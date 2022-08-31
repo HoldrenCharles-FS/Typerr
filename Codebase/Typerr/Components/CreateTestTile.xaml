@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Typerr.Components"
+             xmlns:vms="clr-namespace:Typerr.ViewModel" d:DataContext="{d:DesignInstance Type=vms:CreateTestViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Border Width="150"
@@ -16,13 +17,15 @@
 
         <Grid Width="auto">
             <Button x:Name="CreateTestButton" 
-                Width="auto"
+                    Width="auto"
                     Height="auto"
                     BorderThickness="0"
-                    Click="CreateTestButton_Click">
+                    Click="CreateTestButton_Click"
+                    Command="{Binding CreateTestCommand}">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="30"/>
+                        <Setter Property="CornerRadius" 
+                                Value="30"/>
                     </Style>
                 </Button.Resources>
                 <Button.Style>
@@ -30,15 +33,22 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border x:Name="Border" Background="{TemplateBinding Background}">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <Border x:Name="Border" 
+                                            Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Center" 
+                                                          VerticalAlignment="Center" />
                                     </Border>
                                     <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#88000000" TargetName="Border" />
+                                        <Trigger Property="IsMouseOver" 
+                                                 Value="True">
+                                            <Setter Property="Background" 
+                                                    Value="#bbfdfdfd" TargetName="Border" />
                                         </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter Property="Background" Value="#a8000000" TargetName="Border" />
+                                        <Trigger Property="IsPressed" 
+                                                 Value="True">
+                                            <Setter Property="Background" 
+                                                    Value="#a8aaaaaa" 
+                                                    TargetName="Border" />
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
@@ -48,23 +58,38 @@
                 </Button.Style>
 
                 <Button.Background>
-                    <LinearGradientBrush StartPoint="2,0" EndPoint="2,6">
-                        <GradientStop Color="Transparent" Offset="0.0"/>
-                        <GradientStop Color="#444444" Offset="1"/>
+                    <LinearGradientBrush StartPoint="2,0" 
+                                         EndPoint="2,6">
+                        <GradientStop Color="Transparent" 
+                                      Offset="0.0"/>
+                        <GradientStop Color="#444444" 
+                                      Offset="1"/>
                     </LinearGradientBrush>
                 </Button.Background>
-                <Grid Width="150" Height="150">
+                <Grid Width="150" 
+                      Height="150">
                     
                     <Grid.Resources>
                         <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="30"/>
+                            <Setter Property="CornerRadius" 
+                                    Value="30"/>
                         </Style>
                     </Grid.Resources>
 
-                    <StackPanel VerticalAlignment="Bottom" Margin="0,42,0,10">
-                        <Grid Height="26" Width="26">
-                            <Line Stroke="Black" Y1="26" X2="13" X1="13" StrokeThickness="2"/>
-                            <Line Stroke="Black" X1="26" Y2="13" Y1="13" StrokeThickness="2"/>
+                    <StackPanel VerticalAlignment="Bottom" 
+                                Margin="0,42,0,10">
+                        <Grid Height="26" 
+                              Width="26">
+                            <Line Stroke="Black" 
+                                  Y1="26" 
+                                  X2="13" 
+                                  X1="13" 
+                                  StrokeThickness="2"/>
+                            <Line Stroke="Black" 
+                                  X1="26" 
+                                  Y2="13" 
+                                  Y1="13" 
+                                  StrokeThickness="2"/>
                         </Grid>
                         
                         <TextBlock Text="&#xA;Create Test"
