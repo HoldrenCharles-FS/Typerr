@@ -1,0 +1,105 @@
+﻿<UserControl x:Class="Typerr.Components.FeedTile"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Typerr.Components"
+             mc:Ignorable="d">
+    <Border Width="250"
+            Height="150"
+            BorderThickness="2"
+            BorderBrush="Black"
+            Margin="0,0,10,0"
+            CornerRadius="30">
+        <!--> Background image 
+        <Border.Background>
+            <ImageBrush ImageSource="/Images/knox.jpg"/>
+        </Border.Background>
+        <-->
+        <Border Width="auto"
+                Height="auto"
+                CornerRadius="30"
+                Background="#88EBEBEB">
+            <Grid Width="auto" 
+                  Height="auto">
+                <Button Width="auto"
+                        Height="auto"
+                        OpacityMask="#222"
+                        BorderThickness="0">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" 
+                                    Value="30"/>
+                        </Style>
+                    </Button.Resources>
+
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" 
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" 
+                                                     Value="True">
+                                                <Setter Property="Background" 
+                                                        Value="#bbfdfdfd" 
+                                                        TargetName="Border" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" 
+                                                     Value="True">
+                                                <Setter Property="Background" 
+                                                        Value="#a8aaaaaa" 
+                                                        TargetName="Border" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="2,0" 
+                                             EndPoint="2,6">
+                            <GradientStop Color="Transparent" 
+                                          Offset="0.0"/>
+                            <GradientStop Color="#fdfdfd" 
+                                          Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+
+
+
+
+                    <StackPanel VerticalAlignment="Center" 
+                                Height="auto" 
+                                Width="auto">
+                        <Label Content="Coming Soon!"
+                               VerticalContentAlignment="Bottom"
+                               Padding="5 0"
+                               Foreground="Black"
+                               FontSize="21"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Left" 
+                               Width="210" 
+                               Height="91"/>
+
+                        <Label VerticalContentAlignment="Bottom"
+                               Content="{Binding VM.Description, ElementName=FeedTile}"
+                               Foreground="Black"
+                               Padding="5 0 "
+                               FontSize="13"/>
+                        <Label Content="{Binding VM.WebsiteName}"
+                               HorizontalContentAlignment="Right"/>
+                    </StackPanel>
+
+                </Button>
+            </Grid>
+        </Border>
+    </Border>
+</UserControl>

@@ -7,14 +7,14 @@
              mc:Ignorable="d" 
              Background="White">
     <StackPanel>
-        <!--> Header <-->
+        <!--#region Library -->
         <TextBlock Text="Library"
                    Foreground="Black"
                    FontWeight="Bold"
                    FontSize="24"
                    HorizontalAlignment="Left"
                    Margin="30,20,0,20"/>
-        <!--> Content <-->
+        
         <StackPanel x:Name="HomeLibraryContent" 
                     Orientation="Horizontal" 
                     Margin="20,0,0,20">
@@ -22,5 +22,22 @@
             <components:LibTile/>
             <components:LibTile/>
         </StackPanel>
+        <!--#endregion-->
+        <!--Feed
+        <TextBlock Text="Feed"
+                   Foreground="Black"
+                   FontWeight="Bold"
+                   FontSize="24"
+                   HorizontalAlignment="Left"
+                   Margin="30,20,0,20"/>
+
+        <StackPanel x:Name="FeedContent" 
+                    Orientation="Horizontal" 
+                    Margin="20,0,0,20">
+            <components:FeedTile/>
+            <components:FeedTile/>
+            <components:FeedTile/>
+        </StackPanel>
+        -->
     </StackPanel>
 </UserControl>

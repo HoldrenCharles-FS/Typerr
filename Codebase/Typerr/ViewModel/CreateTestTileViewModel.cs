@@ -5,11 +5,11 @@ using System.Windows.Input;
 
 namespace Typerr.ViewModel
 {
-    public class CreateTestViewModel : ViewModelBase
+    public class CreateTestTileViewModel : ViewModelBase
     {
         public ICommand CreateTestCommand { get; }
 
-        public CreateTestViewModel()
+        public CreateTestTileViewModel()
         {
 
         }

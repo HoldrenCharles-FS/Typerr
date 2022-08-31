@@ -21,15 +21,15 @@ namespace Typerr.Components
     {
 
 
-        public CreateTestViewModel ViewModel
+        public CreateTestTileViewModel ViewModel
         {
-            get { return (CreateTestViewModel)GetValue(ViewModelProperty); }
+            get { return (CreateTestTileViewModel)GetValue(ViewModelProperty); }
             set { SetValue(ViewModelProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(CreateTestViewModel), typeof(CreateTestTile), new PropertyMetadata(new CreateTestViewModel()));
+            DependencyProperty.Register("ViewModel", typeof(CreateTestTileViewModel), typeof(CreateTestTile), new PropertyMetadata(new CreateTestTileViewModel()));
 
 
 

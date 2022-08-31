@@ -7,7 +7,13 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Components\CreateTestDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Components\CreateTestTile.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Components\FeedTile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Components\LibTile.xaml.cs">
@@ -18,7 +24,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Components\CreateTestDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Components\CreateTestTile.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Components\FeedTile.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Components\LibTile.xaml">
