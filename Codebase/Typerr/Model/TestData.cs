@@ -5,39 +5,39 @@ namespace Typerr.Model
 {
     public class TestData
     {
-        private bool _testStarted;
+        public bool TestStarted { get; private set; }
 
         //TODO: Re-examine this after test pages are implemented
-        private int _lastPosition;
+        public int LastPosition { get; private set; }
         //TODO: Re-examine this after test pages are implemented
-        private List<int> _errorPositions;
-        
-        private List<int> _wpmRates;
-        private int _timeLimit;
-        private DateTime _startTime;
-        private DateTime _endTime;
-        private TimeSpan _timeElapsed;
-        private TimeSpan _timeRemaining;
-        private int _wordsTyped;
-        private int _wordsRemaining;
-        private int _incorrectWords;
+        public List<int> ErrorPositions { get; private set; }
+
+        public List<int> WpmRates { get; private set; }
+        public int TimeLimit { get; private set; }
+        public DateTime StartTime { get; private set; }
+        public DateTime EndTime { get; private set; }
+        public TimeSpan TimeElapsed { get; private set; }
+        public TimeSpan TimeRemaining { get; private set; }
+        public int WordsTyped { get; private set; }
+        public int WordsRemaining { get; private set; }
+        public int IncorrectWords { get; private set; }
 
         public TestData(TestData testData = null)
         {
             if (testData != null)
             {
-                _testStarted = testData._testStarted;
-                _lastPosition = testData._lastPosition;
-                _errorPositions = testData._errorPositions;
-                _wpmRates = testData._wpmRates;
-                _timeLimit = testData._timeLimit;
-                _startTime = testData._startTime;
-                _endTime = testData._endTime;
-                _timeElapsed = testData._timeElapsed;
-                _timeRemaining = testData._timeRemaining;
-                _wordsTyped = testData._wordsTyped;
-                _wordsRemaining = testData._wordsRemaining;
-                _incorrectWords = testData._incorrectWords;
+                TestStarted = testData.TestStarted;
+                LastPosition = testData.LastPosition;
+                ErrorPositions = testData.ErrorPositions;
+                WpmRates = testData.WpmRates;
+                TimeLimit = testData.TimeLimit;
+                StartTime = testData.StartTime;
+                EndTime = testData.EndTime;
+                TimeElapsed = testData.TimeElapsed;
+                TimeRemaining = testData.TimeRemaining;
+                WordsTyped = testData.WordsTyped;
+                WordsRemaining = testData.WordsRemaining;
+                IncorrectWords = testData.IncorrectWords;
             }
             else
             {
@@ -47,18 +47,18 @@ namespace Typerr.Model
 
         private void Init()
         {
-            _testStarted = false;
-            _lastPosition = 0;
-            _errorPositions = new List<int>();
-            _wpmRates = new List<int>();
-            _timeLimit = 3;
-            _startTime = DateTime.MinValue;
-            _endTime = DateTime.MaxValue;
-            _timeElapsed = TimeSpan.Zero;
-            _timeRemaining = TimeSpan.FromMinutes(3);
-            _wordsTyped = 0;
-            _wordsRemaining = 0;
-            _incorrectWords = 0;
+            TestStarted = false;
+            LastPosition = 0;
+            ErrorPositions = new List<int>();
+            WpmRates = new List<int>();
+            TimeLimit = 3;
+            StartTime = DateTime.MinValue;
+            EndTime = DateTime.MaxValue;
+            TimeElapsed = TimeSpan.Zero;
+            TimeRemaining = TimeSpan.FromMinutes(3);
+            WordsTyped = 0;
+            WordsRemaining = 0;
+            IncorrectWords = 0;
         }
 
     }

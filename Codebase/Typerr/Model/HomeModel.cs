@@ -6,12 +6,12 @@ namespace Typerr.Model
 {
     public class HomeModel
     {
-        public List<LibTileModel> Library { get; private set; }
+        public List<TestModel> Library { get; private set; }
 
-        public HomeModel(List<LibTileModel> libTileModels = null)
+        public HomeModel(List<TestModel> libTileModels = null)
         {
             //TODO: Update this
-            Library = new List<LibTileModel>();
+            Library = new List<TestModel>();
         }
     }
 }

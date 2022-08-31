@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Typerr.Components"
-             xmlns:vms="clr-namespace:Typerr.ViewModel" d:DataContext="{d:DesignInstance Type=vms:CreateTestViewModel}"
+             xmlns:vms="clr-namespace:Typerr.ViewModel" 
+             d:DataContext="{d:DesignInstance Type=vms:CreateTestTileViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Border Width="150"
@@ -16,12 +17,13 @@
             Background="#88EBEBEB">
 
         <Grid Width="auto">
+
             <Button x:Name="CreateTestButton" 
                     Width="auto"
                     Height="auto"
                     BorderThickness="0"
                     Click="CreateTestButton_Click"
-                    Command="{Binding CreateTestCommand}">
+                    Command="{Binding CreateTestTileCommand}">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" 

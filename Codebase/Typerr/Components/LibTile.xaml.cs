@@ -41,9 +41,9 @@ namespace Typerr.Components
             InitializeComponent();
         }
 
-        public LibTile(LibTileModel model)
+        public LibTile(TestModel model, User user)
         {
-            VM = new LibTileViewModel(model);
+            VM = new LibTileViewModel(model, user);
             FooterInfo = $"{VM.AuthorName} | {VM.WebsiteName}\n{VM.WordCount} words | {VM.TimeRemaining} remaining";
             InitializeComponent();
         }

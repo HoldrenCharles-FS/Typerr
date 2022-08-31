@@ -8,28 +8,31 @@ namespace Typerr.View
 {
     public class LibTileViewModel : ViewModelBase
     {
-        private LibTileModel _model;
-        public string Title => _model.Title;
-        public string AuthorName => _model.AuthorName;
-        public string WebsiteName => _model.WebsiteName;
+        public TestModel Model { get; private set; }
+        public User User { get; private set; }
+        public string Title => Model.article.title;
+        public string AuthorName => Model.article.author;
+        public string WebsiteName => Model.article.site_name;
         public string WordCount { get; private set; }
         public string TimeRemaining { get; private set; }
 
-        public LibTileViewModel(LibTileModel model)
+        public LibTileViewModel(TestModel model, User user)
         {
-            _model = model;
+            Model = model;
+            User = user;
             FormatWordCountAndTimeRemaining();
         }
 
         public LibTileViewModel()
         {
-            _model = new LibTileModel();
+            Model = new TestModel();
+            User = new User(33);
             FormatWordCountAndTimeRemaining();
         }
 
         private void FormatWordCountAndTimeRemaining()
         {
-            string wordCount = _model.WordCount.ToString();
+            string wordCount = Model.article.WordCount.ToString();
 
             for (int i = wordCount.Length, j = 0; i > 0; i--, j++)
             {
@@ -41,27 +44,27 @@ namespace Typerr.View
 
             WordCount = wordCount;
 
-            string timeRemaining = "";
+            int timeRemaining = Model.article.WordCount / User.RecentWpm; ;
 
-            if (_model.TimeRemaining < 1 && _model.TimeRemaining > 0)
+            if (timeRemaining < 1 && timeRemaining > 0)
             {
-                timeRemaining = _model.TimeRemaining * 60 + "s";
+                TimeRemaining = timeRemaining * 60 + "s";
             }
-            else if (_model.TimeRemaining > 43830) 
+            else if (timeRemaining > 43830) 
             {
-                timeRemaining = Math.Round((double)_model.TimeRemaining / 43830, 1) + "mo";
+                TimeRemaining = Math.Round((double)timeRemaining / 43830, 1) + "mo";
             }
-            else if (_model.TimeRemaining > 1440)
+            else if (timeRemaining > 1440)
             {
-                timeRemaining = Math.Round((double)_model.TimeRemaining / 1440, 1) + "d";
+                TimeRemaining = Math.Round((double)timeRemaining / 1440, 1) + "d";
             }
-            else if (_model.TimeRemaining > 60)
+            else if (timeRemaining > 60)
             {
-                timeRemaining = Math.Round((double)_model.TimeRemaining / 60, 1) + "h";
+                TimeRemaining = Math.Round((double)timeRemaining / 60, 1) + "h";
             }
             else
             {
-                timeRemaining = _model.TimeRemaining + "m";
+                TimeRemaining = timeRemaining + "m";
             }
         }
     }

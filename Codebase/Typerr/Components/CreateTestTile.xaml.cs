@@ -29,7 +29,7 @@ namespace Typerr.Components
 
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(CreateTestTileViewModel), typeof(CreateTestTile), new PropertyMetadata(new CreateTestTileViewModel()));
+            DependencyProperty.Register("ViewModel", typeof(CreateTestTileViewModel), typeof(CreateTestTile), new PropertyMetadata(new CreateTestTileViewModel(null)));
 
 
 

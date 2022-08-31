@@ -7,11 +7,11 @@ namespace Typerr.ViewModel
 {
     public class CreateTestTileViewModel : ViewModelBase
     {
-        public ICommand CreateTestCommand { get; }
+        public ICommand CreateTestTileCommand { get; }
 
-        public CreateTestTileViewModel()
+        public CreateTestTileViewModel(ICommand command)
         {
-
+            CreateTestTileCommand = command;
         }
 
     }

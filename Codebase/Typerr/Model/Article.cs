@@ -29,6 +29,33 @@ namespace Typerr.Model
            // WordCount = GetWordCount();
         }
 
+        public Article()
+        {
+            title = "";
+            text = "";
+            summary = "";
+            author = "";
+            site_name = "";
+            canonical_url = "";
+            pub_date = DateTime.MinValue;
+            image = null;
+            favicon = null;
+
+        }
+
+        public Article(string title, string text, string summary, string author, string site_name, string canonical_url)
+        {
+            this.title = title;
+            this.text = text;
+            this.summary = summary;
+            this.author = author;
+            this.site_name = site_name;
+            this.canonical_url = canonical_url;
+            pub_date = DateTime.MinValue;
+            image = null;
+            favicon = null;
+        }
+
         // Calculates Word Count
         private int GetWordCount()
         {

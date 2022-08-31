@@ -14,13 +14,11 @@
                    FontSize="24"
                    HorizontalAlignment="Left"
                    Margin="30,20,0,20"/>
-        
         <StackPanel x:Name="HomeLibraryContent" 
                     Orientation="Horizontal" 
-                    Margin="20,0,0,20">
+                    Margin="20,0,0,20"
+                    >
             <components:CreateTestTile/>
-            <components:LibTile/>
-            <components:LibTile/>
         </StackPanel>
         <!--#endregion-->
         <!--Feed

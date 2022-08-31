@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Typerr.Commands
 {
-    public class CreateTestCommand : CommandBase
+    public class CreateTestTileCommand : CommandBase
     {
         public override void Execute(object parameter)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
