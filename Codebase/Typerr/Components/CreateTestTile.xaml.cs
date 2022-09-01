@@ -40,7 +40,7 @@ namespace Typerr.Components
 
         private void CreateTestButton_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("test");
+            
         }
     }
 }

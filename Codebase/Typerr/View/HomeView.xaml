@@ -18,7 +18,7 @@
                     Orientation="Horizontal" 
                     Margin="20,0,0,20"
                     >
-            <components:CreateTestTile/>
+            <components:CreateTestTile x:Name="CreateTestButton"/>
         </StackPanel>
         <!--#endregion-->
         <!--Feed

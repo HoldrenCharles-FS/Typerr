@@ -19,6 +19,9 @@
     <Compile Update="Components\LibTile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\CreateTestView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\HomeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -37,6 +40,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\CreateTestView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\HomeView.xaml">

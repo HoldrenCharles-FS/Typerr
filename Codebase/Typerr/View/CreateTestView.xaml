@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="Typerr.View.CreateTestView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Typerr.View"
+             mc:Ignorable="d">
+    <Grid Margin="10" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" 
+                   Content="Create a New Test"
+                   FontWeight="Bold"
+                   FontSize="24"/>
+            <TextBox x:Name="TextAreaBox" 
+                     Grid.Row="1"
+                     MinHeight="450"
+                     MinWidth="600"/>
+            <Button x:Name="OpenFromFileButton" Content="Open from file..." Grid.Row="2"/>
+        </Grid>
+    </Grid>
+</UserControl>

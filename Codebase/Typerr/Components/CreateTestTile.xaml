@@ -96,7 +96,7 @@
                         
                         <TextBlock Text="&#xA;Create Test"
                                    Foreground="Black"
-                                   FontSize="20"
+                                   FontSize="18"
                                    FontWeight="Thin"
                                    FontStyle="Italic"
                                    VerticalAlignment="Bottom"

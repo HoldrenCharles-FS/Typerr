@@ -19,6 +19,9 @@
         <DataTemplate DataType="{x:Type vms:HomeViewModel}">
             <views:HomeView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:CreateTestViewModel}">
+            <views:CreateTestView/>
+        </DataTemplate>
     </Window.Resources>
 
     <WindowChrome.WindowChrome>
@@ -35,9 +38,7 @@
             <RowDefinition Height="32"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid.Resources>
 
-        </Grid.Resources>
         <Grid>
             <Border Background="{StaticResource AppTheme}" 
                     Width="auto" 
@@ -217,7 +218,8 @@
         <!--#endregion-->
         
         <!--View / Content-->
-        <ContentControl Grid.Row="1"
+        <ContentControl x:Name="ContentArea" 
+                        Grid.Row="1"
                         Grid.Column="1"
                         Margin="10"
                         Content="{Binding CurrentViewModel}"/>

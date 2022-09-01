@@ -5,13 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Typerr.Components"
         mc:Ignorable="d"
-        Height="450" Width="800"
         WindowStyle="None"
+        Topmost="True"
         WindowState="Normal"
+        BorderBrush="Black"
+        BorderThickness="4"
         ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
         FontSize="14">
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="32" 
-                      ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"/>
-    </WindowChrome.WindowChrome>
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="225"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" 
+                   Content="Create a New Test"
+                   FontWeight="Bold"
+                   FontSize="24"/>
+            <TextBox x:Name="TextAreaBox" 
+                     Grid.Row="1"/>
+        </Grid>
+    </Grid>
 </Window>

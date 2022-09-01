@@ -19,6 +19,12 @@ namespace Typerr.Components
     {
         public CreateTestDialog()
         {
+            Owner = App.Current.MainWindow;
+            Height = App.Current.MainWindow.Height - 100;
+            Width = App.Current.MainWindow.Width - 200;
+            TextAreaBox = new TextBox();
+            TextAreaBox.Height = Height - 100;
+            TextAreaBox.Width = Width - 200;
             InitializeComponent();
         }
     }

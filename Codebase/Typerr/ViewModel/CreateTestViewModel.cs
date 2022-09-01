@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Typerr.ViewModel
 {
-    public class CreateTestDialogViewModel : ViewModelBase
+    public class CreateTestViewModel : ViewModelBase
     {
         public ICommand OpenFromFileCommand { get; }
         public ICommand GetTestCommand { get; }
