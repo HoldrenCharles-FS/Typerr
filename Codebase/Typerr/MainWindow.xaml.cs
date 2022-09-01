@@ -114,5 +114,11 @@ namespace Typerr
                 HwndSource.FromHwnd(new WindowInteropHelper(this).Handle).AddHook(WindowProc);
             };
         }
+
+        private void Overlay_Loaded(object sender, RoutedEventArgs e)
+        {
+            CreateTestOverlay.Overlay = Overlay;
+            CreateTestOverlay.OverlayBar = OverlayBar;
+        }
     }
 }
