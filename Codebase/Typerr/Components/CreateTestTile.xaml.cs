@@ -19,28 +19,9 @@ namespace Typerr.Components
     /// </summary>
     public partial class CreateTestTile : UserControl
     {
-
-
-        public CreateTestTileViewModel ViewModel
-        {
-            get { return (CreateTestTileViewModel)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(CreateTestTileViewModel), typeof(CreateTestTile), new PropertyMetadata(new CreateTestTileViewModel(null)));
-
-
-
         public CreateTestTile()
         {
             InitializeComponent();
-        }
-
-        private void CreateTestButton_Click(object sender, RoutedEventArgs e)
-        {
-            
         }
     }
 }

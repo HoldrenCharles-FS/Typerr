@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 
@@ -95,6 +96,7 @@ namespace Typerr
 
         #endregion, 
 
+
         public MainWindow()
         {
             InitializeComponent();
@@ -117,8 +119,8 @@ namespace Typerr
 
         private void Overlay_Loaded(object sender, RoutedEventArgs e)
         {
-            CreateTestOverlay.Overlay = Overlay;
-            CreateTestOverlay.OverlayBar = OverlayBar;
+            
+           
         }
     }
 }

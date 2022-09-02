@@ -11,6 +11,9 @@ namespace Typerr.ViewModel
         public ICommand GetTestCommand { get; }
         public ICommand CreateCommand { get; }
 
+        public ICommand CreateTestCloseCommand { get; }
+
+        #region Text Fields
         private string textArea;
         public string TextArea
         {
@@ -68,6 +71,9 @@ namespace Typerr.ViewModel
         }
 
         private string _summary;
+
+        
+
         public string Summary
         {
             get
@@ -79,6 +85,14 @@ namespace Typerr.ViewModel
                 _summary = value;
                 OnPropertyChanged(nameof(Summary));
             }
+        }
+        #endregion
+        public CreateTestViewModel(ICommand openFromFileCommand, ICommand getTestCommand, ICommand createCommand, ICommand createTestCloseCommand)
+        {
+            OpenFromFileCommand = openFromFileCommand;
+            GetTestCommand = getTestCommand;
+            CreateCommand = createCommand;
+            CreateTestCloseCommand = createTestCloseCommand;
         }
     }
 }

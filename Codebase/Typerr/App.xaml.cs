@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Windows;
 using System.Xml;
+using Typerr.Commands;
 using Typerr.Model;
 using Typerr.Stores;
 using Typerr.ViewModel;
@@ -26,6 +21,7 @@ namespace Typerr
             get { return _user; }
             set { _user = value; }
         }
+
 
         public App()
         {
@@ -80,11 +76,17 @@ namespace Typerr
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            _navigationStore.CurrentViewModel = new HomeViewModel();
+            MainViewModel mainViewModel = new MainViewModel(_navigationStore);
+            CreateTestTileCommand createTestTileCommand = new CreateTestTileCommand(mainViewModel);
+            CreateTestCloseCommand createTestCloseCommand = new CreateTestCloseCommand(mainViewModel);
 
+            CreateTestViewModel createTestViewModel = new CreateTestViewModel(null, null, null, createTestCloseCommand);
+            mainViewModel.CreateTestViewModel = createTestViewModel;
+
+            _navigationStore.CurrentViewModel = new HomeViewModel(createTestTileCommand);
             MainWindow = new MainWindow() 
             { 
-                DataContext = new MainViewModel(_navigationStore) 
+                DataContext = mainViewModel
             };
             MainWindow.Show();
 

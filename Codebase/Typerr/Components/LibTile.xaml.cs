@@ -12,7 +12,7 @@ namespace Typerr.Components
     public partial class LibTile : UserControl
     {
 
-        public LibTileViewModel VM
+        public LibTileViewModel ViewModel
         {
             get { return (LibTileViewModel)GetValue(ModelProperty); }
             set { SetValue(ModelProperty, value); }
@@ -36,15 +36,15 @@ namespace Typerr.Components
 
         public LibTile()
         {
-            VM = new LibTileViewModel();
-            FooterInfo = $"{VM.AuthorName} | {VM.WebsiteName}\n{VM.WordCount} words | {VM.TimeRemaining} remaining";
+            ViewModel = new LibTileViewModel();
+            FooterInfo = $"{ViewModel.AuthorName} | {ViewModel.WebsiteName}\n{ViewModel.WordCount} words | {ViewModel.TimeRemaining} remaining";
             InitializeComponent();
         }
 
         public LibTile(TestModel model, User user)
         {
-            VM = new LibTileViewModel(model, user);
-            FooterInfo = $"{VM.AuthorName} | {VM.WebsiteName}\n{VM.WordCount} words | {VM.TimeRemaining} remaining";
+            ViewModel = new LibTileViewModel(model, user);
+            FooterInfo = $"{ViewModel.AuthorName} | {ViewModel.WebsiteName}\n{ViewModel.WordCount} words | {ViewModel.TimeRemaining} remaining";
             InitializeComponent();
         }
 

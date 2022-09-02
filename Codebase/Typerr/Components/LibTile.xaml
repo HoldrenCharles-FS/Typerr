@@ -81,7 +81,7 @@
                     <StackPanel VerticalAlignment="Center" 
                                 Height="auto" 
                                 Width="auto">
-                        <Label Content="{Binding VM.Title, ElementName=LibraryTile}"
+                        <Label Content="{Binding ViewModel.Title, ElementName=LibraryTile}"
                                VerticalContentAlignment="Bottom"
                                Padding="5 0"
                                Foreground="Black"

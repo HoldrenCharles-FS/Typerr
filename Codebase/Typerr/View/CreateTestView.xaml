@@ -4,9 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Typerr.View"
+             xmlns:local="clr-namespace:Typerr.View" xmlns:viewmodel="clr-namespace:Typerr.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
              mc:Ignorable="d">
     <Grid Background="White">
+        <Grid.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Padding" Value="5"/>
+            </Style>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="250"/>
@@ -54,7 +59,6 @@
                 <Button Grid.Column="2"
                         Content="Get Test" 
                         Width="60"
-                    HorizontalAlignment="Left"
                     Margin="10"/>
             </Grid>
             <StackPanel Orientation="Horizontal"
@@ -86,7 +90,8 @@
                     BorderThickness="0" 
                     Width="46" 
                     Background="Transparent"
-                    Click="CreateTestClose_Click">
+                    Command="{Binding CreateTestViewModel.CreateTestCloseCommand}"
+                    >
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Template">
@@ -119,21 +124,22 @@
                                     Foreground="Gray" 
                                     FontSize="19"/>
             </Button>
-            <ScrollViewer Grid.Row = "1">
-                <StackPanel>
-                    <Label Content="Title"/>
-                    <TextBox Height="60"/>
-                    <Label Content="Author"/>
-                    <TextBox/>
-                    <Label Content="Source"/>
-                    <TextBox/>
-                    <Label Content="Publish Date"/>
-                    <DatePicker Margin="0 0 10 0"/>
-                    <Label Content="Summary"/>
-                    <TextBox/>
-                </StackPanel>
-                    
-            </ScrollViewer>
+            <StackPanel Grid.Row = "1">
+                <Label Content="Title"/>
+                <TextBox Height="60"/>
+                <Label Content="Author"/>
+                <TextBox/>
+                <Label Content="Source"/>
+                <TextBox/>
+                <Label Content="Publish Date"/>
+                <DatePicker Margin="0 0 10 0"/>
+                <Label Content="Summary"/>
+                <TextBox/>
+            </StackPanel>
+            <Button Grid.Row="2"
+                        Content="Create Test" 
+                    HorizontalAlignment="Right"
+                    Margin="10"/>
         </Grid>
     </Grid>
 </UserControl>

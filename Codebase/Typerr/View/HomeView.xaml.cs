@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Typerr.Components;
 using Typerr.ViewModel;
 
 namespace Typerr.View
@@ -19,26 +20,11 @@ namespace Typerr.View
     /// </summary>
     public partial class HomeView : UserControl
     {
-        public HomeViewModel ViewModel
-        {
-            get { return (HomeViewModel)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(HomeViewModel), typeof(HomeView), new PropertyMetadata(new HomeViewModel()));
-
-
-
 
         public HomeView()
         {
             InitializeComponent();
-            foreach (var test in ViewModel.LibTiles)
-            {
-                HomeLibraryContent.Children.Add(new Components.LibTile(test.Model, test.User));
-            }
+
         }
     }
 }
