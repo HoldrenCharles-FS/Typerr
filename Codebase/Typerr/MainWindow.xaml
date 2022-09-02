@@ -252,7 +252,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <views:CreateTestView x:Name="CreateTestOverlay"
+                <views:CreateTestView DataContext="{Binding CreateTestViewModel}" x:Name="CreateTestOverlay"
                     Grid.Column="1" 
                                       Grid.Row="1" 
                                       Margin="20 40"

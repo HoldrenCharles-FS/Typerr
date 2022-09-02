@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Typerr.View" xmlns:viewmodel="clr-namespace:Typerr.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
+             xmlns:local="clr-namespace:Typerr.View" 
+             xmlns:viewmodel="clr-namespace:Typerr.ViewModel" 
+             d:DataContext="{d:DesignInstance Type=viewmodel:CreateTestViewModel}"
              mc:Ignorable="d">
     <Grid Background="White">
         <Grid.Resources>
@@ -90,7 +92,7 @@
                     BorderThickness="0" 
                     Width="46" 
                     Background="Transparent"
-                    Command="{Binding CreateTestViewModel.CreateTestCloseCommand}"
+                    Command="{Binding CreateTestCloseCommand}"
                     >
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
@@ -128,7 +130,7 @@
                 <Label Content="Title"/>
                 <TextBox Height="60"/>
                 <Label Content="Author"/>
-                <TextBox/>
+                <TextBox Text="{Binding Author}"/>
                 <Label Content="Source"/>
                 <TextBox/>
                 <Label Content="Publish Date"/>
