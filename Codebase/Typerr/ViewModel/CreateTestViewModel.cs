@@ -13,8 +13,8 @@ namespace Typerr.ViewModel
         public ICommand OpenFromFileCommand { get; }
         public ICommand GetTestCommand { get; }
         public ICommand CreateCommand { get; }
-
         public ICommand CreateTestCloseCommand { get; }
+        public ICommand RemoveImageCommand { get; }
 
         private TestModel _testModel;
         public TestModel TestModel
@@ -151,6 +151,8 @@ namespace Typerr.ViewModel
             GetTestCommand = new GetTestCommand(this);
             CreateCommand = new CreateCommand(this);
             CreateTestCloseCommand = createTestCloseCommand;
+            RemoveImageCommand = new RemoveImageCommand(this);
+            
         }
     }
 }

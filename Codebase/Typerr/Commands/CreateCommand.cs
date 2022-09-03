@@ -21,8 +21,11 @@ namespace Typerr.Commands
         public override void Execute(object parameter)
         {
             FileStream writer = new FileStream(GenerateFileName(), FileMode.CreateNew);
-
-            string image  = CompressImage();
+            string image = "NULL";
+            if (_createTestViewModel.Image != null)
+            {
+                image = CompressImage();
+            }
 
             using (XmlWriter xmlWriter = XmlWriter.Create(writer))
             {
@@ -133,9 +136,12 @@ namespace Typerr.Commands
 
         private string GenerateFileName()
         {
+            // String formatting
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             string filename = textInfo.ToLower(_createTestViewModel.TestModel.article.title);
             filename = filename.Replace(" ", "_");
+
+            // Remove restricted chars
             filename = filename.Replace(":", string.Empty);
             filename = filename.Replace("|", string.Empty);
             filename = filename.Replace(@"\", string.Empty);
@@ -145,9 +151,20 @@ namespace Typerr.Commands
             filename = filename.Replace("<", string.Empty);
             filename = filename.Replace("*", string.Empty);
             filename = filename.Replace("\"", string.Empty);
+
+            // truncate file name
             filename = filename.Substring(0, 15);
+
+            // Append extension
             filename += ".typr";
-            filename.Insert(0, @"tests\");
+
+            // Insert path
+            filename = filename.Insert(0, "tests/");
+
+            if (!Directory.Exists("tests"))
+            {
+                Directory.CreateDirectory("tests");
+            }
 
             if (File.Exists(filename))
             {
@@ -156,7 +173,7 @@ namespace Typerr.Commands
                 while (File.Exists(filename))
                 {
                     i++;
-                    filename = filename.Remove(filename.Length - 5, 1);
+                    filename = filename.Remove(filename.Length - 6, 1);
                     filename = filename.Insert(filename.Length - 5, i.ToString());
                 }
             }

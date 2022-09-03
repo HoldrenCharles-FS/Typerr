@@ -87,6 +87,7 @@
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
             
+            
             <Button x:Name="CreateTestClose" 
                     Grid.Row="0"
                     HorizontalAlignment="Right"
@@ -127,9 +128,8 @@
                                     Foreground="Gray" 
                                     FontSize="19"/>
             </Button>
-                
-            <StackPanel Grid.Row = "1" 
-                        CanVerticallyScroll="True">
+            <ScrollViewer Grid.Row = "1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel >
                 <Label Content="Title"/>
                 <TextBox Text="{Binding Title}"
                          Height="60"/>
@@ -152,7 +152,7 @@
                         <Image Source="{Binding Image, UpdateSourceTrigger=PropertyChanged}"
                        Stretch="UniformToFill"/>
 
-                        <Button Name="ImageButton" 
+                        <Button x:Name="ImageButton" 
                                 Width="auto"
                                 Height="auto"
                                 OpacityMask="#222"
@@ -160,6 +160,7 @@
 
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}">
+                                    
                                     <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type Button}">
@@ -175,6 +176,7 @@
                                                         <Setter Property="Background" 
                                                         Value="#bbfdfdfd" 
                                                         TargetName="Border" />
+
                                                     </Trigger>
                                                 <Trigger Property="IsPressed" 
                                                      Value="True">
@@ -187,7 +189,12 @@
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
-                                    
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Content" 
+                                                    Value="{Binding UploadImagePrompt, UpdateSourceTrigger=PropertyChanged}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
                                 </Style>
                         </Button.Style>
 
@@ -204,7 +211,12 @@
                         </Button>
                     </Grid>
                 </Border>
+                <TextBlock>
+                <Hyperlink NavigateUri="" Foreground="#F43" Command="{Binding RemoveImageCommand}">
+                    Delete picture</Hyperlink>
+                </TextBlock>
             </StackPanel>
+            </ScrollViewer>
             <Button Grid.Row="2"
                     Content="Create Test" 
                     HorizontalAlignment="Right"
