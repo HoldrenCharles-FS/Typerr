@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
+using Typerr.Commands;
 
 namespace Typerr.ViewModel
 {
@@ -70,9 +71,21 @@ namespace Typerr.ViewModel
             }
         }
 
-        private string _summary;
+        private DateTime _publishDate;
+        public DateTime PublishDate
+        {
+            get
+            {
+                return _publishDate;
+            }
+            set
+            {
+                _publishDate = value;
+                OnPropertyChanged(nameof(PublishDate));
+            }
+        }
 
-        
+        private string _summary;
 
         public string Summary
         {
@@ -87,10 +100,10 @@ namespace Typerr.ViewModel
             }
         }
         #endregion
-        public CreateTestViewModel(ICommand openFromFileCommand, ICommand getTestCommand, ICommand createCommand, ICommand createTestCloseCommand)
+        public CreateTestViewModel(ICommand openFromFileCommand, ICommand createCommand, ICommand createTestCloseCommand)
         {
             OpenFromFileCommand = openFromFileCommand;
-            GetTestCommand = getTestCommand;
+            GetTestCommand = new GetTestCommand(this);
             CreateCommand = createCommand;
             CreateTestCloseCommand = createTestCloseCommand;
         }

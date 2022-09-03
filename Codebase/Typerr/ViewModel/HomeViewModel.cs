@@ -20,7 +20,6 @@ namespace Typerr.ViewModel
         {
             CreateTestTileCommand = command;
             _libTiles = new ObservableCollection<LibTileViewModel>();
-            _libTiles.Add(new LibTileViewModel(new Model.TestModel(new Model.Article("Article title", "text", "summary", "Author name", "website.com", ""), new Model.TestData()), new Model.User(33)));
         }
     }
 }

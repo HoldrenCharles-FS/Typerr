@@ -32,7 +32,7 @@ namespace Typerr.View
 
         private void FormatWordCountAndTimeRemaining()
         {
-            string wordCount = Model.article.WordCount.ToString();
+            string wordCount = Model.WordCount.ToString();
 
             for (int i = wordCount.Length, j = 0; i > 0; i--, j++)
             {
@@ -44,7 +44,7 @@ namespace Typerr.View
 
             WordCount = wordCount;
 
-            int timeRemaining = Model.article.WordCount / User.RecentWpm; ;
+            int timeRemaining = Model.WordCount / User.RecentWpm; ;
 
             if (timeRemaining < 1 && timeRemaining > 0)
             {
