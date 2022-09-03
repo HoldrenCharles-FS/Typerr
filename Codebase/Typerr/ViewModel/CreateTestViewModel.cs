@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using Typerr.Commands;
+using Typerr.Model;
 
 namespace Typerr.ViewModel
 {
@@ -14,7 +16,21 @@ namespace Typerr.ViewModel
 
         public ICommand CreateTestCloseCommand { get; }
 
-        #region Text Fields
+        private TestModel _testModel;
+        public TestModel TestModel
+        {
+            get
+            {
+                return _testModel;
+            }
+            set
+            {
+                _testModel = value;
+                OnPropertyChanged(nameof(TestModel));
+            }
+        }
+
+        #region Test Properties
         private string textArea;
         public string TextArea
         {
@@ -99,12 +115,41 @@ namespace Typerr.ViewModel
                 OnPropertyChanged(nameof(Summary));
             }
         }
+
+        private BitmapImage _image;
+        public BitmapImage Image
+        {
+            get
+            {
+                return _image;
+            }
+            set
+            {
+                _image = value;
+                OnPropertyChanged(nameof(Image));
+            }
+        }
         #endregion
-        public CreateTestViewModel(ICommand openFromFileCommand, ICommand createCommand, ICommand createTestCloseCommand)
+
+        private string _uploadImagePrompt;
+        public string UploadImagePrompt
+        {
+            get
+            {
+                return Image == null ? "Click to add an image" : "Click to change image";
+            }
+            set
+            {
+                _uploadImagePrompt = value;
+                OnPropertyChanged(nameof(UploadImagePrompt));
+            }
+        }
+
+        public CreateTestViewModel(ICommand openFromFileCommand, ICommand createTestCloseCommand)
         {
             OpenFromFileCommand = openFromFileCommand;
             GetTestCommand = new GetTestCommand(this);
-            CreateCommand = createCommand;
+            CreateCommand = new CreateCommand(this);
             CreateTestCloseCommand = createTestCloseCommand;
         }
     }

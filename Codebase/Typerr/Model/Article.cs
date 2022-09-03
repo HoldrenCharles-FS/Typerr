@@ -12,8 +12,8 @@ namespace Typerr.Model
         public string site_name { get; set; }
         public string canonical_url { get; set; }
         public DateTime? pub_date { get; set; }
-        public dynamic image { get; set; }
-        public dynamic favicon { get; set; }
+        public string image { get; set; }
+        public string favicon { get; set; }
 
         public Article()
         {
