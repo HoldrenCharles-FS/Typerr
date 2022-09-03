@@ -31,6 +31,8 @@ namespace Typerr.Commands
             _createTestViewModel.PublishDate = _createTestViewModel.TestModel.article.pub_date ?? DateTime.Now;
             _createTestViewModel.Summary = _createTestViewModel.TestModel.article.summary;
             _createTestViewModel.Image = new BitmapImage(new Uri(_createTestViewModel.TestModel.article.image));
+
+            // Refresh the Prompt Message
             _createTestViewModel.UploadImagePrompt = _createTestViewModel.UploadImagePrompt;
         }
     }
