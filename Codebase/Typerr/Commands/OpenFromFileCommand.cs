@@ -27,7 +27,11 @@ namespace Typerr.Commands
 
             if (result == true)
             {
-                _createTestViewModel.TextArea = File.ReadAllText(dlg.FileName);
+                string data = File.ReadAllText(dlg.FileName);
+
+                data = data.TrimEnd('\r', '\n');
+
+                _createTestViewModel.TextArea = data;
             }
         }
     }

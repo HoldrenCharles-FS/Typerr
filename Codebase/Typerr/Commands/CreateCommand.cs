@@ -57,6 +57,11 @@ namespace Typerr.Commands
             writer.Close();
 
             _createTestViewModel.CreateTestCloseCommand.Execute(parameter);
+            _createTestViewModel.TextArea = CreateTestViewModel.DefaultMessage;
+            _createTestViewModel.Title =
+                _createTestViewModel.Author = 
+                _createTestViewModel.Summary =
+                _createTestViewModel.Source = "";
             
         }
 

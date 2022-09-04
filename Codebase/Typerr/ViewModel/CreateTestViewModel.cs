@@ -244,6 +244,7 @@ namespace Typerr.ViewModel
             PublishDate = null;
             SidebarEnabled = false;
             GetTestButtonEnabled = false;
+            TestModel = new TestModel();
         }
     }
 }

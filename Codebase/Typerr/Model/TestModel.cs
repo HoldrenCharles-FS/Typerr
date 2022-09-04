@@ -18,6 +18,7 @@ namespace Typerr.Model
 
         public TestModel()
         {
+            article = new Article();
             testData = new TestData();
             _creationDate = DateTime.Now;
         }
