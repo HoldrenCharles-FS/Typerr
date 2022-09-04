@@ -172,6 +172,17 @@ namespace Typerr.ViewModel
             {
                 _sidebarEnabled = value;
                 OnPropertyChanged(nameof(SidebarEnabled));
+
+                if (_sidebarEnabled == true)
+                {
+                    ForegroundColor = "#000";
+                    DeleteForeground = "#F43";
+                }
+                else
+                {
+                    ForegroundColor = "#888";
+                    DeleteForeground = "#FBA";
+                }
             }
         }
 
@@ -189,13 +200,41 @@ namespace Typerr.ViewModel
             }
         }
 
+        private string _foregroundColor;
+        public string ForegroundColor
+        {
+            get
+            {
+                return _foregroundColor;
+            }
+            set
+            {
+                _foregroundColor = value;
+                OnPropertyChanged(nameof(ForegroundColor));
+            }
+        }
+
+        private string _deleteForeground;
+        public string DeleteForeground
+        {
+            get
+            {
+                return _deleteForeground;
+            }
+            set
+            {
+                _deleteForeground = value;
+                OnPropertyChanged(nameof(DeleteForeground));
+            }
+        }
+
         public static string DefaultMessage { get; } = "Paste a URL here or begin typing to create your test";
 
         public double SingleRowHeight { get; } = 40.620000000000005;
 
-        public CreateTestViewModel(ICommand openFromFileCommand, ICommand createTestCloseCommand)
+        public CreateTestViewModel(ICommand createTestCloseCommand)
         {
-            OpenFromFileCommand = openFromFileCommand;
+            OpenFromFileCommand = new OpenFromFileCommand(this);
             GetTestCommand = new GetTestCommand(this);
             CreateCommand = new CreateCommand(this);
             CreateTestCloseCommand = createTestCloseCommand;

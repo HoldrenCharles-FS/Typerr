@@ -62,7 +62,7 @@
                 </Grid.ColumnDefinitions>
                 <Button x:Name="OpenFromFileButton" 
                         Grid.Column="0"
-                        Content="Open from file..." 
+                        Content="Import from text file..." 
                         HorizontalAlignment="Left"
                         Margin="10"
                         Command="{Binding OpenFromFileCommand}"/>
@@ -137,37 +137,48 @@
             <ScrollViewer Grid.Row = "1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel >
                     <Label Content="Title"
+                           Foreground="{Binding ForegroundColor}"
                        IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBox Text="{Binding Title}"
+                         Foreground="{Binding ForegroundColor}"
                          Height="80"
                          IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
-                <Label Content="Author"/>
+                <Label Content="Author"
+                       Foreground="{Binding ForegroundColor}"/>
                 <TextBox Text="{Binding Author}"
+                         Foreground="{Binding ForegroundColor}"
                          Height="{Binding SingleRowHeight}"
                          IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
                 <Label Content="Source"
+                       Foreground="{Binding ForegroundColor}"
                        IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBox Text="{Binding Source}"
+                         Foreground="{Binding ForegroundColor}"
                          Height="{Binding SingleRowHeight}"
                          IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
                 <Label Content="Publish Date"
+                       Foreground="{Binding ForegroundColor}"
                        IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
                 <DatePicker x:Name="PublishDatePicker" 
+                            Foreground="{Binding ForegroundColor}"
                             SelectedDate="{Binding PublishDate}" 
                             Height="{Binding SingleRowHeight}"
                             Margin="0 0 10 0"
                             IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"
                             Padding="10"/>
                     <Label Content="Summary" 
+                           Foreground="{Binding ForegroundColor}"
                            IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBox Text="{Binding Summary}"
+                             Foreground="{Binding ForegroundColor}"
                              Height="120"
                              IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
                 <Label Content="Image"
+                       Foreground="{Binding ForegroundColor}"
                        IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
                 <Border Height="144"
-                        BorderThickness="1"
-                        BorderBrush="Gray"
+                        BorderThickness="0.5"
+                        BorderBrush="{Binding ForegroundColor}"
                         Margin="0 0 10 0"
                         IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}">
                     <Grid>
@@ -236,7 +247,7 @@
                 </Border>
                 <TextBlock>
                 <Hyperlink NavigateUri="" 
-                           Foreground="#F43" 
+                           Foreground="{Binding DeleteForeground}" 
                            Command="{Binding RemoveImageCommand}"
                            IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}">
                     Delete picture</Hyperlink>
