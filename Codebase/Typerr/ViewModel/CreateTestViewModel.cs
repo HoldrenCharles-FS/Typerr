@@ -43,6 +43,13 @@ namespace Typerr.ViewModel
             {
                 textArea = value;
                 OnPropertyChanged(nameof(TextArea));
+
+                if (TestModel != null)
+                {
+TestModel.article.text = textArea;
+                }
+                
+
                 if (!string.IsNullOrWhiteSpace(textArea) && textArea != DefaultMessage)
                 {
                     SidebarEnabled = true;
@@ -72,6 +79,11 @@ namespace Typerr.ViewModel
             {
                 _title = value;
                 OnPropertyChanged(nameof(Title));
+                if (TestModel != null)
+                {
+TestModel.article.title = _title;
+                }
+                
             }
         }
 
@@ -86,6 +98,13 @@ namespace Typerr.ViewModel
             {
                 _author = value;
                 OnPropertyChanged(nameof(Author));
+
+                if (TestModel != null)
+                {
+TestModel.article.author = _author;
+                }
+
+                
             }
         }
 
@@ -100,6 +119,11 @@ namespace Typerr.ViewModel
             {
                 _source = value;
                 OnPropertyChanged(nameof(Source));
+                if (TestModel != null)
+                {
+TestModel.article.site_name = _source;
+                }
+                
             }
         }
 
@@ -114,6 +138,11 @@ namespace Typerr.ViewModel
             {
                 _publishDate = value;
                 OnPropertyChanged(nameof(PublishDate));
+
+                if (TestModel != null)
+                {
+                    TestModel.article.pub_date = _publishDate;
+                }
             }
         }
 
@@ -129,6 +158,12 @@ namespace Typerr.ViewModel
             {
                 _summary = value;
                 OnPropertyChanged(nameof(Summary));
+
+                if (TestModel != null)
+                {
+                    _testModel.article.summary = _summary;
+                }
+                
             }
         }
 
@@ -230,6 +265,8 @@ namespace Typerr.ViewModel
 
         public static string DefaultMessage { get; } = "Paste a URL here or begin typing to create your test";
 
+        // Number obtained from actualheight property from the side column single row textbox's default height
+        // Variable is introduced to force those fields to stay at that height.
         public double SingleRowHeight { get; } = 40.620000000000005;
 
         public CreateTestViewModel(ICommand createTestCloseCommand)

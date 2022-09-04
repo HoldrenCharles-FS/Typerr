@@ -157,9 +157,12 @@ namespace Typerr.Commands
             filename = filename.Replace("*", string.Empty);
             filename = filename.Replace("\"", string.Empty);
 
-            // truncate file name
-            filename = filename.Substring(0, 15);
-
+            if (filename.Length > 15)
+            {
+                // truncate file name
+                filename = filename.Substring(0, 15);
+            }
+            
             // Append extension
             filename += ".typr";
 
