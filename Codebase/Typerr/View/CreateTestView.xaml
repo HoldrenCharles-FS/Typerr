@@ -42,11 +42,18 @@
                      TextWrapping="Wrap" 
                      AcceptsReturn="True" 
                      VerticalScrollBarVisibility="Auto" 
-                     Grid.Row="1"
                      Padding="10"
+                     Grid.Row="1"
                      MinHeight="400"
+                     GotFocus="TextAreaBox_GotFocus"
+                     LostFocus="TextAreaBox_LostFocus"
                      MinWidth="400"
-                     Text="{Binding TextArea, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{Binding TextArea, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.ToolTip>
+                    Paste a URL here to generate a test (Ctrl+V or from the Right-Click Menu)
+                </TextBox.ToolTip>
+            </TextBox>
+
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -56,16 +63,15 @@
                 <Button x:Name="OpenFromFileButton" 
                         Grid.Column="0"
                         Content="Open from file..." 
-                        Width="100"
                         HorizontalAlignment="Left"
                         Margin="10"
                         Command="{Binding OpenFromFileCommand}"/>
                 <Button x:Name="GetTestButton"
                         Grid.Column="2"
                         Content="Get Test" 
-                        Width="60"
                         Margin="10"
-                        Command="{Binding GetTestCommand}"/>
+                        Command="{Binding GetTestCommand}"
+                        IsEnabled="{Binding GetTestButtonEnabled, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </Grid>
         <Grid Grid.Column="1">
@@ -129,25 +135,41 @@
                                     FontSize="19"/>
             </Button>
             <ScrollViewer Grid.Row = "1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <StackPanel >
-                <Label Content="Title"/>
+                <StackPanel >
+                    <Label Content="Title"
+                       IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBox Text="{Binding Title}"
-                         Height="60"/>
+                         Height="80"
+                         IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
                 <Label Content="Author"/>
-                <TextBox Text="{Binding Author}"/>
-                <Label Content="Source"/>
-                <TextBox Text="{Binding Source}"/>
-                <Label Content="Publish Date"/>
-                <DatePicker SelectedDate="{Binding PublishDate}" 
+                <TextBox Text="{Binding Author}"
+                         Height="{Binding SingleRowHeight}"
+                         IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Source"
+                       IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Text="{Binding Source}"
+                         Height="{Binding SingleRowHeight}"
+                         IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Publish Date"
+                       IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
+                <DatePicker x:Name="PublishDatePicker" 
+                            SelectedDate="{Binding PublishDate}" 
+                            Height="{Binding SingleRowHeight}"
                             Margin="0 0 10 0"
+                            IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"
                             Padding="10"/>
-                <Label Content="Summary"/>
-                    <TextBox Text="{Binding Summary}"/>
-                <Label Content="Image"/>
+                    <Label Content="Summary" 
+                           IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Text="{Binding Summary}"
+                             Height="120"
+                             IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Image"
+                       IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
                 <Border Height="144"
                         BorderThickness="1"
                         BorderBrush="Gray"
-                        Margin="0 0 10 0">
+                        Margin="0 0 10 0"
+                        IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}">
                     <Grid>
                         <Image Source="{Binding Image, UpdateSourceTrigger=PropertyChanged}"
                        Stretch="UniformToFill"/>
@@ -156,7 +178,8 @@
                                 Width="auto"
                                 Height="auto"
                                 OpacityMask="#222"
-                                BorderThickness="0">
+                                BorderThickness="0"
+                                Command="{Binding AddImageCommand}">
 
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}">
@@ -212,16 +235,20 @@
                     </Grid>
                 </Border>
                 <TextBlock>
-                <Hyperlink NavigateUri="" Foreground="#F43" Command="{Binding RemoveImageCommand}">
+                <Hyperlink NavigateUri="" 
+                           Foreground="#F43" 
+                           Command="{Binding RemoveImageCommand}"
+                           IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}">
                     Delete picture</Hyperlink>
-                </TextBlock>
+                    </TextBlock>
             </StackPanel>
             </ScrollViewer>
             <Button Grid.Row="2"
                     Content="Create Test" 
                     HorizontalAlignment="Right"
                     Margin="10"
-                    Command="{Binding CreateCommand}"/>
+                    Command="{Binding CreateCommand}"
+                    IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -15,6 +15,7 @@ namespace Typerr.ViewModel
         public ICommand CreateCommand { get; }
         public ICommand CreateTestCloseCommand { get; }
         public ICommand RemoveImageCommand { get; }
+        public ICommand AddImageCommand { get; }
 
         private TestModel _testModel;
         public TestModel TestModel
@@ -42,6 +43,21 @@ namespace Typerr.ViewModel
             {
                 textArea = value;
                 OnPropertyChanged(nameof(TextArea));
+                if (!string.IsNullOrWhiteSpace(textArea) && textArea != DefaultMessage)
+                {
+                    SidebarEnabled = true;
+                }
+                else
+                {
+                    SidebarEnabled = false;
+                }
+                if (Uri.IsWellFormedUriString(textArea, UriKind.Absolute))
+                {
+                    GetTestButtonEnabled = true;
+                } else
+                {
+                    GetTestButtonEnabled = false;
+                }
             }
         }
 
@@ -87,8 +103,8 @@ namespace Typerr.ViewModel
             }
         }
 
-        private DateTime _publishDate;
-        public DateTime PublishDate
+        private DateTime? _publishDate;
+        public DateTime? PublishDate
         {
             get
             {
@@ -145,6 +161,38 @@ namespace Typerr.ViewModel
             }
         }
 
+        private bool _sidebarEnabled;
+        public bool SidebarEnabled
+        {
+            get
+            {
+                return _sidebarEnabled;
+            }
+            set
+            {
+                _sidebarEnabled = value;
+                OnPropertyChanged(nameof(SidebarEnabled));
+            }
+        }
+
+        private bool _getTestButtonEnabled;
+        public bool GetTestButtonEnabled
+        {
+            get
+            {
+                return _getTestButtonEnabled;
+            }
+            set
+            {
+                _getTestButtonEnabled = value;
+                OnPropertyChanged(nameof(GetTestButtonEnabled));
+            }
+        }
+
+        public static string DefaultMessage { get; } = "Paste a URL here or begin typing to create your test";
+
+        public double SingleRowHeight { get; } = 40.620000000000005;
+
         public CreateTestViewModel(ICommand openFromFileCommand, ICommand createTestCloseCommand)
         {
             OpenFromFileCommand = openFromFileCommand;
@@ -152,7 +200,11 @@ namespace Typerr.ViewModel
             CreateCommand = new CreateCommand(this);
             CreateTestCloseCommand = createTestCloseCommand;
             RemoveImageCommand = new RemoveImageCommand(this);
-            
+            AddImageCommand = new AddImageCommand(this);
+            TextArea = DefaultMessage;
+            PublishDate = null;
+            SidebarEnabled = false;
+            GetTestButtonEnabled = false;
         }
     }
 }

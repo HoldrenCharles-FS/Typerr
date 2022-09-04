@@ -24,6 +24,8 @@ namespace Typerr.Commands
 
             _createTestViewModel.TestModel = await UrlService.GetTestByUrl(_createTestViewModel.TextArea);
 
+            _createTestViewModel.TestModel.WordCount = GetWordCount();
+
             _createTestViewModel.TextArea = _createTestViewModel.TestModel.article.text;
             _createTestViewModel.Title = _createTestViewModel.TestModel.article.title;
             _createTestViewModel.Author = _createTestViewModel.TestModel.article.author;
@@ -34,6 +36,30 @@ namespace Typerr.Commands
 
             // Refresh the Prompt Message
             _createTestViewModel.UploadImagePrompt = _createTestViewModel.UploadImagePrompt;
+        }
+
+        // Calculates Word Count
+        private int GetWordCount()
+        {
+            // We need to format the text beforehand
+            FormatText();
+            bool spaceChecked = false;
+
+            char[] delimiters = new char[] { ' ', '\r', '\n' };
+            int wordCount = _createTestViewModel.TestModel.article.text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries).Length;
+
+            return wordCount;
+        }
+
+        private void FormatText()
+        {
+            string text = _createTestViewModel.TestModel.article.text;
+
+            _createTestViewModel.TestModel.article.text.Replace("—", string.Empty);
+
+            while (text.Contains("  ")) text = text.Replace("  ", " ");
+
+            _createTestViewModel.TestModel.article.text = text;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using Typerr.ViewModel;
 
 namespace Typerr.View
 {
@@ -27,6 +28,22 @@ namespace Typerr.View
             {
                 TextAreaBox.Text = pastedText;
                 GetTestButton.Command.Execute(e.DataObject);
+            }
+        }
+
+        private void TextAreaBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (TextAreaBox.Text == CreateTestViewModel.DefaultMessage)
+            {
+                TextAreaBox.Text = "";
+            }
+        }
+
+        private void TextAreaBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(TextAreaBox.Text))
+            {
+                TextAreaBox.Text = CreateTestViewModel.DefaultMessage;
             }
         }
     }
