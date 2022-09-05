@@ -26,6 +26,7 @@ namespace Typerr.Commands
             string image = "NULL";
             if (_createTestViewModel.Image != null)
             {
+                _createTestViewModel.TestModel.Image = _createTestViewModel.Image;
                 image = CompressImage();
             }
 

@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Typerr.View" 
              xmlns:components="clr-namespace:Typerr.Components" 
-             xmlns:viewmodel="clr-namespace:Typerr.ViewModel" xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome"
+             xmlns:viewmodel="clr-namespace:Typerr.ViewModel" 
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              d:DataContext="{d:DesignInstance Type=viewmodel:HomeViewModel}"
              mc:Ignorable="d" 
              Background="White">
@@ -85,9 +86,9 @@
                         </Setter>
                     </Style>
                 </Button.Style>
-                <fa:FontAwesomeIcon SolidIcon="ArrowCircleRight" 
+                <iconPacks:PackIconCoolicons Kind="ChevronRight" 
                                     Foreground="{StaticResource AppTheme}" 
-                                    FontSize="19"/>
+                                    />
 
             </Button>
         </Grid>

@@ -153,7 +153,7 @@ namespace Typerr.View
             {
                 TimeRemaining = timeRemaining * 60 + "s";
             }
-            else if (timeRemaining > 43830) 
+            else if (timeRemaining > 43830)
             {
                 TimeRemaining = Math.Round((double)timeRemaining / 43830, 1) + "mo";
             }
@@ -170,7 +170,15 @@ namespace Typerr.View
                 TimeRemaining = timeRemaining + "m";
             }
 
-            FooterInfo = $"{AuthorName} | {WebsiteName}\n{WordCount} words | {TimeRemaining} remaining";
+            string line1 = ((string.IsNullOrEmpty(AuthorName) && string.IsNullOrEmpty(WebsiteName))
+                ? ""
+                : (!string.IsNullOrEmpty(AuthorName) && !string.IsNullOrEmpty(WebsiteName))
+                ? AuthorName + " | " + WebsiteName
+                : (!string.IsNullOrEmpty(AuthorName) && string.IsNullOrEmpty(WebsiteName))
+                ? AuthorName
+                : WebsiteName);
+
+            FooterInfo = $"{line1} \n{WordCount} words | {TimeRemaining} remaining";
 
         }
     }
