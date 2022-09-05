@@ -3,21 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Typerr.Components"
+             xmlns:local="clr-namespace:Typerr.Components" 
+             xmlns:view="clr-namespace:Typerr.View" 
+             d:DataContext="{d:DesignInstance Type=view:LibTileViewModel}"
              mc:Ignorable="d" 
-             x:Name="LibraryTile"
-             d:DesignHeight="450" d:DesignWidth="800">
+             x:Name="LibraryTile">
     <Border Width="250"
             Height="150"
             BorderThickness="2"
             BorderBrush="Black"
             Margin="0,0,10,0"
             CornerRadius="30">
-        <!--> Background image 
         <Border.Background>
-            <ImageBrush ImageSource="/Images/knox.jpg"/>
+            <ImageBrush ImageSource="{Binding Image, UpdateSourceTrigger=PropertyChanged}"/>
         </Border.Background>
-        <-->
+ 
         <Border Width="auto"
                 Height="auto"
                 CornerRadius="30"
@@ -49,13 +49,13 @@
                                             <Trigger Property="IsMouseOver" 
                                                      Value="True">
                                                 <Setter Property="Background" 
-                                                        Value="#bbfdfdfd" 
+                                                        Value="#ddfdfdfd" 
                                                         TargetName="Border" />
                                             </Trigger>
                                             <Trigger Property="IsPressed" 
                                                      Value="True">
                                                 <Setter Property="Background" 
-                                                        Value="#a8aaaaaa" 
+                                                        Value="#caaaaaaa" 
                                                         TargetName="Border" />
                                             </Trigger>
                                         </ControlTemplate.Triggers>
@@ -68,7 +68,7 @@
                     <Button.Background>
                         <LinearGradientBrush StartPoint="2,0" 
                                              EndPoint="2,6">
-                            <GradientStop Color="Transparent" 
+                            <GradientStop Color="#88fdfdfd" 
                                           Offset="0.0"/>
                             <GradientStop Color="#fdfdfd" 
                                           Offset="1"/>
@@ -78,25 +78,36 @@
 
 
 
-                    <StackPanel VerticalAlignment="Center" 
-                                Height="auto" 
-                                Width="auto">
-                        <Label Content="{Binding ViewModel.Title, ElementName=LibraryTile}"
-                               VerticalContentAlignment="Bottom"
-                               Padding="5 0"
+                    <Grid VerticalAlignment="Center" 
+                                Height="120" 
+                                Width="212">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0"
+                                VerticalAlignment="Bottom">
+                            <TextBlock Padding="5 0"
                                Foreground="Black"
-                               FontSize="21"
+                               FontSize="20"
                                FontWeight="Bold"
-                               HorizontalAlignment="Left" 
+                               HorizontalAlignment="Right"
                                Width="210" 
-                               Height="91"/>
+                               TextTrimming="CharacterEllipsis"
+                                TextWrapping="WrapWithOverflow"
+                                Text="{Binding Title}"/>
+                        </Border>
 
-                        <Label VerticalContentAlignment="Bottom"
-                               Content="{Binding FooterInfo, ElementName=LibraryTile}"
+
+                        <Label Grid.Row="1" VerticalContentAlignment="Bottom"
                                Foreground="Black"
-                               Padding="5 0 "
-                               FontSize="13"/>
-                    </StackPanel>
+                               Padding="5 0"
+                               Width="210" 
+                               FontSize="13">
+                            <TextBlock TextTrimming="CharacterEllipsis" 
+                                       Text="{Binding FooterInfo}"/>
+                        </Label>
+                    </Grid>
 
                 </Button>
             </Grid>

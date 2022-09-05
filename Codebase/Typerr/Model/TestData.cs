@@ -5,10 +5,10 @@ namespace Typerr.Model
 {
     public class TestData
     {
-        public bool TestStarted { get; private set; }
+        public bool TestStarted { get; set; }
 
         //TODO: Re-examine this after test pages are implemented
-        public int LastPosition { get; private set; }
+        public int LastPosition { get;  set; }
         //TODO: Re-examine this after test pages are implemented
         public List<int> ErrorPositions { get; private set; }
 

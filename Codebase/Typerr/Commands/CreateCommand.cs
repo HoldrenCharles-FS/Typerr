@@ -12,10 +12,12 @@ namespace Typerr.Commands
     public class CreateCommand : CommandBase
     {
         private readonly CreateTestViewModel _createTestViewModel;
+        private readonly HomeViewModel _homeViewModel;
 
-        public CreateCommand(CreateTestViewModel createTestViewModel)
+        public CreateCommand(CreateTestViewModel createTestViewModel, HomeViewModel homeViewModel)
         {
             _createTestViewModel = createTestViewModel;
+            _homeViewModel = homeViewModel;
         }
 
         public override void Execute(object parameter)
@@ -56,13 +58,17 @@ namespace Typerr.Commands
 
             writer.Close();
 
+            _homeViewModel.AddLibTile(_createTestViewModel.TestModel);
+
             _createTestViewModel.CreateTestCloseCommand.Execute(parameter);
             _createTestViewModel.TextArea = CreateTestViewModel.DefaultMessage;
-            _createTestViewModel.Title =
-                _createTestViewModel.Author = 
-                _createTestViewModel.Summary =
-                _createTestViewModel.Source = "";
+            _createTestViewModel.Title = "";
+            _createTestViewModel.Author = "";
+            _createTestViewModel.Summary = "";
+            _createTestViewModel.Source = "";
+
             
+
         }
 
         private string CompressImage()
@@ -85,7 +91,7 @@ namespace Typerr.Commands
             }
 
             File.Create(temp).Close();
-            
+
             BitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(_createTestViewModel.Image));
 
@@ -162,7 +168,7 @@ namespace Typerr.Commands
                 // truncate file name
                 filename = filename.Substring(0, 15);
             }
-            
+
             // Append extension
             filename += ".typr";
 

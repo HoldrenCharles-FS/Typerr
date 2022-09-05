@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Typerr.ViewModel
 {
-    public class LibraryViewModel
+    public class LibraryViewModel : ViewModelBase
     {
     }
 }

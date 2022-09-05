@@ -269,11 +269,11 @@ TestModel.article.site_name = _source;
         // Variable is introduced to force those fields to stay at that height.
         public double SingleRowHeight { get; } = 40.620000000000005;
 
-        public CreateTestViewModel(ICommand createTestCloseCommand)
+        public CreateTestViewModel(ICommand createTestCloseCommand, HomeViewModel homeViewModel)
         {
             OpenFromFileCommand = new OpenFromFileCommand(this);
             GetTestCommand = new GetTestCommand(this);
-            CreateCommand = new CreateCommand(this);
+            CreateCommand = new CreateCommand(this, homeViewModel);
             CreateTestCloseCommand = createTestCloseCommand;
             RemoveImageCommand = new RemoveImageCommand(this);
             AddImageCommand = new AddImageCommand(this);

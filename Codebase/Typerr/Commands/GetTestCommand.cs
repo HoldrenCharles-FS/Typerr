@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Media.Imaging;
 using Typerr.Model;
+using Typerr.Service;
 using Typerr.ViewModel;
 using TyperrDemo.Services;
 
@@ -24,7 +25,8 @@ namespace Typerr.Commands
 
             _createTestViewModel.TestModel = await UrlService.GetTestByUrl(_createTestViewModel.TextArea);
 
-            _createTestViewModel.TestModel.WordCount = GetWordCount();
+            _createTestViewModel.TestModel.article.text = TestService.FormatText(_createTestViewModel.TestModel.article.text);
+            _createTestViewModel.TestModel.WordCount = TestService.GetWordCount(_createTestViewModel.TestModel.article.text);
 
             _createTestViewModel.TextArea = _createTestViewModel.TestModel.article.text;
             _createTestViewModel.Title = _createTestViewModel.TestModel.article.title;
@@ -38,28 +40,27 @@ namespace Typerr.Commands
             _createTestViewModel.UploadImagePrompt = _createTestViewModel.UploadImagePrompt;
         }
 
-        // Calculates Word Count
-        private int GetWordCount()
-        {
-            // We need to format the text beforehand
-            FormatText();
-            bool spaceChecked = false;
+        //// Calculates Word Count
+        //private int GetWordCount()
+        //{
+        //    // We need to format the text beforehand
+        //    FormatText();
 
-            char[] delimiters = new char[] { ' ', '\r', '\n' };
-            int wordCount = _createTestViewModel.TestModel.article.text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries).Length;
+        //    char[] delimiters = new char[] { ' ', '\r', '\n' };
+        //    int wordCount = _createTestViewModel.TestModel.article.text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries).Length;
 
-            return wordCount;
-        }
+        //    return wordCount;
+        //}
 
-        private void FormatText()
-        {
-            string text = _createTestViewModel.TestModel.article.text;
+        //private void FormatText()
+        //{
+        //    string text = _createTestViewModel.TestModel.article.text;
 
-            _createTestViewModel.TestModel.article.text.Replace("—", string.Empty);
+        //    _createTestViewModel.TestModel.article.text.Replace("—", string.Empty);
 
-            while (text.Contains("  ")) text = text.Replace("  ", " ");
+        //    while (text.Contains("  ")) text = text.Replace("  ", " ");
 
-            _createTestViewModel.TestModel.article.text = text;
-        }
+        //    _createTestViewModel.TestModel.article.text = text;
+        //}
     }
 }

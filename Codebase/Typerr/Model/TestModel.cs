@@ -22,28 +22,6 @@ namespace Typerr.Model
             testData = new TestData();
             _creationDate = DateTime.Now;
         }
-
-        //public TestModel(Article article, TestData testData)
-        //{
-        //    this.article = article;
-        //    this.testData = testData;
-        //}
-
-        
-
-        //public TestModel(string title, string text, string summary, string author, string site_name, string canonical_url)
-        //{
-        //    article.title = title;
-        //    article.text = text;
-        //    article.summary = summary;
-        //    article.author = author;
-        //    article.site_name = site_name;
-        //    article.canonical_url = canonical_url;
-        //    article.pub_date = null;
-        //    article.image = null;
-        //    article.favicon = null;
-        //}
-
        
     }
 }

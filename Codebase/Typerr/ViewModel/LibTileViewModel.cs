@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Media.Imaging;
 using Typerr.Model;
 using Typerr.ViewModel;
 
@@ -10,23 +11,125 @@ namespace Typerr.View
     {
         public TestModel Model { get; private set; }
         public User User { get; private set; }
-        public string Title => Model.article.title;
-        public string AuthorName => Model.article.author;
-        public string WebsiteName => Model.article.site_name;
-        public string WordCount { get; private set; }
-        public string TimeRemaining { get; private set; }
+
+        private string _title;
+        public string Title
+        {
+            get
+            {
+                return _title;
+            }
+            set
+            {
+                _title = value;
+                OnPropertyChanged(nameof(Title));
+            }
+        }
+
+        private string _authorName;
+        public string AuthorName
+        {
+            get
+            {
+                return _authorName;
+            }
+            set
+            {
+                _authorName = value;
+                OnPropertyChanged(nameof(AuthorName));
+            }
+        }
+
+        private string _websiteName;
+        public string WebsiteName
+        {
+            get
+            {
+                return _websiteName;
+            }
+            set
+            {
+                _websiteName = value;
+                OnPropertyChanged(nameof(WebsiteName));
+            }
+        }
+
+        private string _wordCount;
+        public string WordCount
+        {
+            get
+            {
+                return _wordCount;
+            }
+            set
+            {
+                _wordCount = value;
+                OnPropertyChanged(nameof(WordCount));
+            }
+        }
+
+        private string _timeRemaining;
+        public string TimeRemaining
+        {
+            get
+            {
+                return _timeRemaining;
+            }
+            set
+            {
+                _timeRemaining = value;
+                OnPropertyChanged(nameof(TimeRemaining));
+            }
+        }
+
+        private BitmapImage _image;
+        public BitmapImage Image
+        {
+            get
+            {
+                return _image;
+            }
+            set
+            {
+                _image = value;
+                OnPropertyChanged(nameof(Image));
+            }
+        }
+
+        //public string Title => Model.article.title;
+        //public string AuthorName => Model.article.author;
+        //public string WebsiteName => Model.article.site_name;
+        //public string WordCount { get; private set; }
+        //public string TimeRemaining { get; private set; }
+
+        private string _footerInfo;
+        public string FooterInfo
+        {
+            get
+            {
+                return _footerInfo;
+            }
+            set
+            {
+                _footerInfo = value;
+                OnPropertyChanged(nameof(FooterInfo));
+            }
+        }
 
         public LibTileViewModel(TestModel model, User user)
         {
             Model = model;
             User = user;
-            FormatWordCountAndTimeRemaining();
+            Init();
+            
         }
 
-        public LibTileViewModel()
+        private void Init()
         {
-            Model = new TestModel();
-            User = new User(33);
+            Title = Model.article.title;
+            AuthorName = Model.article.author;
+            WebsiteName = Model.article.site_name;
+            Image = Model.Image;
             FormatWordCountAndTimeRemaining();
         }
 
@@ -66,6 +169,9 @@ namespace Typerr.View
             {
                 TimeRemaining = timeRemaining + "m";
             }
+
+            FooterInfo = $"{AuthorName} | {WebsiteName}\n{WordCount} words | {TimeRemaining} remaining";
+
         }
     }
 }
