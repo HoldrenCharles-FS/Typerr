@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Typerr.Stores;
+﻿using Typerr.Stores;
 using Typerr.ViewModel;
 
 namespace Typerr.Commands

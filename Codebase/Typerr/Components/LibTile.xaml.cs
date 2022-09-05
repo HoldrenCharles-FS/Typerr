@@ -1,8 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using Typerr.Model;
-using Typerr.View;
-using Typerr.ViewModel;
+﻿using System.Windows.Controls;
 
 namespace Typerr.Components
 {

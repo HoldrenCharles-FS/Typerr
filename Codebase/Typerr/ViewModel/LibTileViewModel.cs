@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Media.Imaging;
 using Typerr.Model;
 using Typerr.ViewModel;
@@ -96,12 +94,6 @@ namespace Typerr.View
             }
         }
 
-        //public string Title => Model.article.title;
-        //public string AuthorName => Model.article.author;
-        //public string WebsiteName => Model.article.site_name;
-        //public string WordCount { get; private set; }
-        //public string TimeRemaining { get; private set; }
-
         private string _footerInfo;
         public string FooterInfo
         {
@@ -179,7 +171,6 @@ namespace Typerr.View
                 : WebsiteName);
 
             FooterInfo = $"{line1} \n{WordCount} words | {TimeRemaining} remaining";
-
         }
     }
 }

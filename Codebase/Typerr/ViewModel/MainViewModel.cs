@@ -1,8 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using Typerr.Commands;
+﻿using System.Windows;
 using Typerr.Stores;
 
 namespace Typerr.ViewModel

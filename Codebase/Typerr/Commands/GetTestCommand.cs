@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Media.Imaging;
-using Typerr.Model;
 using Typerr.Service;
 using Typerr.ViewModel;
 using TyperrDemo.Services;

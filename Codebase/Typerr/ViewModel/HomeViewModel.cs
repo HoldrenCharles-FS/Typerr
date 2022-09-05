@@ -2,10 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using Typerr.Commands;
-using Typerr.Components;
 using Typerr.Model;
 using Typerr.View;
 

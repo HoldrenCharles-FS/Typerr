@@ -1,5 +1,4 @@
 ﻿using System;
-using Typerr.Model;
 
 namespace Typerr.Service
 {
