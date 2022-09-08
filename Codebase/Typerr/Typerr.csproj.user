@@ -25,6 +25,9 @@
     <Compile Update="View\LibraryView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\TestPreviewView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Components\CreateTestTile.xaml">
@@ -46,6 +49,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\LibraryView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\TestPreviewView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

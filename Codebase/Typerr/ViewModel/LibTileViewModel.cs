@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using Typerr.Commands;
 using Typerr.Model;
+using Typerr.Service;
 using Typerr.ViewModel;
 
 namespace Typerr.View
 {
     public class LibTileViewModel : ViewModelBase
     {
-        public TestModel Model { get; private set; }
+        public LibTileCommand LibTileCommand { get; }
+        public TestModel TestModel { get; private set; }
         public User User { get; private set; }
 
         private string _title;
@@ -108,67 +112,37 @@ namespace Typerr.View
             }
         }
 
-        public LibTileViewModel(TestModel model, User user)
+        public LibTileViewModel(MainViewModel mainViewModel, TestModel testModel, User user)
         {
-            Model = model;
+            TestModel = testModel;
             User = user;
+            LibTileCommand = new LibTileCommand(mainViewModel, new TestPreviewViewModel(mainViewModel, TestModel, User));
             Init();
             
         }
 
         private void Init()
         {
-            Title = Model.article.title;
-            AuthorName = Model.article.author;
-            WebsiteName = Model.article.site_name;
-            Image = Model.Image;
+            Title = TestModel.article.title;
+            AuthorName = TestModel.article.author;
+            WebsiteName = TestModel.article.site_name;
+            Image = TestModel.Image;
             FormatWordCountAndTimeRemaining();
         }
 
         private void FormatWordCountAndTimeRemaining()
         {
-            string wordCount = Model.WordCount.ToString();
+            WordCount = TestService.FormatNumber(TestModel.WordCount);
 
-            for (int i = wordCount.Length, j = 0; i > 0; i--, j++)
-            {
-                if (j % 3 == 0 && j != 0)
-                {
-                    wordCount = wordCount.Insert(i, ",");
-                }
-            }
+            TimeRemaining = TestService.FormatTimeRemaining(TestModel.WordCount, User.RecentWpm);
 
-            WordCount = wordCount;
-
-            int timeRemaining = Model.WordCount / User.RecentWpm; ;
-
-            if (timeRemaining < 1 && timeRemaining > 0)
-            {
-                TimeRemaining = timeRemaining * 60 + "s";
-            }
-            else if (timeRemaining > 43830)
-            {
-                TimeRemaining = Math.Round((double)timeRemaining / 43830, 1) + "mo";
-            }
-            else if (timeRemaining > 1440)
-            {
-                TimeRemaining = Math.Round((double)timeRemaining / 1440, 1) + "d";
-            }
-            else if (timeRemaining > 60)
-            {
-                TimeRemaining = Math.Round((double)timeRemaining / 60, 1) + "h";
-            }
-            else
-            {
-                TimeRemaining = timeRemaining + "m";
-            }
-
-            string line1 = ((string.IsNullOrEmpty(AuthorName) && string.IsNullOrEmpty(WebsiteName))
+            string line1 = (string.IsNullOrEmpty(AuthorName) && string.IsNullOrEmpty(WebsiteName))
                 ? ""
                 : (!string.IsNullOrEmpty(AuthorName) && !string.IsNullOrEmpty(WebsiteName))
                 ? AuthorName + " | " + WebsiteName
                 : (!string.IsNullOrEmpty(AuthorName) && string.IsNullOrEmpty(WebsiteName))
                 ? AuthorName
-                : WebsiteName);
+                : WebsiteName;
 
             FooterInfo = $"{line1} \n{WordCount} words | {TimeRemaining} remaining";
         }

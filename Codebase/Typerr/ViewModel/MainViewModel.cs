@@ -8,17 +8,17 @@ namespace Typerr.ViewModel
         private readonly NavigationStore _navigationStore;
         public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
 
-        private Visibility _overlayBarVisibility;
-        public Visibility OverlayBarVisibility
+        private ViewModelBase _currentDialog;
+        public ViewModelBase CurrentDialog
         {
             get
             {
-                return _overlayBarVisibility;
+                return _currentDialog;
             }
             set
             {
-                _overlayBarVisibility = value;
-                OnPropertyChanged(nameof(OverlayBarVisibility));
+                _currentDialog = value;
+                OnPropertyChanged(nameof(CurrentDialog));
             }
         }
 
@@ -50,10 +50,9 @@ namespace Typerr.ViewModel
             }
         }
 
-
         public MainViewModel(NavigationStore navigationStore)
         {
-            OverlayBarVisibility = OverlayVisibility = Visibility.Collapsed;
+            OverlayVisibility = Visibility.Collapsed;
             _navigationStore = navigationStore;
 
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;

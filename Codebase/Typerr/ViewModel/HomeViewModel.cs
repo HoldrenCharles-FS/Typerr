@@ -24,12 +24,14 @@ namespace Typerr.ViewModel
             set { _libTileViewModels = value; }
         }
 
+        public MainViewModel MainViewModel { get; }
         public ICommand CreateTestTileCommand { get; }
         public ICommand GoToLibraryCommand { get; }
 
 
-        public HomeViewModel(ICommand createTestTileCommand, ICommand goToLibraryCommand, User user)
+        public HomeViewModel(MainViewModel mainViewModel, ICommand createTestTileCommand, ICommand goToLibraryCommand, User user)
         {
+            MainViewModel = mainViewModel;
             CreateTestTileCommand = createTestTileCommand;
             GoToLibraryCommand = goToLibraryCommand;
             _allLibTileViewModels = new ObservableCollection<LibTileViewModel>();
@@ -39,7 +41,7 @@ namespace Typerr.ViewModel
 
         public void AddLibTile(TestModel testModel)
         {
-            LibTileViewModel libTileViewModel = new LibTileViewModel(testModel, _user);
+            LibTileViewModel libTileViewModel = new LibTileViewModel(MainViewModel, testModel, _user);
 
             _allLibTileViewModels.Insert(0, libTileViewModel);
            
@@ -52,10 +54,6 @@ namespace Typerr.ViewModel
             {
                 LibTileViewModels.Add(r);
             }
-        }
-
-        public void HomeLibraryContent_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
         }
     }
 }

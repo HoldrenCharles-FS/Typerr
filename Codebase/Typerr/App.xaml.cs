@@ -85,9 +85,9 @@ namespace Typerr
             CreateTestTileCommand createTestTileCommand = new CreateTestTileCommand(mainViewModel);
             CreateTestCloseCommand createTestCloseCommand = new CreateTestCloseCommand(mainViewModel);
             GoToLibraryCommand goToLibraryCommand = new GoToLibraryCommand(_navigationStore);
-             HomeViewModel homeViewModel = new HomeViewModel(createTestTileCommand, goToLibraryCommand, _user);
+            HomeViewModel homeViewModel = new HomeViewModel(mainViewModel, createTestTileCommand, goToLibraryCommand, _user);
             CreateTestViewModel createTestViewModel = new CreateTestViewModel(createTestCloseCommand, homeViewModel);
-            mainViewModel.CreateTestViewModel = createTestViewModel;    
+            mainViewModel.CreateTestViewModel = createTestViewModel;
 
             LoadTests(homeViewModel);
 

@@ -1,4 +1,5 @@
-﻿using Typerr.ViewModel;
+﻿using System.Windows;
+using Typerr.ViewModel;
 
 namespace Typerr.Commands
 {
@@ -13,8 +14,7 @@ namespace Typerr.Commands
 
         public override void Execute(object parameter)
         {
-            _mainViewModel.OverlayBarVisibility = System.Windows.Visibility.Collapsed;
-            _mainViewModel.OverlayVisibility = System.Windows.Visibility.Collapsed;
+            _mainViewModel.OverlayVisibility = Visibility.Collapsed;
         }
     }
 }

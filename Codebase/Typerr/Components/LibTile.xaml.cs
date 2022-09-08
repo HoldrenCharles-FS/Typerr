@@ -7,11 +7,9 @@ namespace Typerr.Components
     /// </summary>
     public partial class LibTile : UserControl
     {
-
         public LibTile()
         {
             InitializeComponent();
         }
-
     }
 }

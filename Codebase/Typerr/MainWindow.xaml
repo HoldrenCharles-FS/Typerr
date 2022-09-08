@@ -21,7 +21,10 @@
             <views:HomeView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vms:CreateTestViewModel}">
-            <views:CreateTestView/>
+            <views:CreateTestView Margin="20 40"/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:TestPreviewViewModel}">
+            <views:TestPreviewView Width="755"/>
         </DataTemplate>
     </Window.Resources>
 
@@ -219,7 +222,7 @@
         <!--#endregion-->
         <Grid x:Name="OverlayBar" 
               Panel.ZIndex="1000" 
-              Visibility="{Binding OverlayBarVisibility}"
+              Visibility="{Binding OverlayVisibility}"
               IsHitTestVisible="False"
               WindowChrome.IsHitTestVisibleInChrome="True"
               Grid.ColumnSpan="2"
@@ -252,11 +255,10 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <views:CreateTestView DataContext="{Binding CreateTestViewModel}" x:Name="CreateTestOverlay"
-                    Grid.Column="1" 
-                                      Grid.Row="1" 
-                                      Margin="20 40"
-                                      />
+            <ContentControl x:Name="DialogArea" 
+                            Content="{Binding CurrentDialog}"
+                            Grid.Column="1" 
+                            Grid.Row="1"/>
             </Grid>
             <!--View / Content-->
 
