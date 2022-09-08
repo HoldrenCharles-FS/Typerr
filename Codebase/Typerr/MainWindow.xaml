@@ -24,7 +24,7 @@
             <views:CreateTestView Margin="20 40"/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vms:TestPreviewViewModel}">
-            <views:TestPreviewView Width="755"/>
+            <views:TestPreviewView Width="725"/>
         </DataTemplate>
     </Window.Resources>
 
