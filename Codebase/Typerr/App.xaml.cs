@@ -116,7 +116,7 @@ namespace Typerr
 
                 foreach (FileInfo file in files)
                 {
-                    if (file.FullName.EndsWith(".typr"))
+                    if (file.FullName.EndsWith(".typr") && file.Length > 0)
                     {
                         using (FileStream fileStream = File.OpenRead(file.FullName))
                         {
@@ -130,8 +130,6 @@ namespace Typerr
                                 MemoryStream memoryStream = new MemoryStream(bytes, 0, bytes.Length);
                                 memoryStream.Write(bytes, 0, bytes.Length);
                                 Image image = Image.FromStream(memoryStream, true);
-
-
                                 
                                 BitmapImage bitmapImage = new BitmapImage();
                                 using (MemoryStream memStream2 = new MemoryStream())

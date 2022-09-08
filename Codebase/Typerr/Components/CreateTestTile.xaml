@@ -15,7 +15,9 @@
             Margin="0,0,10,0"
             CornerRadius="30"
             Background="#88EBEBEB">
-
+        <Border.ToolTip>
+            Create a new typing test
+        </Border.ToolTip>
         <Grid Width="auto">
 
             <Button x:Name="CreateTestButton" 

@@ -44,7 +44,7 @@ namespace Typerr.ViewModel
             _allLibTileViewModels.Insert(0, libTileViewModel);
            
 
-            IEnumerable<LibTileViewModel> result = _allLibTileViewModels.Take(5);
+            IEnumerable<LibTileViewModel> result = _allLibTileViewModels.Take(6);
 
             LibTileViewModels.Clear();
 

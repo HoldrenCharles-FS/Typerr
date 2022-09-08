@@ -44,9 +44,9 @@ namespace Typerr.ViewModel
 
                 if (TestModel != null)
                 {
-TestModel.article.text = textArea;
+                    TestModel.article.text = textArea;
                 }
-                
+
 
                 if (!string.IsNullOrWhiteSpace(textArea) && textArea != DefaultMessage)
                 {
@@ -59,7 +59,8 @@ TestModel.article.text = textArea;
                 if (Uri.IsWellFormedUriString(textArea, UriKind.Absolute))
                 {
                     GetTestButtonEnabled = true;
-                } else
+                }
+                else
                 {
                     GetTestButtonEnabled = false;
                 }
@@ -79,9 +80,9 @@ TestModel.article.text = textArea;
                 OnPropertyChanged(nameof(Title));
                 if (TestModel != null)
                 {
-TestModel.article.title = _title;
+                    TestModel.article.title = _title;
                 }
-                
+
             }
         }
 
@@ -99,10 +100,10 @@ TestModel.article.title = _title;
 
                 if (TestModel != null)
                 {
-TestModel.article.author = _author;
+                    TestModel.article.author = _author;
                 }
 
-                
+
             }
         }
 
@@ -119,9 +120,9 @@ TestModel.article.author = _author;
                 OnPropertyChanged(nameof(Source));
                 if (TestModel != null)
                 {
-TestModel.article.site_name = _source;
+                    TestModel.article.site_name = _source;
                 }
-                
+
             }
         }
 
@@ -161,7 +162,7 @@ TestModel.article.site_name = _source;
                 {
                     _testModel.article.summary = _summary;
                 }
-                
+
             }
         }
 

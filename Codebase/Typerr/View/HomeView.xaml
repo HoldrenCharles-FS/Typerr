@@ -13,8 +13,8 @@
     
 
         <StackPanel>
-            <!--#region Library -->
-            <TextBlock Text="Library"
+            <!--#region Recent Tests -->
+            <TextBlock Text="Recent Tests"
                    Foreground="Black"
                    FontWeight="Bold"
                    FontSize="24"
@@ -86,6 +86,9 @@
                         </Setter>
                     </Style>
                 </Button.Style>
+                <Button.ToolTip>
+                    Go to library
+                </Button.ToolTip>
                 <iconPacks:PackIconCoolicons Kind="ChevronRight" 
                                     Foreground="{StaticResource AppTheme}" 
                                     />

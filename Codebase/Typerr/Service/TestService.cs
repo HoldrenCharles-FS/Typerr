@@ -17,6 +17,7 @@ namespace Typerr.Service
             string text = txt;
 
             txt.Replace("—", string.Empty);
+            txt.Replace("--", string.Empty);
 
             while (text.Contains("  ")) text = text.Replace("  ", " ");
 

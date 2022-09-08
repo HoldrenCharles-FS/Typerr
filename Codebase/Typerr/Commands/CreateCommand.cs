@@ -61,6 +61,7 @@ namespace Typerr.Commands
 
             _homeViewModel.AddLibTile(_createTestViewModel.TestModel);
 
+            // TODO: Reset pubdate and image
             _createTestViewModel.CreateTestCloseCommand.Execute(parameter);
             _createTestViewModel.TextArea = CreateTestViewModel.DefaultMessage;
             _createTestViewModel.Title = "";
@@ -106,6 +107,7 @@ namespace Typerr.Commands
 
             float aspectWidth = 5;
             float aspectHeight = 3;
+            
             RectangleF rect = new RectangleF(0, 0, oldImage.Width, oldImage.Height);
 
             if (rect.Width / rect.Height > (aspectWidth / aspectHeight) + 0.005f)
