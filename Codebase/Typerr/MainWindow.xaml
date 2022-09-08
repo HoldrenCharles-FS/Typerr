@@ -4,22 +4,32 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Typerr"
-        xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome"
+        xmlns:views="clr-namespace:Typerr.View"
+        xmlns:vms="clr-namespace:Typerr.ViewModel"
+        xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome" 
+        d:DataContext="{d:DesignInstance Type=vms:MainViewModel}"
         mc:Ignorable="d"
         Height="650" Width="1000"
         WindowStyle="None"
         WindowState="Maximized"
         ResizeMode="CanResize"
+        FontSize="14"
         MinHeight="650" MinWidth="1000">
+    
     <Window.Resources>
-        
+        <DataTemplate DataType="{x:Type vms:HomeViewModel}">
+            <views:HomeView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:CreateTestViewModel}">
+            <views:CreateTestView/>
+        </DataTemplate>
     </Window.Resources>
+
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="32" 
-            ResizeBorderThickness=
-            "{x:Static SystemParameters.WindowResizeBorderThickness}" 
-            />
+                      ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"/>
     </WindowChrome.WindowChrome>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="225"/>
@@ -29,6 +39,7 @@
             <RowDefinition Height="32"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+
         <Grid>
             <Border Background="{StaticResource AppTheme}" 
                     Width="auto" 
@@ -39,33 +50,40 @@
                     Width="auto" 
                     Height="auto">
                 <StackPanel>
+                    <!--App Title-->
                     <TextBlock Text="Typerr"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Left"
-                   Margin="30,20,0,52"
-                   Foreground="White"
-                   FontSize="28"/>
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Margin="30,20,0,52"
+                               Foreground="White"
+                               FontSize="28"/>
+                    <!--Home Radio Button-->
                     <RadioButton Content="Home"
-                             Height="50"
-                             Foreground="White"
-                             FontSize="14"
+                                 Height="50"
+                                 Foreground="White"
+                                 FontSize="14"
                                  IsChecked="True"
-                             Style="{StaticResource MenuButtonTheme}"/>
+                                 Command="{Binding CurrentViewModel}"
+                                 Style="{StaticResource MenuButtonTheme}"/>
+                    <!--Library Radio Button-->
                     <RadioButton Content="Library"
-                             Height="50"
-                             Foreground="White"
-                             FontSize="14"
-                             Style="{StaticResource MenuButtonTheme}"/>
+                                 Height="50"
+                                 Foreground="White"
+                                 FontSize="14"
+                                 Style="{StaticResource MenuButtonTheme}"/>
+                    <!--Subscriptions Radio Button-->
                     <RadioButton Content="Subscriptions"
-                             Height="50"
+                                 Height="50"
                                  IsEnabled="False"
-                             Foreground="#bbb"
-                             FontSize="14"
-                             Style="{StaticResource MenuButtonTheme}"/>
+                                 Foreground="#bbb"
+                                 FontSize="14"
+                                 Style="{StaticResource MenuButtonTheme}"/>
 
                 </StackPanel>
             </Border>
         </Grid>
+
+        <!--#region Window Controls-->
         <Grid VerticalAlignment="Top" Grid.Column="1">
             <StackPanel WindowChrome.IsHitTestVisibleInChrome="True" 
                         VerticalAlignment="Center" 
@@ -197,8 +215,57 @@
                 </Button>
 
             </StackPanel>
+        </Grid>
+        <!--#endregion-->
+        <Grid x:Name="OverlayBar" 
+              Panel.ZIndex="1000" 
+              Visibility="{Binding OverlayBarVisibility}"
+              IsHitTestVisible="False"
+              WindowChrome.IsHitTestVisibleInChrome="True"
+              Grid.ColumnSpan="2"
+              Grid.Row="0"
+              Loaded="Overlay_Loaded">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity=".5"/>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+        </Grid>
+        <Grid x:Name="Overlay" 
+              Panel.ZIndex="1000" 
+              Visibility="{Binding OverlayVisibility}"
+              WindowChrome.IsHitTestVisibleInChrome="True"
+              Grid.ColumnSpan="2"
+              Grid.Row="1"
+              Loaded="Overlay_Loaded">
+                <Grid.Background>
+                    <SolidColorBrush Color="Black" Opacity=".5"/>
+                </Grid.Background>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="225"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <views:CreateTestView DataContext="{Binding CreateTestViewModel}" x:Name="CreateTestOverlay"
+                    Grid.Column="1" 
+                                      Grid.Row="1" 
+                                      Margin="20 40"
+                                      />
+            </Grid>
+            <!--View / Content-->
+
+            <ContentControl x:Name="ContentArea" 
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="10"
+                        Content="{Binding CurrentViewModel}"/>
 
         </Grid>
-    </Grid>
     
 </Window>

@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using Typerr.Model;
-using TyperrDemo.Services;
 
 namespace Typerr
 {
@@ -99,6 +95,7 @@ namespace Typerr
 
         #endregion, 
 
+
         public MainWindow()
         {
             InitializeComponent();
@@ -111,12 +108,18 @@ namespace Typerr
 
             };
             WindowMaximize.Click += (sender, e) => WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
-            WindowClose.Click += (sender, e) => Close();
+            WindowClose.Click += (sender, e) => Application.Current.Shutdown();
             SourceInitialized += (sender, e) =>
             {
                 WindowCompositionTarget = PresentationSource.FromVisual(this).CompositionTarget;
                 HwndSource.FromHwnd(new WindowInteropHelper(this).Handle).AddHook(WindowProc);
             };
+        }
+
+        private void Overlay_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+           
         }
     }
 }
