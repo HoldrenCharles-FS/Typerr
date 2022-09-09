@@ -135,24 +135,37 @@
                                     FontSize="19"/>
             </Button>
             <ScrollViewer Grid.Row = "1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                <StackPanel >
-                    <Label Content="Title"
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Title"
+                               Grid.Column="0"
+                               Margin="0"
                            Foreground="{Binding ForegroundColor}"
                        IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBox Text="{Binding Title}"
+                        <Label Content="*"
+                               Grid.Column="1"
+                               Margin="-7 0 0 0"
+                               Foreground="{Binding ForegroundColor}"/>
+                    </Grid>
+                    
+                <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
                          Foreground="{Binding ForegroundColor}"
                          Height="80"
                          IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
                 <Label Content="Author"
                        Foreground="{Binding ForegroundColor}"/>
-                <TextBox Text="{Binding Author}"
+                    <TextBox Text="{Binding Author, UpdateSourceTrigger=PropertyChanged}"
                          Foreground="{Binding ForegroundColor}"
                          Height="{Binding SingleRowHeight}"
                          IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
                 <Label Content="Source"
                        Foreground="{Binding ForegroundColor}"
                        IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBox Text="{Binding Source}"
+                    <TextBox Text="{Binding Source, UpdateSourceTrigger=PropertyChanged}"
                          Foreground="{Binding ForegroundColor}"
                          Height="{Binding SingleRowHeight}"
                          IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
@@ -169,7 +182,7 @@
                     <Label Content="Summary" 
                            Foreground="{Binding ForegroundColor}"
                            IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
-                    <TextBox Text="{Binding Summary}"
+                    <TextBox Text="{Binding Summary, UpdateSourceTrigger=PropertyChanged}"
                              Foreground="{Binding ForegroundColor}"
                              Height="120"
                              IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
@@ -259,7 +272,8 @@
                     HorizontalAlignment="Right"
                     Margin="10"
                     Command="{Binding CreateCommand}"
-                    IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
+                    IsEnabled="{Binding CreateButtonEnabled, UpdateSourceTrigger=PropertyChanged}">
+            </Button>
         </Grid>
     </Grid>
 </UserControl>

@@ -30,33 +30,38 @@ namespace Typerr.ViewModel
         }
 
         #region Test Properties
-        private string textArea;
+        private string _textArea;
         public string TextArea
         {
             get
             {
-                return textArea;
+                return _textArea;
             }
             set
             {
-                textArea = value;
+                _textArea = value;
                 OnPropertyChanged(nameof(TextArea));
 
                 if (TestModel != null)
                 {
-                    TestModel.article.text = textArea;
+                    TestModel.article.text = _textArea;
                 }
 
 
-                if (!string.IsNullOrWhiteSpace(textArea) && textArea != DefaultMessage)
+                if (!string.IsNullOrWhiteSpace(_textArea) && _textArea != DefaultMessage)
                 {
                     SidebarEnabled = true;
+                    if (!string.IsNullOrWhiteSpace(Title))
+                    {
+                        CreateButtonEnabled = true;
+                    }
                 }
                 else
                 {
                     SidebarEnabled = false;
+                    CreateButtonEnabled = false;
                 }
-                if (Uri.IsWellFormedUriString(textArea, UriKind.Absolute))
+                if (Uri.IsWellFormedUriString(_textArea, UriKind.Absolute))
                 {
                     GetTestButtonEnabled = true;
                 }
@@ -81,6 +86,15 @@ namespace Typerr.ViewModel
                 if (TestModel != null)
                 {
                     TestModel.article.title = _title;
+                }
+
+                if (!string.IsNullOrWhiteSpace(_textArea) && _textArea != DefaultMessage && !string.IsNullOrWhiteSpace(_title))
+                {
+                    CreateButtonEnabled = true;
+                }
+                else
+                {
+                    CreateButtonEnabled = false;
                 }
 
             }
@@ -231,6 +245,20 @@ namespace Typerr.ViewModel
             {
                 _getTestButtonEnabled = value;
                 OnPropertyChanged(nameof(GetTestButtonEnabled));
+            }
+        }
+
+        private bool _createButtonEnabled;
+        public bool CreateButtonEnabled
+        {
+            get
+            {
+                return _createButtonEnabled;
+            }
+            set
+            {
+                _createButtonEnabled = value;
+                OnPropertyChanged(nameof(CreateButtonEnabled));
             }
         }
 
