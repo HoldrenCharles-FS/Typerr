@@ -6,6 +6,7 @@ using System.Windows.Media.Imaging;
 using System.Xml;
 using Typerr.ViewModel;
 using System.Drawing.Imaging;
+using Typerr.Service;
 
 namespace Typerr.Commands
 {
@@ -22,6 +23,7 @@ namespace Typerr.Commands
 
         public override void Execute(object parameter)
         {
+            _createTestViewModel.TestModel.WordCount = TestService.GetWordCount(_createTestViewModel.TestModel.article.text);
             FileStream writer = new FileStream(GenerateFileName(), FileMode.CreateNew);
             string image = "NULL";
             if (_createTestViewModel.Image != null)
@@ -62,15 +64,14 @@ namespace Typerr.Commands
             _homeViewModel.MainViewModel.AddLibTile(_createTestViewModel.TestModel, _homeViewModel);
             _homeViewModel.RefreshLibrary();
 
-            // TODO: Reset pubdate and image
             _createTestViewModel.CreateTestCloseCommand.Execute(parameter);
             _createTestViewModel.TextArea = CreateTestViewModel.DefaultMessage;
             _createTestViewModel.Title = "";
             _createTestViewModel.Author = "";
             _createTestViewModel.Summary = "";
             _createTestViewModel.Source = "";
-
-            
+            _createTestViewModel.Image = null;
+            _createTestViewModel.PublishDate = null;
 
         }
 
