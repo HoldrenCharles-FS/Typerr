@@ -20,6 +20,9 @@
         <DataTemplate DataType="{x:Type vms:HomeViewModel}">
             <views:HomeView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:LibraryViewModel}">
+            <views:LibraryView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vms:CreateTestViewModel}">
             <views:CreateTestView Margin="20 40"/>
         </DataTemplate>
@@ -66,13 +69,14 @@
                                  Foreground="White"
                                  FontSize="14"
                                  IsChecked="True"
-                                 Command="{Binding CurrentViewModel}"
+                                 Command="{Binding GoToHomeCommand}"
                                  Style="{StaticResource MenuButtonTheme}"/>
                     <!--Library Radio Button-->
                     <RadioButton Content="Library"
                                  Height="50"
                                  Foreground="White"
                                  FontSize="14"
+                                 Command="{Binding GoToLibraryCommand}"
                                  Style="{StaticResource MenuButtonTheme}"/>
                     <!--Subscriptions Radio Button-->
                     <RadioButton Content="Subscriptions"

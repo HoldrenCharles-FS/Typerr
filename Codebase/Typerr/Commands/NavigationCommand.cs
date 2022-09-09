@@ -1,19 +1,25 @@
-﻿using Typerr.Stores;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Typerr.Stores;
+using Typerr.ViewModel;
 
 namespace Typerr.Commands
 {
-    class NavigationCommand : CommandBase
+    public class NavigationCommand : CommandBase
     {
         private readonly NavigationStore _navigationStore;
+        private readonly ViewModelBase _viewModel;
 
-        public NavigationCommand(NavigationStore navigationStore)
+        public NavigationCommand(NavigationStore navigationStore, ViewModelBase viewModel)
         {
             _navigationStore = navigationStore;
+            _viewModel = viewModel;
         }
 
         public override void Execute(object parameter)
         {
-            //_navigationStore.CurrentViewModel = new HomeViewModel();
+            _navigationStore.CurrentViewModel = _viewModel;
         }
     }
 }

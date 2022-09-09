@@ -19,9 +19,7 @@ namespace Typerr
     public partial class App : Application
     {
         private readonly NavigationStore _navigationStore;
-
         public User User { get; set; }
-
 
         public App()
         {
@@ -35,10 +33,13 @@ namespace Typerr
             MainViewModel mainViewModel = new MainViewModel(_navigationStore, User);
             CreateTestTileCommand createTestTileCommand = new CreateTestTileCommand(mainViewModel);
             DialogCloseCommand createTestCloseCommand = new DialogCloseCommand(mainViewModel);
-            GoToLibraryCommand goToLibraryCommand = new GoToLibraryCommand(_navigationStore);
+            NavigationCommand goToLibraryCommand = new NavigationCommand(_navigationStore, new LibraryViewModel(mainViewModel));
             HomeViewModel homeViewModel = new HomeViewModel(mainViewModel, createTestTileCommand, goToLibraryCommand, User);
+            NavigationCommand goToHomeCommand = new NavigationCommand(_navigationStore, homeViewModel);
             CreateTestViewModel createTestViewModel = new CreateTestViewModel(createTestCloseCommand, homeViewModel);
             mainViewModel.CreateTestViewModel = createTestViewModel;
+            mainViewModel.GoToHomeCommand = goToHomeCommand;
+            mainViewModel.GoToLibraryCommand = goToLibraryCommand;
 
             LoadTests(mainViewModel, homeViewModel);
 

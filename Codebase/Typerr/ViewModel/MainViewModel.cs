@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Input;
+using Typerr.Commands;
 using Typerr.Model;
 using Typerr.Stores;
 using Typerr.View;
@@ -10,6 +13,8 @@ namespace Typerr.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
+        public ICommand GoToHomeCommand { get; set; }
+        public ICommand GoToLibraryCommand { get; set; }
         private readonly NavigationStore _navigationStore;
         public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
 
@@ -67,7 +72,6 @@ namespace Typerr.ViewModel
             _navigationStore = navigationStore;
             _user = user;
             _allLibTileViewModels = new ObservableCollection<LibTileViewModel>();
-
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
         }
 

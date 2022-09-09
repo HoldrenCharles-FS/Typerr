@@ -34,7 +34,8 @@
                     Grid.Column="0"
                     Margin="20,0,0,20"
                     >
-                <components:CreateTestTile Grid.Column="0" x:Name="CreateTestButton"/>
+                <components:CreateTestTile Grid.Column="0" 
+                                           x:Name="CreateTestButton"/>
                 <ItemsControl ItemsSource="{Binding LibTileViewModels}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

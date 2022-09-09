@@ -3,10 +3,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Typerr.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             xmlns:local="clr-namespace:Typerr.View" xmlns:viewmodel="clr-namespace:Typerr.ViewModel" xmlns:components="clr-namespace:Typerr.Components" d:DataContext="{d:DesignInstance Type=viewmodel:LibraryViewModel}"
+             mc:Ignorable="d">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Auto">
+
+    <StackPanel Background="White" VerticalAlignment="Top">
+        <TextBlock Text="Library"
+                   Foreground="Black"
+                   FontWeight="Bold"
+                   FontSize="24"
+                   Grid.Column="0"
+                   HorizontalAlignment="Left"
+                   Margin="30,20,0,20"/>
+    <WrapPanel Orientation="Horizontal"
+               Grid.Row="1"
+               Margin="10 0 0 0">
+        <ItemsControl ItemsSource="{Binding LibTiles}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <components:LibTile Margin="0,0,10,10"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </WrapPanel>
+    </StackPanel>
+
+    </ScrollViewer>
 </UserControl>
