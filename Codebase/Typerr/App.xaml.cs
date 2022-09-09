@@ -77,26 +77,33 @@ namespace Typerr
                                 reader.ReadToFollowing("TestModel");
                                 reader.MoveToFirstAttribute();
 
-                                byte[] bytes = Convert.FromBase64String(reader.Value);
-                                MemoryStream memoryStream = new MemoryStream(bytes, 0, bytes.Length);
-                                memoryStream.Write(bytes, 0, bytes.Length);
-                                Image image = Image.FromStream(memoryStream, true);
-
-                                BitmapImage bitmapImage = new BitmapImage();
-                                using (MemoryStream memStream2 = new MemoryStream())
+                                if (reader.Value == "NULL")
                                 {
-                                    image.Save(memStream2, System.Drawing.Imaging.ImageFormat.Png);
-                                    memStream2.Position = 0;
-
-                                    bitmapImage.BeginInit();
-                                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                                    bitmapImage.UriSource = null;
-                                    bitmapImage.StreamSource = memStream2;
-                                    bitmapImage.EndInit();
+                                    testModel.Image = null;
                                 }
-                                memoryStream.Close();
-                                testModel.Image = bitmapImage;
+                                else
+                                {
+                                    byte[] bytes = Convert.FromBase64String(reader.Value);
+                                    MemoryStream memoryStream = new MemoryStream(bytes, 0, bytes.Length);
+                                    memoryStream.Write(bytes, 0, bytes.Length);
+                                    Image image = Image.FromStream(memoryStream, true);
 
+                                    BitmapImage bitmapImage = new BitmapImage();
+                                    using (MemoryStream memStream2 = new MemoryStream())
+                                    {
+                                        image.Save(memStream2, System.Drawing.Imaging.ImageFormat.Png);
+                                        memStream2.Position = 0;
+
+                                        bitmapImage.BeginInit();
+                                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                                        bitmapImage.UriSource = null;
+                                        bitmapImage.StreamSource = memStream2;
+                                        bitmapImage.EndInit();
+                                    }
+                                    memoryStream.Close();
+                                    testModel.Image = bitmapImage;
+                                }
+                                
                                 reader.ReadToFollowing("article");
                                 reader.MoveToFirstAttribute();
                                 testModel.article.title = reader.Value;
