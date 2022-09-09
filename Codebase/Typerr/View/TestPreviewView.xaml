@@ -53,14 +53,17 @@
                 </Border>
                 <StackPanel Grid.Column="1" 
                         VerticalAlignment="Bottom">
-                    <Border Grid.Row="0"
-                                VerticalAlignment="Bottom">
-                        <TextBlock Padding="10 5"
+                    <Border VerticalAlignment="Bottom">
+
+                        <Label Margin="10 5"
                                Foreground="Black"
-                               FontSize="24"
-                               FontWeight="Bold"
-                                TextWrapping="Wrap"
-                                Text="{Binding Title}"/>
+                               FontWeight="Bold">
+                            <Viewbox HorizontalAlignment="Left">
+                            <TextBlock TextWrapping="Wrap" TextTrimming="CharacterEllipsis"
+                               Text="{Binding Title}" MaxHeight="100" FontSize="24" Width="369"/>
+                            </Viewbox>
+                        </Label>
+                        
                     </Border>
                     <Border Grid.Row="1"
                                 VerticalAlignment="Bottom">
@@ -139,7 +142,7 @@
                 <ItemsControl Grid.Column="0" 
                               ItemsSource="{Binding DeleteTestControls}"/>
 
-                
+
                 <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right"
                         Grid.Column="1">

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 using Typerr.Service;
 using Typerr.ViewModel;
 
@@ -27,6 +28,8 @@ namespace Typerr.Commands
             }
 
             _testPreviewViewModel.ModeText = TestService.GetMode(_testPreviewViewModel.User.Mode);
+            _testPreviewViewModel.NumericUpDownVisibility = (_testPreviewViewModel.User.Mode == 0)
+                ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }
