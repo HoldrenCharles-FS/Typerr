@@ -55,7 +55,7 @@
                         VerticalAlignment="Bottom">
                     <Border VerticalAlignment="Bottom">
 
-                        <Label Margin="10 5"
+                        <Label Margin="5"
                                Foreground="Black"
                                FontWeight="Bold">
                             <Viewbox HorizontalAlignment="Left">
@@ -127,12 +127,20 @@
                    Text="Summary"/>
 
             <Grid Grid.Row="2">
-                <TextBlock Padding="25 10"
+                <Label Margin="5"
+                               Foreground="Black">
+                    <Viewbox HorizontalAlignment="Left">
+                        <TextBlock Padding="25 10"
                                Foreground="Black"
                                FontSize="16"
                                 TextWrapping="Wrap"
-                       
+                                   TextTrimming="CharacterEllipsis"
+                               Width="675"
+                                   MaxHeight="275"
                                 Text="{Binding Summary}"/>
+                    </Viewbox>
+                </Label>
+                
             </Grid>
             <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
