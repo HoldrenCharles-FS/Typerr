@@ -69,5 +69,20 @@ namespace Typerr.Service
 
             return text;
         }
+
+        public static string GetMode(int mode)
+        {
+            string text = "";
+            switch (mode)
+            {
+                case 0:
+                    text = "MINUTES";
+                    break;
+                case 1:
+                    text = "MARATHON";
+                    break;
+            }
+            return text;
+        }
     }
 }

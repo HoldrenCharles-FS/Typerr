@@ -3,11 +3,11 @@ using Typerr.ViewModel;
 
 namespace Typerr.Commands
 {
-    public class CreateTestCloseCommand : CommandBase
+    public class DialogCloseCommand : CommandBase
     {
         private readonly MainViewModel _mainViewModel;
 
-        public CreateTestCloseCommand(MainViewModel mainViewModel)
+        public DialogCloseCommand(MainViewModel mainViewModel)
         {
             _mainViewModel = mainViewModel;
         }

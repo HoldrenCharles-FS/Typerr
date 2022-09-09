@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Typerr.Commands;
@@ -9,9 +10,17 @@ using Typerr.Service;
 
 namespace Typerr.ViewModel
 {
+    public enum Mode
+    {
+        Timed,
+        Marathon
+    }
     public class TestPreviewViewModel : ViewModelBase
     {
         public ICommand TestPreviewCloseCommand { get; }
+        public ICommand ModeSwitchLeftCommand { get; }
+        public ICommand ModeSwitchRightCommand { get; }
+        public ICommand StartTestCommand { get; }
         public TestModel TestModel { get; }
 
         public User User { get; private set; }
@@ -72,11 +81,73 @@ namespace Typerr.ViewModel
             }
         }
 
+        private string _modeText;
+        public string ModeText
+        {
+            get
+            {
+                return _modeText;
+            }
+            set
+            {
+                _modeText = value;
+                OnPropertyChanged(nameof(ModeText));
+            }
+        }
+
+        private int _numericUpDownValue;
+        public int NumericUpDownValue
+        {
+            get
+            {
+                return _numericUpDownValue;
+            }
+            set
+            {
+                _numericUpDownValue = value;
+                OnPropertyChanged(nameof(NumericUpDownValue));
+            }
+        }
+
+        private int _numericUpDownWidth;
+        public int NumericUpDownWidth
+        {
+            get
+            {
+                return _numericUpDownWidth;
+            }
+            set
+            {
+                _numericUpDownWidth = value;
+                OnPropertyChanged(nameof(NumericUpDownWidth));
+            }
+        }
+
+        private Visibility _numericUpDownVisibility;
+        public Visibility NumericUpDownVisibility
+        {
+            get
+            {
+                return _numericUpDownVisibility;
+            }
+            set
+            {
+                _numericUpDownVisibility = value;
+                OnPropertyChanged(nameof(NumericUpDownVisibility));
+            }
+        }
+
+        public ObservableCollection<Button> TestPreviewControls { get; private set; }
+
         public TestPreviewViewModel(MainViewModel mainViewModel, TestModel testModel, User user)
         {
             TestModel = testModel;
             User = user;
-            TestPreviewCloseCommand = new CreateTestCloseCommand(mainViewModel);
+            ModeSwitchLeftCommand = new ModeSwitchLeftCommand(this);
+            ModeSwitchRightCommand = new ModeSwitchRightCommand(this);
+            StartTestCommand = new StartTestCommand(this);
+            TestPreviewCloseCommand = new DialogCloseCommand(mainViewModel);
+            TestPreviewControls = new ObservableCollection<Button>();
             Init();
             FormatWordCountAndTimeRemaining();
         }
@@ -86,6 +157,36 @@ namespace Typerr.ViewModel
             Image = TestModel.Image;
             Title = TestModel.article.title;
             Summary = TestModel.article.summary;
+            ModeText = TestService.GetMode(User.Mode);
+            NumericUpDownValue = (User.Mode == 0)
+                ? User.Minutes : 3;
+            NumericUpDownWidth = (User.Mode == 0)
+                ? 60 : 0;
+
+            Button startButton = new Button();
+            Style startButtonStyle = new Style(typeof(Border));
+            startButtonStyle.Setters.Add(new Setter(Border.CornerRadiusProperty, 30));
+            startButton.Resources.Add(new Key(), startButtonStyle);
+            startButton.Content = "Start Test";
+            startButton.Command = StartTestCommand;
+
+            if (TestModel.testData.TestStarted)
+            {
+                Button startTestOverButton = new Button();
+                Style startTestOverButtonStyle = new Style(typeof(Border));
+                startTestOverButton.Resources.Add(new Key(), startTestOverButtonStyle);
+                startTestOverButton.Content = "Start Test Over"; 
+
+                startButton.Content = "Resume Test";
+                startButton.Margin = new Thickness(10, 0, 0, 0);
+
+                TestPreviewControls.Add(startTestOverButton);
+                TestPreviewControls.Add(startButton);
+            }
+            else
+            {
+                TestPreviewControls.Add(startButton);
+            }
         }
 
         private void FormatWordCountAndTimeRemaining()
@@ -108,10 +209,10 @@ namespace Typerr.ViewModel
             { 
                 DateTime date = (DateTime)TestModel.article.pub_date;
 
-                pubDate = date.ToString("MMM dd yyyy");
+                pubDate = date.ToString("MMMM dd yyyy");
             }
 
-            FooterInfo = $"{line1} \nPublish Date: {pubDate} | {wordCount} words, {timeRemaining} remaining";
+            FooterInfo = $"{line1}\nPublish Date: {pubDate}\n{wordCount} words, {timeRemaining} remaining";
         }
     }
 }

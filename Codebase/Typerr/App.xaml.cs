@@ -19,81 +19,32 @@ namespace Typerr
     public partial class App : Application
     {
         private readonly NavigationStore _navigationStore;
-        private User _user;
 
-        public User User
-        {
-            get { return _user; }
-            set { _user = value; }
-        }
+        public User User { get; set; }
 
 
         public App()
         {
             _navigationStore = new NavigationStore();
-            GetUser();
+            User = UserService.Read();
         }
 
-        private void GetUser()
-        {
-            if (File.Exists("user"))
-            {
-                using (FileStream fileStream = File.OpenRead("user"))
-                {
-                    using (XmlReader reader = XmlReader.Create(fileStream))
-                    {
-
-
-                        reader.MoveToContent();
-                        var data = reader.ReadElementContentAsString();
-
-                        User = new User(int.Parse(data));
-                    }
-                }
-
-                Current.Properties["User"] = User;
-            } 
-            else
-            {
-                CreateUser();
-            }
-        }
-
-        private void CreateUser()
-        {
-            FileStream writer = new FileStream(@"user", FileMode.CreateNew);
-
-            using (XmlWriter xmlWriter = XmlWriter.Create(writer))
-            {
-                xmlWriter.WriteElementString("RecentWpm", "33");
-
-                xmlWriter.WriteEndDocument();
-
-                writer.Flush();
-            }
-
-            writer.Close();
-
-            _user = new User(33);
-
-            Current.Properties["User"] = _user;
-        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             MainViewModel mainViewModel = new MainViewModel(_navigationStore);
             CreateTestTileCommand createTestTileCommand = new CreateTestTileCommand(mainViewModel);
-            CreateTestCloseCommand createTestCloseCommand = new CreateTestCloseCommand(mainViewModel);
+            DialogCloseCommand createTestCloseCommand = new DialogCloseCommand(mainViewModel);
             GoToLibraryCommand goToLibraryCommand = new GoToLibraryCommand(_navigationStore);
-            HomeViewModel homeViewModel = new HomeViewModel(mainViewModel, createTestTileCommand, goToLibraryCommand, _user);
+            HomeViewModel homeViewModel = new HomeViewModel(mainViewModel, createTestTileCommand, goToLibraryCommand, User);
             CreateTestViewModel createTestViewModel = new CreateTestViewModel(createTestCloseCommand, homeViewModel);
             mainViewModel.CreateTestViewModel = createTestViewModel;
 
             LoadTests(homeViewModel);
 
             _navigationStore.CurrentViewModel = homeViewModel;
-            MainWindow = new MainWindow() 
-            { 
+            MainWindow = new MainWindow()
+            {
                 DataContext = mainViewModel
             };
             MainWindow.Show();
@@ -130,7 +81,7 @@ namespace Typerr
                                 MemoryStream memoryStream = new MemoryStream(bytes, 0, bytes.Length);
                                 memoryStream.Write(bytes, 0, bytes.Length);
                                 Image image = Image.FromStream(memoryStream, true);
-                                
+
                                 BitmapImage bitmapImage = new BitmapImage();
                                 using (MemoryStream memStream2 = new MemoryStream())
                                 {
@@ -176,7 +127,7 @@ namespace Typerr
                                 {
                                     testModel.article.pub_date = DateTime.Parse(reader.Value);
                                 }
-                                
+
 
                                 reader.MoveToNextAttribute();
                                 testModel.article.image = reader.Value;
@@ -192,7 +143,7 @@ namespace Typerr
                                 testModel.testData.LastPosition = int.Parse(reader.Value);
 
 
-                                
+
                             }
                         }
 
