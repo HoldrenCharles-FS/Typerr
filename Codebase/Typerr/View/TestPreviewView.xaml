@@ -39,13 +39,13 @@
 
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="{Binding ImageColumnWidth}"/>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="46"/>
                 </Grid.ColumnDefinitions>
 
                 <Border Height="180"
-                    Width="300"
+                    Width="{Binding ImageColumnWidth}"
                     Grid.Row="0"
                     Grid.Column="0"
                    HorizontalAlignment="Left">
@@ -60,7 +60,7 @@
                                FontWeight="Bold">
                             <Viewbox HorizontalAlignment="Left">
                             <TextBlock TextWrapping="Wrap" TextTrimming="CharacterEllipsis"
-                               Text="{Binding Title}" MaxHeight="100" FontSize="24" Width="369"/>
+                               Text="{Binding Title}" MaxHeight="100" FontSize="{Binding TitleFontSize}" Width="{Binding TitleColumnWidth}"/>
                             </Viewbox>
                         </Label>
                         

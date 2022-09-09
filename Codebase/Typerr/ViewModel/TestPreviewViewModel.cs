@@ -143,6 +143,11 @@ namespace Typerr.ViewModel
             }
         }
 
+        public int ImageColumnWidth { get; private set; }
+
+        public int TitleColumnWidth { get; private set; }
+        public int TitleFontSize { get; private set; }
+
         public ObservableCollection<Button> TestPreviewControls { get; private set; }
         public ObservableCollection<TextBlock> DeleteTestControls { get; private set; }
         public TextBlock DeleteTextBlock { get; private set; }
@@ -175,6 +180,9 @@ namespace Typerr.ViewModel
                 ? User.Minutes : 3;
             NumericUpDownWidth = (User.Mode == 0)
                 ? 60 : 0;
+            ImageColumnWidth = (Image == null) ? 15 : 300;
+            TitleColumnWidth = (Image == null) ? 775 : 369;
+            TitleFontSize = (Image == null) ? 28 : 24;
 
             Button startButton = new Button();
             Style startButtonStyle = new Style(typeof(Border));
