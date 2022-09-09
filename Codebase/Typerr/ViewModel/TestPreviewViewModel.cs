@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Typerr.Commands;
 using Typerr.Model;
@@ -21,6 +24,9 @@ namespace Typerr.ViewModel
         public ICommand ModeSwitchLeftCommand { get; }
         public ICommand ModeSwitchRightCommand { get; }
         public ICommand StartTestCommand { get; }
+        public ICommand DeleteTestCommand { get; }
+        public ICommand DeleteYesCommand { get; }
+        public ICommand DeleteNoCommand { get; }
         public TestModel TestModel { get; }
 
         public User User { get; private set; }
@@ -138,16 +144,23 @@ namespace Typerr.ViewModel
         }
 
         public ObservableCollection<Button> TestPreviewControls { get; private set; }
+        public ObservableCollection<TextBlock> DeleteTestControls { get; private set; }
+        public TextBlock DeleteTextBlock { get; private set; }
+        public TextBlock YesNoTextBlock { get; private set; }
 
-        public TestPreviewViewModel(MainViewModel mainViewModel, TestModel testModel, User user)
+        public TestPreviewViewModel(HomeViewModel homeViewModel, TestModel testModel, User user)
         {
             TestModel = testModel;
             User = user;
             ModeSwitchLeftCommand = new ModeSwitchLeftCommand(this);
             ModeSwitchRightCommand = new ModeSwitchRightCommand(this);
             StartTestCommand = new StartTestCommand(this);
-            TestPreviewCloseCommand = new DialogCloseCommand(mainViewModel);
+            DeleteTestCommand = new DeleteTestCommand(this);
+            DeleteYesCommand = new DeleteYesCommand(this, homeViewModel);
+            DeleteNoCommand = new DeleteNoCommand(this);
+            TestPreviewCloseCommand = new DialogCloseCommand(homeViewModel.MainViewModel);
             TestPreviewControls = new ObservableCollection<Button>();
+            DeleteTestControls = new ObservableCollection<TextBlock>();
             Init();
             FormatWordCountAndTimeRemaining();
         }
@@ -187,6 +200,35 @@ namespace Typerr.ViewModel
             {
                 TestPreviewControls.Add(startButton);
             }
+
+            DeleteTextBlock = new TextBlock();
+            DeleteTextBlock.Padding = new Thickness(35, 15, 0, 15);
+            DeleteTextBlock.FontSize = 16;
+            Hyperlink deleteHyperlink = new Hyperlink(new Run("Delete test"));
+            deleteHyperlink.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 68, 51));
+            deleteHyperlink.Command = DeleteTestCommand;
+
+            DeleteTextBlock.Inlines.Clear();
+            DeleteTextBlock.Inlines.Add(deleteHyperlink);
+
+            DeleteTestControls.Add(DeleteTextBlock);
+
+            YesNoTextBlock = new TextBlock();
+            YesNoTextBlock.Padding = DeleteTextBlock.Padding;
+            YesNoTextBlock.FontSize = DeleteTextBlock.FontSize;
+            Run areYouSure = new Run("Are you sure: ");
+            Hyperlink yes = new Hyperlink(new Run("Yes"));
+            Run slash = new Run(" / ");
+            Hyperlink no = new Hyperlink(new Run("No"));
+
+            yes.Command = DeleteYesCommand;
+            no.Command = DeleteNoCommand;
+
+            YesNoTextBlock.Inlines.Clear();
+            YesNoTextBlock.Inlines.Add(areYouSure);
+            YesNoTextBlock.Inlines.Add(yes);
+            YesNoTextBlock.Inlines.Add(slash);
+            YesNoTextBlock.Inlines.Add(no);
         }
 
         private void FormatWordCountAndTimeRemaining()

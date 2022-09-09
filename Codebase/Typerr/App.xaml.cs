@@ -32,7 +32,7 @@ namespace Typerr
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            MainViewModel mainViewModel = new MainViewModel(_navigationStore);
+            MainViewModel mainViewModel = new MainViewModel(_navigationStore, User);
             CreateTestTileCommand createTestTileCommand = new CreateTestTileCommand(mainViewModel);
             DialogCloseCommand createTestCloseCommand = new DialogCloseCommand(mainViewModel);
             GoToLibraryCommand goToLibraryCommand = new GoToLibraryCommand(_navigationStore);
@@ -40,7 +40,7 @@ namespace Typerr
             CreateTestViewModel createTestViewModel = new CreateTestViewModel(createTestCloseCommand, homeViewModel);
             mainViewModel.CreateTestViewModel = createTestViewModel;
 
-            LoadTests(homeViewModel);
+            LoadTests(mainViewModel, homeViewModel);
 
             _navigationStore.CurrentViewModel = homeViewModel;
             MainWindow = new MainWindow()
@@ -52,7 +52,7 @@ namespace Typerr
             base.OnStartup(e);
         }
 
-        private void LoadTests(HomeViewModel homeViewModel)
+        private void LoadTests(MainViewModel mainViewModel, HomeViewModel homeViewModel)
         {
             DirectoryInfo dir = new DirectoryInfo("tests");
 
@@ -62,11 +62,11 @@ namespace Typerr
 
             if (files.Length > 0)
             {
-                TestModel testModel = new TestModel();
-                testModel.article = new Article();
-
                 foreach (FileInfo file in files)
                 {
+                    TestModel testModel = new TestModel();
+                    testModel.article = new Article();
+
                     if (file.FullName.EndsWith(".typr") && file.Length > 0)
                     {
                         using (FileStream fileStream = File.OpenRead(file.FullName))
@@ -142,15 +142,16 @@ namespace Typerr
                                 reader.MoveToNextAttribute();
                                 testModel.testData.LastPosition = int.Parse(reader.Value);
 
-
-
+                                testModel.FileName = file;
                             }
                         }
 
-                        homeViewModel.AddLibTile(testModel);
+                        mainViewModel.AddLibTile(testModel, homeViewModel);
                     }
 
                 }
+
+                homeViewModel.RefreshLibrary();
             }
         }
     }

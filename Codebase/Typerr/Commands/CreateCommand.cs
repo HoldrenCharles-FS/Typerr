@@ -59,7 +59,8 @@ namespace Typerr.Commands
 
             writer.Close();
 
-            _homeViewModel.AddLibTile(_createTestViewModel.TestModel);
+            _homeViewModel.MainViewModel.AddLibTile(_createTestViewModel.TestModel, _homeViewModel);
+            _homeViewModel.RefreshLibrary();
 
             // TODO: Reset pubdate and image
             _createTestViewModel.CreateTestCloseCommand.Execute(parameter);

@@ -1,5 +1,10 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Windows;
+using Typerr.Model;
 using Typerr.Stores;
+using Typerr.View;
 
 namespace Typerr.ViewModel
 {
@@ -7,6 +12,12 @@ namespace Typerr.ViewModel
     {
         private readonly NavigationStore _navigationStore;
         public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
+
+        private readonly User _user;
+
+        private readonly ObservableCollection<LibTileViewModel> _allLibTileViewModels;
+
+        public IEnumerable<LibTileViewModel> AllLibTileViewModels => _allLibTileViewModels;
 
         private ViewModelBase _currentDialog;
         public ViewModelBase CurrentDialog
@@ -50,10 +61,12 @@ namespace Typerr.ViewModel
             }
         }
 
-        public MainViewModel(NavigationStore navigationStore)
+        public MainViewModel(NavigationStore navigationStore, User user)
         {
             OverlayVisibility = Visibility.Collapsed;
             _navigationStore = navigationStore;
+            _user = user;
+            _allLibTileViewModels = new ObservableCollection<LibTileViewModel>();
 
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
         }
@@ -61,6 +74,25 @@ namespace Typerr.ViewModel
         private void OnCurrentViewModelChanged()
         {
             OnPropertyChanged(nameof(CurrentViewModel));
+        }
+
+        public void AddLibTile(TestModel testModel, HomeViewModel homeViewModel)
+        {
+            LibTileViewModel libTileViewModel = new LibTileViewModel(homeViewModel, testModel, _user);
+
+            _allLibTileViewModels.Insert(0, libTileViewModel);
+        }
+
+        public void RemoveLibTile(FileInfo fileInfo)
+        {
+            foreach (LibTileViewModel libTile in AllLibTileViewModels)
+            {
+                if (libTile.TestModel.FileName == fileInfo)
+                {
+                    _allLibTileViewModels.Remove(libTile);
+                    break;
+                }
+            }
         }
     }
 }

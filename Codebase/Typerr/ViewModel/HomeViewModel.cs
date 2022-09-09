@@ -12,10 +12,6 @@ namespace Typerr.ViewModel
     {
         private readonly User _user;
 
-        private readonly ObservableCollection<LibTileViewModel> _allLibTileViewModels;
-
-        public IEnumerable<LibTileViewModel> AllLibTileViewModels => _allLibTileViewModels;
-
         private ObservableCollection<LibTileViewModel> _libTileViewModels;
 
         public ObservableCollection<LibTileViewModel> LibTileViewModels
@@ -34,19 +30,14 @@ namespace Typerr.ViewModel
             MainViewModel = mainViewModel;
             CreateTestTileCommand = createTestTileCommand;
             GoToLibraryCommand = goToLibraryCommand;
-            _allLibTileViewModels = new ObservableCollection<LibTileViewModel>();
             _libTileViewModels = new ObservableCollection<LibTileViewModel>();
             _user = user;
+            RefreshLibrary();
         }
 
-        public void AddLibTile(TestModel testModel)
+        public void RefreshLibrary()
         {
-            LibTileViewModel libTileViewModel = new LibTileViewModel(MainViewModel, testModel, _user);
-
-            _allLibTileViewModels.Insert(0, libTileViewModel);
-           
-
-            IEnumerable<LibTileViewModel> result = _allLibTileViewModels.Take(6);
+            IEnumerable<LibTileViewModel> result = MainViewModel.AllLibTileViewModels.Take(6);
 
             LibTileViewModels.Clear();
 

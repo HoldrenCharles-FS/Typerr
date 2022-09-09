@@ -136,13 +136,10 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0"
-                           Padding="35 15 0 0"
-                           FontSize="16">
-                <Hyperlink NavigateUri="" 
-                           Foreground="#F43">
-                    Delete test</Hyperlink>
-                </TextBlock>
+                <ItemsControl Grid.Column="0" 
+                              ItemsSource="{Binding DeleteTestControls}"/>
+
+                
                 <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right"
                         Grid.Column="1">

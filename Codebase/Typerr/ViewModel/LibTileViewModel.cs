@@ -112,11 +112,11 @@ namespace Typerr.View
             }
         }
 
-        public LibTileViewModel(MainViewModel mainViewModel, TestModel testModel, User user)
+        public LibTileViewModel(HomeViewModel homeViewModel, TestModel testModel, User user)
         {
             TestModel = testModel;
             User = user;
-            LibTileCommand = new LibTileCommand(mainViewModel, new TestPreviewViewModel(mainViewModel, TestModel, User));
+            LibTileCommand = new LibTileCommand(homeViewModel.MainViewModel, new TestPreviewViewModel(homeViewModel, testModel, user));
             Init();
             
         }
