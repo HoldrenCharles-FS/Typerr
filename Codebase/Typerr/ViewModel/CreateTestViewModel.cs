@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Typerr.Commands;
@@ -61,9 +62,14 @@ namespace Typerr.ViewModel
                     SidebarEnabled = false;
                     CreateButtonEnabled = false;
                 }
-                if (Uri.IsWellFormedUriString(_textArea, UriKind.Absolute))
+                if (Uri.IsWellFormedUriString(_textArea, UriKind.Absolute) || Uri.IsWellFormedUriString(Url, UriKind.Absolute))
                 {
                     GetTestButtonEnabled = true;
+                    if (Uri.IsWellFormedUriString(_textArea, UriKind.Absolute) && !ObtainedUrl)
+                    {
+                        Url = _textArea;
+                        ObtainedUrl = true;
+                    }
                 }
                 else
                 {
@@ -193,6 +199,20 @@ namespace Typerr.ViewModel
                 OnPropertyChanged(nameof(Image));
             }
         }
+
+        private string _url;
+        public string Url
+        {
+            get
+            {
+                return _url;
+            }
+            set
+            {
+                _url = value;
+                OnPropertyChanged(nameof(Url));
+            }
+        }
         #endregion
 
         private string _uploadImagePrompt;
@@ -290,6 +310,8 @@ namespace Typerr.ViewModel
             }
         }
 
+        public bool ObtainedUrl { get; private set; } = false;
+
         public static string DefaultMessage { get; } = "Paste a URL here or begin typing to create your test";
 
         // Number obtained from actualheight property from the side column single row textbox's default height
@@ -309,6 +331,7 @@ namespace Typerr.ViewModel
             SidebarEnabled = false;
             GetTestButtonEnabled = false;
             TestModel = new TestModel();
+            
         }
     }
 }

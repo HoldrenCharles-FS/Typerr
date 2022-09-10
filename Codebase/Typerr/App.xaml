@@ -8,6 +8,102 @@
                 <ResourceDictionary Source="Theme/MenuButtonTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <SolidColorBrush x:Key="AppTheme" Color="#2d9bf0"/>
+            <Style x:Key="PrimaryButtonTheme" TargetType="Button">
+ 
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontWeight" Value="Medium"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="BorderThickness" Value="0"/>
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="Border" 
+                                    Background="{TemplateBinding Background}"
+                                    CornerRadius="5">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                                  VerticalAlignment="Center"
+                                                  Margin="10"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled"
+                                         Value="True">
+                                    <Setter Property="Background"
+                                            Value="#2d9bf0"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" 
+                                         Value="True">
+                                    <Setter Property="Background" 
+                                            Value="#32a6ff"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" 
+                                         Value="True">
+                                    <Setter Property="Background" 
+                                            Value="#2374b2"/>
+                                </Trigger>
+                                
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="SecondaryButtonTheme" TargetType="Button">
+
+                <Setter Property="FontWeight" Value="Medium"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="BorderThickness" Value="3"/>
+                <Setter Property="BorderBrush" Value="#2d9bf0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="Border" 
+                                    CornerRadius="5"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                                  VerticalAlignment="Center"
+                                                  Margin="10"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled"
+                                         Value="True">
+                                    <Setter Property="Background"
+                                            Value="White"/>
+                                    <Setter Property="Foreground"
+                                            Value="#2d9bf0"/>
+                                    <Setter Property="BorderBrush"
+                                            Value="#2d9bf0"/>
+                                    <Setter Property="BorderThickness"
+                                            Value="3"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled"
+                                         Value="False">
+                                    <Setter Property="BorderThickness"
+                                            Value="0"/>
+                                    <Setter Property="Foreground"
+                                            Value="White"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" 
+                                         Value="True">
+                                    <Setter Property="Background" 
+                                            Value="#eee"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" 
+                                         Value="True">
+                                    <Setter Property="Background" 
+                                            Value="#ddd"/>
+                                </Trigger>
+
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -101,6 +101,7 @@ namespace Typerr.ViewModel
             }
         }
 
+
         private int _numericUpDownValue;
         public int NumericUpDownValue
         {
@@ -140,6 +141,48 @@ namespace Typerr.ViewModel
             {
                 _numericUpDownVisibility = value;
                 OnPropertyChanged(nameof(NumericUpDownVisibility));
+            }
+        }
+
+        private string _startTestText;
+        public string StartTestText
+        {
+            get
+            {
+                return _startTestText;
+            }
+            set
+            {
+                _startTestText = value;
+                OnPropertyChanged(nameof(StartTestText));
+            }
+        }
+
+        private Visibility _startTestOverVisibility;
+        public Visibility StartTestOverVisibility
+        {
+            get
+            {
+                return _startTestOverVisibility;
+            }
+            set
+            {
+                _startTestOverVisibility = value;
+                OnPropertyChanged(nameof(StartTestOverVisibility));
+            }
+        }
+
+        private double _startTestOverWidth;
+        public double StartTestOverWidth
+        {
+            get
+            {
+                return _startTestOverWidth;
+            }
+            set
+            {
+                _startTestOverWidth = value;
+                OnPropertyChanged(nameof(StartTestOverWidth));
             }
         }
 
@@ -183,17 +226,19 @@ namespace Typerr.ViewModel
             ImageColumnWidth = (Image == null) ? 15 : 300;
             TitleColumnWidth = (Image == null) ? 775 : 369;
             TitleFontSize = (Image == null) ? 28 : 24;
+            StartTestText = TestModel.testData.TestStarted ? "Resume Test" : "Start Test";
+            StartTestOverVisibility = TestModel.testData.TestStarted ? Visibility.Visible : Visibility.Hidden;
+            StartTestOverWidth = TestModel.testData.TestStarted ? double.NaN : 0;
 
             Button startButton = new Button();
-            Style startButtonStyle = new Style(typeof(Border));
-            startButtonStyle.Setters.Add(new Setter(Border.CornerRadiusProperty, 30));
-            startButton.Resources.Add(new Key(), startButtonStyle);
+            startButton.Style = Application.Current.TryFindResource("PrimaryButtonTheme") as Style;
             startButton.Content = "Start Test";
             startButton.Command = StartTestCommand;
 
             if (TestModel.testData.TestStarted)
             {
                 Button startTestOverButton = new Button();
+                startTestOverButton.Style = Application.Current.TryFindResource("SecondaryButtonTheme") as Style;
                 Style startTestOverButtonStyle = new Style(typeof(Border));
                 startTestOverButton.Resources.Add(new Key(), startTestOverButtonStyle);
                 startTestOverButton.Content = "Start Test Over"; 

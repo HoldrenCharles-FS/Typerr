@@ -5,7 +5,7 @@
              xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Typerr.View" 
-             xmlns:viewmodel="clr-namespace:Typerr.ViewModel" 
+             xmlns:viewmodel="clr-namespace:Typerr.ViewModel" xmlns:components="clr-namespace:Typerr.Components"
              d:DataContext="{d:DesignInstance Type=viewmodel:CreateTestViewModel}"
              mc:Ignorable="d">
     <Grid Background="White">
@@ -31,7 +31,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="65"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" 
                    Content="Create a New Test"
@@ -62,16 +62,23 @@
                 </Grid.ColumnDefinitions>
                 <Button x:Name="OpenFromFileButton" 
                         Grid.Column="0"
-                        Content="Import from text file..." 
+                        Content="Import from file..." 
                         HorizontalAlignment="Left"
-                        Margin="10"
+                        Style="{StaticResource SecondaryButtonTheme}"
                         Command="{Binding OpenFromFileCommand}"/>
                 <Button x:Name="GetTestButton"
                         Grid.Column="2"
                         Content="Get Test" 
-                        Margin="10"
+                        Style="{StaticResource SecondaryButtonTheme}"
                         Command="{Binding GetTestCommand}"
-                        IsEnabled="{Binding GetTestButtonEnabled, UpdateSourceTrigger=PropertyChanged}"/>
+                        IsEnabled="{Binding GetTestButtonEnabled, UpdateSourceTrigger=PropertyChanged}">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" 
+                        Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
             </Grid>
         </Grid>
         <Grid Grid.Column="1">
@@ -151,28 +158,28 @@
                                Margin="-7 0 0 0"
                                Foreground="{Binding DeleteForeground}"/>
                     </Grid>
-                    
-                <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+
+                    <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
                          Foreground="{Binding ForegroundColor}"
                          Height="80"
                          IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
-                <Label Content="Author"
+                    <Label Content="Author"
                        Foreground="{Binding ForegroundColor}"/>
                     <TextBox Text="{Binding Author, UpdateSourceTrigger=PropertyChanged}"
                          Foreground="{Binding ForegroundColor}"
                          Height="{Binding SingleRowHeight}"
                          IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
-                <Label Content="Source"
+                    <Label Content="Source"
                        Foreground="{Binding ForegroundColor}"
                        IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBox Text="{Binding Source, UpdateSourceTrigger=PropertyChanged}"
                          Foreground="{Binding ForegroundColor}"
                          Height="{Binding SingleRowHeight}"
                          IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
-                <Label Content="Publish Date"
+                    <Label Content="Publish Date"
                        Foreground="{Binding ForegroundColor}"
                        IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
-                <DatePicker x:Name="PublishDatePicker" 
+                    <DatePicker x:Name="PublishDatePicker" 
                             Foreground="{Binding ForegroundColor}"
                             SelectedDate="{Binding PublishDate}" 
                             Height="{Binding SingleRowHeight}"
@@ -186,92 +193,92 @@
                              Foreground="{Binding ForegroundColor}"
                              Height="120"
                              IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
-                <Label Content="Image"
+                    <Label Content="Image"
                        Foreground="{Binding ForegroundColor}"
                        IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}"/>
-                <Border Height="144"
+                    <Border Height="144"
                         BorderThickness="0.5"
                         BorderBrush="{Binding ForegroundColor}"
                         Margin="0 0 10 0"
                         IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}">
-                    <Grid>
-                        <Image Source="{Binding Image, UpdateSourceTrigger=PropertyChanged}"
+                        <Grid>
+                            <Image Source="{Binding Image, UpdateSourceTrigger=PropertyChanged}"
                        Stretch="UniformToFill"/>
 
-                        <Button x:Name="ImageButton" 
+                            <Button x:Name="ImageButton" 
                                 Width="auto"
                                 Height="auto"
                                 OpacityMask="#222"
                                 BorderThickness="0"
                                 Command="{Binding AddImageCommand}">
 
-                            <Button.Style>
-                                <Style TargetType="{x:Type Button}">
-                                    
-                                    <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <Border x:Name="Border" 
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type Button}">
+                                                    <Border x:Name="Border" 
                                                 Background="{TemplateBinding Background}">
-                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                        <ContentPresenter HorizontalAlignment="Center" 
                                                               VerticalAlignment="Center" />
-                                            </Border>
-                                            
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" 
+                                                    </Border>
+
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" 
                                                      Value="True">
-                                                        <Setter Property="Background" 
+                                                            <Setter Property="Background" 
                                                         Value="#bbfdfdfd" 
                                                         TargetName="Border" />
 
-                                                    </Trigger>
-                                                <Trigger Property="IsPressed" 
+                                                        </Trigger>
+                                                        <Trigger Property="IsPressed" 
                                                      Value="True">
-                                                    <Setter Property="Background" 
+                                                            <Setter Property="Background" 
                                                         Value="#a8aaaaaa" 
                                                         TargetName="Border" />
-                                                </Trigger>
-                                                    
-                                                </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Content" 
+                                                        </Trigger>
+
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Content" 
                                                     Value="{Binding UploadImagePrompt, UpdateSourceTrigger=PropertyChanged}"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                        </Button.Style>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
 
-                            <Button.Background>
-                                <LinearGradientBrush StartPoint="2,0" 
+                                <Button.Background>
+                                    <LinearGradientBrush StartPoint="2,0" 
                                              EndPoint="2,6">
-                                    <GradientStop Color="Transparent" 
+                                        <GradientStop Color="Transparent" 
                                           Offset="0.0"/>
-                                    <GradientStop Color="#fdfdfd" 
+                                        <GradientStop Color="#fdfdfd" 
                                           Offset="1"/>
-                                </LinearGradientBrush>
-                            </Button.Background>
+                                    </LinearGradientBrush>
+                                </Button.Background>
 
-                        </Button>
-                    </Grid>
-                </Border>
-                <TextBlock>
+                            </Button>
+                        </Grid>
+                    </Border>
+                    <TextBlock>
                 <Hyperlink NavigateUri="" 
                            Foreground="{Binding DeleteForeground}" 
                            Command="{Binding RemoveImageCommand}"
                            IsEnabled="{Binding SidebarEnabled, UpdateSourceTrigger=PropertyChanged}">
                     Delete picture</Hyperlink>
                     </TextBlock>
-            </StackPanel>
+                </StackPanel>
             </ScrollViewer>
             <Button Grid.Row="2"
-                    Content="Create Test" 
-                    HorizontalAlignment="Right"
-                    Margin="10"
+                    Content="Create Test"
+                    Style="{StaticResource PrimaryButtonTheme}"
                     Command="{Binding CreateCommand}"
+                    HorizontalAlignment="Right"
                     IsEnabled="{Binding CreateButtonEnabled, UpdateSourceTrigger=PropertyChanged}">
             </Button>
         </Grid>
