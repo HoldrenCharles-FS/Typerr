@@ -13,8 +13,6 @@ namespace Typerr.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        public ICommand GoToHomeCommand { get; set; }
-        public ICommand GoToLibraryCommand { get; set; }
         private readonly NavigationStore _navigationStore;
         public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
 
@@ -51,6 +49,8 @@ namespace Typerr.ViewModel
                 OnPropertyChanged(nameof(CurrentPanel));
             }
         }
+
+        public NavPanelViewModel NavPanelViewModel { get; set; }
 
         private Visibility _overlayVisibility;
         public Visibility OverlayVisibility

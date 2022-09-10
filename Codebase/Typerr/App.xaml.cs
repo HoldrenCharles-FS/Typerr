@@ -33,14 +33,16 @@ namespace Typerr
             MainViewModel mainViewModel = new MainViewModel(_navigationStore, User);
             CreateTestTileCommand createTestTileCommand = new CreateTestTileCommand(mainViewModel);
             DialogCloseCommand createTestCloseCommand = new DialogCloseCommand(mainViewModel);
-            NavigationCommand goToLibraryCommand = new NavigationCommand(_navigationStore, new LibraryViewModel(mainViewModel));
-            HomeViewModel homeViewModel = new HomeViewModel(mainViewModel, createTestTileCommand, goToLibraryCommand, User);
-            NavigationCommand goToHomeCommand = new NavigationCommand(_navigationStore, homeViewModel);
+            NavigationCommand goToLibraryCommand = new NavigationCommand(_navigationStore, new LibraryViewModel(mainViewModel), mainViewModel, NavigationOption.None);
+            NavigationCommand goToLibraryButtonCommand = new NavigationCommand(_navigationStore, new LibraryViewModel(mainViewModel), mainViewModel, NavigationOption.GoToLibraryButton);
+            HomeViewModel homeViewModel = new HomeViewModel(mainViewModel, createTestTileCommand, goToLibraryButtonCommand, User);
+            NavigationCommand goToHomeCommand = new NavigationCommand(_navigationStore, homeViewModel, mainViewModel, NavigationOption.None);
             CreateTestViewModel createTestViewModel = new CreateTestViewModel(createTestCloseCommand, homeViewModel);
             mainViewModel.CreateTestViewModel = createTestViewModel;
-            mainViewModel.GoToHomeCommand = goToHomeCommand;
-            mainViewModel.GoToLibraryCommand = goToLibraryCommand;
-            mainViewModel.CurrentPanel = new NavPanelViewModel(goToHomeCommand, goToLibraryCommand);
+            NavPanelViewModel navPanelViewModel = new NavPanelViewModel(goToHomeCommand, goToLibraryCommand);
+            mainViewModel.NavPanelViewModel = navPanelViewModel;
+            mainViewModel.CurrentPanel = mainViewModel.NavPanelViewModel;
+            homeViewModel.NavPanelViewModel = navPanelViewModel;
 
             LoadTests(mainViewModel, homeViewModel);
 

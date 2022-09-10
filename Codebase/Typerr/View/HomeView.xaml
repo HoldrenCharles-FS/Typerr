@@ -52,13 +52,11 @@
             </ScrollViewer>
             <Button x:Name="GoToLibraryButton" 
                     Grid.Column="1"
-                Background="White"
+                    Background="White"
                     HorizontalAlignment="Right"
                     BorderThickness="0" 
                     Width="46" 
-                   
-                    Command="{Binding GoToLibraryCommand}"
-                    >
+                    Command="{Binding GoToLibraryCommand}">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Template">

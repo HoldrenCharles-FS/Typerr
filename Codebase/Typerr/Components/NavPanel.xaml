@@ -3,38 +3,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Typerr.Components"
+             xmlns:local="clr-namespace:Typerr.Components" xmlns:viewmodel="clr-namespace:Typerr.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:NavPanelViewModel}"
              mc:Ignorable="d">
     <StackPanel>
         <!--App Title-->
         <TextBlock Text="Typerr"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left"
-                               Margin="30,20,0,52"
-                               Foreground="White"
-                               FontSize="28"/>
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
+                   Margin="30,20,0,52"
+                   Foreground="White"
+                   FontSize="28"/>
         <!--Home Radio Button-->
-        <RadioButton Content="Home"
-                                 Height="50"
-                                 Foreground="White"
-                                 FontSize="14"
-                                 IsChecked="True"
-                                 Command="{Binding GoToHomeCommand}"
-                                 Style="{StaticResource MenuButtonTheme}"/>
+        <RadioButton x:Name="HomeRadioButton"
+                     GroupName="NavButtons"
+                     Content="Home"
+                     Height="50"                               
+                     Foreground="White"                                 
+                     FontSize="14"                                 
+                     IsChecked="{Binding RadioHomeIsChecked}"                                
+                     Command="{Binding GoToHomeCommand}"                                 
+                     Style="{StaticResource MenuButtonTheme}"/>
         <!--Library Radio Button-->
-        <RadioButton Content="Library"
-                                 Height="50"
-                                 Foreground="White"
-                                 FontSize="14"
-                                 Command="{Binding GoToLibraryCommand}"
-                                 Style="{StaticResource MenuButtonTheme}"/>
+        <RadioButton x:Name="LibraryRadioButton" 
+                     GroupName="NavButtons"
+                     Content="Library"                       
+                     Height="50"                                                    
+                     Foreground="White"                               
+                     FontSize="14"      
+                     IsChecked="{Binding RadioLibraryIsChecked}"
+                     Command="{Binding GoToLibraryCommand}"                                 
+                     Style="{StaticResource MenuButtonTheme}"/>
         <!--Subscriptions Radio Button-->
-        <RadioButton Content="Subscriptions"
-                                 Height="50"
-                                 IsEnabled="False"
-                                 Foreground="#bbb"
-                                 FontSize="14"
-                                 Style="{StaticResource MenuButtonTheme}"/>
+        <RadioButton x:Name="SubscriptionsRadioButton"  
+                     Content="Subscriptions"           
+                     GroupName="NavButtons"
+                     Height="50"                                 
+                     IsEnabled="False"                                 
+                     Foreground="#bbb"                                 
+                     FontSize="14"                                 
+                     Style="{StaticResource MenuButtonTheme}"/>
 
     </StackPanel>
 </UserControl>

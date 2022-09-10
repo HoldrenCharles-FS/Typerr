@@ -21,6 +21,7 @@ namespace Typerr.ViewModel
         }
 
         public MainViewModel MainViewModel { get; }
+        public NavPanelViewModel NavPanelViewModel { get; set; }
         public ICommand CreateTestTileCommand { get; }
         public ICommand GoToLibraryCommand { get; }
 
