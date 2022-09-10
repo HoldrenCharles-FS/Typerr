@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Typerr"
         xmlns:views="clr-namespace:Typerr.View"
         xmlns:vms="clr-namespace:Typerr.ViewModel"
-        xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome" 
+        xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome" xmlns:components="clr-namespace:Typerr.Components"
         d:DataContext="{d:DesignInstance Type=vms:MainViewModel}"
         mc:Ignorable="d"
         Height="650" Width="1000"
@@ -14,9 +14,12 @@
         WindowState="Maximized"
         ResizeMode="CanResize"
         FontSize="14"
-        MinHeight="650" MinWidth="1000">
+        MinHeight="650" MinWidth="1090">
     
     <Window.Resources>
+        <DataTemplate DataType="{x:Type vms:NavPanelViewModel}">
+            <components:NavPanel/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vms:HomeViewModel}">
             <views:HomeView/>
         </DataTemplate>
@@ -55,38 +58,10 @@
             <Border Background="{StaticResource AppTheme}" 
                     Width="auto" 
                     Height="auto">
-                <StackPanel>
-                    <!--App Title-->
-                    <TextBlock Text="Typerr"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left"
-                               Margin="30,20,0,52"
-                               Foreground="White"
-                               FontSize="28"/>
-                    <!--Home Radio Button-->
-                    <RadioButton Content="Home"
-                                 Height="50"
-                                 Foreground="White"
-                                 FontSize="14"
-                                 IsChecked="True"
-                                 Command="{Binding GoToHomeCommand}"
-                                 Style="{StaticResource MenuButtonTheme}"/>
-                    <!--Library Radio Button-->
-                    <RadioButton Content="Library"
-                                 Height="50"
-                                 Foreground="White"
-                                 FontSize="14"
-                                 Command="{Binding GoToLibraryCommand}"
-                                 Style="{StaticResource MenuButtonTheme}"/>
-                    <!--Subscriptions Radio Button-->
-                    <RadioButton Content="Subscriptions"
-                                 Height="50"
-                                 IsEnabled="False"
-                                 Foreground="#bbb"
-                                 FontSize="14"
-                                 Style="{StaticResource MenuButtonTheme}"/>
-
-                </StackPanel>
+                <ContentControl x:Name="SidebarArea" 
+                            Content="{Binding CurrentPanel}"
+                            Grid.Column="1" 
+                            Grid.Row="1"/>
             </Border>
         </Grid>
 

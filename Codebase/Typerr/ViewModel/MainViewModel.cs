@@ -38,6 +38,20 @@ namespace Typerr.ViewModel
             }
         }
 
+        private ViewModelBase _currentPanel;
+        public ViewModelBase CurrentPanel
+        {
+            get
+            {
+                return _currentPanel;
+            }
+            set
+            {
+                _currentPanel = value;
+                OnPropertyChanged(nameof(CurrentPanel));
+            }
+        }
+
         private Visibility _overlayVisibility;
         public Visibility OverlayVisibility
         {

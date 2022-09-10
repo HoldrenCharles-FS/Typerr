@@ -40,6 +40,7 @@ namespace Typerr
             mainViewModel.CreateTestViewModel = createTestViewModel;
             mainViewModel.GoToHomeCommand = goToHomeCommand;
             mainViewModel.GoToLibraryCommand = goToLibraryCommand;
+            mainViewModel.CurrentPanel = new NavPanelViewModel(goToHomeCommand, goToLibraryCommand);
 
             LoadTests(mainViewModel, homeViewModel);
 
