@@ -4,6 +4,7 @@ using System.Windows.Media.Imaging;
 using Typerr.Commands;
 using Typerr.Model;
 using Typerr.Service;
+using Typerr.Stores;
 using Typerr.ViewModel;
 
 namespace Typerr.View
@@ -11,6 +12,9 @@ namespace Typerr.View
     public class LibTileViewModel : ViewModelBase
     {
         public LibTileCommand LibTileCommand { get; }
+
+        private readonly NavigationStore _navigationStore;
+
         public TestModel TestModel { get; private set; }
         public User User { get; private set; }
 
@@ -112,11 +116,12 @@ namespace Typerr.View
             }
         }
 
-        public LibTileViewModel(HomeViewModel homeViewModel, TestModel testModel, User user)
+        public LibTileViewModel(NavigationStore navigationStore, HomeViewModel homeViewModel, TestModel testModel, User user)
         {
+            _navigationStore = navigationStore;
             TestModel = testModel;
             User = user;
-            LibTileCommand = new LibTileCommand(homeViewModel.MainViewModel, new TestPreviewViewModel(homeViewModel, testModel, user));
+            LibTileCommand = new LibTileCommand(homeViewModel.MainViewModel, new TestPreviewViewModel(_navigationStore, homeViewModel, testModel, user));
             Init();
             
         }

@@ -249,7 +249,8 @@
                             Visibility="{Binding StartTestOverVisibility}"
                             Width="{Binding StartTestOverWidth}"/>
                     <Button Content="{Binding StartTestText}"
-                            Style="{StaticResource PrimaryButtonTheme}"/>
+                            Style="{StaticResource PrimaryButtonTheme}"
+                            Command="{Binding StartTestCommand}"/>
                     <!--<ItemsControl ItemsSource="{Binding TestPreviewControls}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>

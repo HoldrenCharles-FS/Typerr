@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using Typerr.Commands;
 using Typerr.Model;
 using Typerr.Service;
+using Typerr.Stores;
 
 namespace Typerr.ViewModel
 {
@@ -196,13 +197,13 @@ namespace Typerr.ViewModel
         public TextBlock DeleteTextBlock { get; private set; }
         public TextBlock YesNoTextBlock { get; private set; }
 
-        public TestPreviewViewModel(HomeViewModel homeViewModel, TestModel testModel, User user)
+        public TestPreviewViewModel(NavigationStore navigationStore, HomeViewModel homeViewModel, TestModel testModel, User user)
         {
             TestModel = testModel;
             User = user;
             ModeSwitchLeftCommand = new ModeSwitchLeftCommand(this);
             ModeSwitchRightCommand = new ModeSwitchRightCommand(this);
-            StartTestCommand = new StartTestCommand(this);
+            StartTestCommand = new StartTestCommand(navigationStore, this);
             DeleteTestCommand = new DeleteTestCommand(this);
             DeleteYesCommand = new DeleteYesCommand(this, homeViewModel);
             DeleteNoCommand = new DeleteNoCommand(this);

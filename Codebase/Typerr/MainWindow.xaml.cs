@@ -3,6 +3,8 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Input;
+using Typerr.ViewModel;
 
 namespace Typerr
 {
@@ -95,6 +97,7 @@ namespace Typerr
 
         #endregion, 
 
+        private int _position = 0;
 
         public MainWindow()
         {
@@ -118,8 +121,8 @@ namespace Typerr
 
         private void Overlay_Loaded(object sender, RoutedEventArgs e)
         {
-            
-           
+
+
         }
     }
 }

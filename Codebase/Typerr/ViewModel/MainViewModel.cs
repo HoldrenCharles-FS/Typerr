@@ -80,6 +80,7 @@ namespace Typerr.ViewModel
             }
         }
 
+
         public MainViewModel(NavigationStore navigationStore, User user)
         {
             OverlayVisibility = Visibility.Collapsed;
@@ -96,7 +97,7 @@ namespace Typerr.ViewModel
 
         public void AddLibTile(TestModel testModel, HomeViewModel homeViewModel)
         {
-            LibTileViewModel libTileViewModel = new LibTileViewModel(homeViewModel, testModel, _user);
+            LibTileViewModel libTileViewModel = new LibTileViewModel(_navigationStore, homeViewModel, testModel, _user);
 
             _allLibTileViewModels.Insert(0, libTileViewModel);
         }
@@ -112,5 +113,6 @@ namespace Typerr.ViewModel
                 }
             }
         }
+
     }
 }
