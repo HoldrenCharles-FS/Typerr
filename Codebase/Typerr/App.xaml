@@ -8,6 +8,16 @@
                 <ResourceDictionary Source="Theme/MenuButtonTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <SolidColorBrush x:Key="AppTheme" Color="#2d9bf0"/>
+            <Style x:Key="TestLabelTheme" TargetType="Label">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="18"/>
+            </Style>
+            <Style x:Key="TestDataTheme" TargetType="Label">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="36"/>
+            </Style>
             <Style x:Key="PrimaryButtonTheme" TargetType="Button">
  
                 <Setter Property="Foreground" Value="White"/>

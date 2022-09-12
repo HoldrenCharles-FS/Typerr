@@ -203,7 +203,7 @@ namespace Typerr.ViewModel
             User = user;
             ModeSwitchLeftCommand = new ModeSwitchLeftCommand(this);
             ModeSwitchRightCommand = new ModeSwitchRightCommand(this);
-            StartTestCommand = new StartTestCommand(navigationStore, this);
+            StartTestCommand = new StartTestCommand(navigationStore, this, homeViewModel.MainViewModel);
             DeleteTestCommand = new DeleteTestCommand(this);
             DeleteYesCommand = new DeleteYesCommand(this, homeViewModel);
             DeleteNoCommand = new DeleteNoCommand(this);
