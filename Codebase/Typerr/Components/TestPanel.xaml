@@ -11,6 +11,9 @@
     <Viewbox Margin="0 25">
     <StackPanel VerticalAlignment="Top"
                 HorizontalAlignment="Center">
+            <StackPanel.Resources>
+                
+            </StackPanel.Resources>
         <Button Width="105"
                 Height="105"
                 Background="{StaticResource AppTheme}"
@@ -37,22 +40,31 @@
             </Button.Template>
 
         </Button>
-        <Button Width="75"
+        <Button x:Name="PauseButton" 
+                Width="75"
                 Height="75"
                 Background="{StaticResource AppTheme}"
                 Margin="0 0 0 10"
                 Command="{Binding PauseTestCommand}">
             <Button.Template>
-                <ControlTemplate TargetType="Button">
-                <Grid>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
                 <Ellipse Width="70"
                          Height="70"
                          Stroke="White"
                          Fill="{StaticResource AppTheme}"
                          StrokeThickness="4.5"/>
-                <StackPanel Orientation="Horizontal"
+                            
+                            <!--<StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center">
-                    <Border Width="10"
+                                <Polygon Points="5,5, 5,30 30,17 30,17"
+                                         Stroke="White"
+                                         StrokeThickness="1.5"
+                                         Fill="White"
+                                         Height="35"
+                                         Width="35"
+                                         />
+                                <Border Width="10"
                             Height="35"
                             Margin="4 0"
                             BorderBrush="White"
@@ -66,19 +78,21 @@
                             Background="White"
                             BorderThickness="2"
                             CornerRadius="0.5"/>
-                </StackPanel>
+                </StackPanel>-->
                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
                 </ControlTemplate>
             </Button.Template>
-        </Button>
+                <ContentControl Content="{Binding PausePanel}"
+                                IsHitTestVisible="False"/>
+            </Button>
         
         <Label Content="Current WPM"
                Style="{StaticResource TestLabelTheme}"/>
         <Label Content="{Binding CurrentWPM}"
                Style="{StaticResource TestDataTheme}"
                Margin="0 0 0 10"/>
-        
+         
         <!--Mode Dependent-->
         <Label Content="{Binding ModeLabel}"
                Style="{StaticResource TestLabelTheme}"/>
@@ -105,3 +119,4 @@
     </StackPanel>
     </Viewbox>
 </UserControl>
+ 

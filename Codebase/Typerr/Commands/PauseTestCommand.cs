@@ -16,7 +16,7 @@ namespace Typerr.Commands
 
         public override void Execute(object parameter)
         {
-            Console.WriteLine();
+            _testPanelViewModel.IsPaused = !_testPanelViewModel.IsPaused;
         }
     }
 }
