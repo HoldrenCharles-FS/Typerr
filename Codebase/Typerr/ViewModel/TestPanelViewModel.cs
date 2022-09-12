@@ -141,11 +141,11 @@ namespace Typerr.ViewModel
         public Rectangle PauseBar2 { get; private set; }
         public Polygon StartIcon { get; private set; }
 
-        public TestPanelViewModel(User user, int wordCount)
+        public TestPanelViewModel(User user, int wordCount, MainViewModel mainViewModel)
         {
             _user = user;
             
-            StopTestCommand = new StopTestCommand(this);
+            StopTestCommand = new StopTestCommand(this, mainViewModel);
             PauseTestCommand = new PauseTestCommand(this);
             Init(wordCount);
         }
@@ -208,6 +208,15 @@ namespace Typerr.ViewModel
 
             if (MinutesElapsed == _user.Minutes)
             {
+                _timer.Stop();
+                _updateTimer.Stop();
+
+                if (_user.Mode == 0)
+                {
+                    ModeData = "0:00";
+                }
+                TimeElapsed = $"{_user.Minutes}:00";
+
                 StopTestCommand.Execute(null);
             }
         }

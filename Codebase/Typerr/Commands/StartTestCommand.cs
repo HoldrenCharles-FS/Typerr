@@ -31,7 +31,7 @@ namespace Typerr.Commands
             _testPreviewViewModel.TestPreviewCloseCommand.Execute(parameter);
 
             _navigationStore.CurrentViewModel = new TestViewModel(_testPreviewViewModel.TestModel);
-            _mainViewModel.CurrentPanel = new TestPanelViewModel(_user, _testPreviewViewModel.TestModel.WordCount);
+            _mainViewModel.CurrentPanel = new TestPanelViewModel(_user, _testPreviewViewModel.TestModel.WordCount, _mainViewModel);
             
         }
     }

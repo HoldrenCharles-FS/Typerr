@@ -38,6 +38,9 @@
         <DataTemplate DataType="{x:Type vms:TestPanelViewModel}">
             <components:TestPanel/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:ResultsViewModel}">
+            <views:ResultsViewxaml/>
+        </DataTemplate>
     </Window.Resources>
 
     <WindowChrome.WindowChrome>
