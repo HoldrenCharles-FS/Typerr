@@ -95,6 +95,8 @@ namespace Typerr.ViewModel
             _runs = new List<Run>();
             Text = TestModel.article.text;
             RichTextBlock = new RichTextBox();
+            RichTextBlock.IsReadOnly = true;
+            RichTextBlock.IsHitTestVisible = false;
             RichTextBlock.BorderThickness = new Thickness(0);
             UserText = "";
             _runs.Add(BuildRun(Text[0].ToString(), RunType.Current));

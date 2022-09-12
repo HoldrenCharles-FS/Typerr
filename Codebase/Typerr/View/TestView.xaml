@@ -10,16 +10,17 @@
              d:DataContext="{d:DesignInstance Type=viewmodel:TestViewModel}"
              mc:Ignorable="d">
     <Grid>
-
-        <ContentControl Content="{Binding RichTextBlock}"/>
         <TextBox Name="InputField"  
                  Text="{Binding UserText, UpdateSourceTrigger=PropertyChanged}"
                  FontSize="45"
                  Background="Transparent"
                  Foreground="Transparent"
                  TextWrapping="Wrap"
+                 IsHitTestVisible="False"
                  BorderThickness="0">
         </TextBox>
+        <ContentControl Content="{Binding RichTextBlock}"/>
+        
     </Grid>
     
     

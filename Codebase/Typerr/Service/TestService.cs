@@ -14,14 +14,23 @@ namespace Typerr.Service
 
         public static string FormatText(string txt)
         {
-            string text = txt;
+            txt = txt.Replace("—", " ");
+            txt = txt.Replace("--", " ");
+            txt = txt.Replace("---", " ");
+            txt = txt.Replace("\n", " ");
+            txt = txt.Replace("\r", " ");
+            txt = txt.Replace("\r", " ");
+            txt = txt.Replace("&#xA;", " ");
+            txt = txt.Replace("&quot;", " ");
 
-            txt.Replace("—", string.Empty);
-            txt.Replace("--", string.Empty);
+            while (txt.Contains(" .")) txt = txt.Replace(" .", ".");
+            while (txt.Contains(" ,")) txt = txt.Replace(" ,", ",");
+            while (txt.Contains(" !")) txt = txt.Replace(" !", "!");
+            while (txt.Contains(" '")) txt = txt.Replace(" '", "'");
 
-            while (text.Contains("  ")) text = text.Replace("  ", " ");
+            while (txt.Contains("  ")) txt = txt.Replace("  ", " ");
 
-            return text;
+            return txt;
         }
 
         public static string FormatTimeRemaining(int wordCount, int wpm) 
