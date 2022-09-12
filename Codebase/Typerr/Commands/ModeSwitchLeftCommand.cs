@@ -28,8 +28,8 @@ namespace Typerr.Commands
             }
 
             _testPreviewViewModel.ModeText = TestService.GetMode(_testPreviewViewModel.User.Mode);
-            _testPreviewViewModel.NumericUpDownVisibility = (_testPreviewViewModel.User.Mode == 0)
-                ? Visibility.Visible : Visibility.Collapsed;
+            _testPreviewViewModel.NumericUpDownWidth = (_testPreviewViewModel.User.Mode == 0)
+                ? 60 : 0;
         }
     }
 }

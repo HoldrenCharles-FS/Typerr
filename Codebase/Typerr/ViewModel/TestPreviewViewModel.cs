@@ -131,20 +131,6 @@ namespace Typerr.ViewModel
             }
         }
 
-        private Visibility _numericUpDownVisibility;
-        public Visibility NumericUpDownVisibility
-        {
-            get
-            {
-                return _numericUpDownVisibility;
-            }
-            set
-            {
-                _numericUpDownVisibility = value;
-                OnPropertyChanged(nameof(NumericUpDownVisibility));
-            }
-        }
-
         private string _startTestText;
         public string StartTestText
         {
@@ -203,7 +189,7 @@ namespace Typerr.ViewModel
             User = user;
             ModeSwitchLeftCommand = new ModeSwitchLeftCommand(this);
             ModeSwitchRightCommand = new ModeSwitchRightCommand(this);
-            StartTestCommand = new StartTestCommand(navigationStore, this, homeViewModel.MainViewModel);
+            StartTestCommand = new StartTestCommand(navigationStore, this, homeViewModel.MainViewModel, user);
             DeleteTestCommand = new DeleteTestCommand(this);
             DeleteYesCommand = new DeleteYesCommand(this, homeViewModel);
             DeleteNoCommand = new DeleteNoCommand(this);

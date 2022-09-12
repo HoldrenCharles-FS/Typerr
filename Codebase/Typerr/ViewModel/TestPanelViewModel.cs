@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Typerr.Commands;
+using Typerr.Model;
 
 namespace Typerr.ViewModel
 {
@@ -14,6 +15,9 @@ namespace Typerr.ViewModel
     {
         public ICommand StopTestCommand { get; }
         public ICommand PauseTestCommand { get; }
+
+        private readonly User _user;
+
         private string _modeLabel;
         public string ModeLabel
         {
@@ -131,8 +135,9 @@ namespace Typerr.ViewModel
         public Rectangle PauseBar2 { get; private set; }
         public Polygon StartIcon { get; private set; }
 
-        public TestPanelViewModel()
+        public TestPanelViewModel(User user)
         {
+            _user = user;
             StopTestCommand = new StopTestCommand(this);
             PauseTestCommand = new PauseTestCommand(this);
             Init();
@@ -167,9 +172,11 @@ namespace Typerr.ViewModel
             StartIcon.Width = 35;
             StartIcon.Height = 35;
             StartIcon.IsHitTestVisible = false;
+            UpdatePauseFace();
 
             CurrentWPM = "TBD";
-            UpdatePauseFace();
+
+            ModeLabel = (_user.Mode == 0) ? "Time Remaining" : "Words Remaining";
         }
 
         private void UpdatePauseFace()

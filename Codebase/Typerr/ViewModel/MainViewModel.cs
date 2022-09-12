@@ -16,7 +16,7 @@ namespace Typerr.ViewModel
         private readonly NavigationStore _navigationStore;
         public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
 
-        private readonly User _user;
+        public User User { get; }
 
         private readonly ObservableCollection<LibTileViewModel> _allLibTileViewModels;
 
@@ -85,7 +85,7 @@ namespace Typerr.ViewModel
         {
             OverlayVisibility = Visibility.Collapsed;
             _navigationStore = navigationStore;
-            _user = user;
+            User = user;
             _allLibTileViewModels = new ObservableCollection<LibTileViewModel>();
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
         }
@@ -97,7 +97,7 @@ namespace Typerr.ViewModel
 
         public void AddLibTile(TestModel testModel, HomeViewModel homeViewModel)
         {
-            LibTileViewModel libTileViewModel = new LibTileViewModel(_navigationStore, homeViewModel, testModel, _user);
+            LibTileViewModel libTileViewModel = new LibTileViewModel(_navigationStore, homeViewModel, testModel, User);
 
             _allLibTileViewModels.Insert(0, libTileViewModel);
         }

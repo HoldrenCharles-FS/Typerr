@@ -157,7 +157,6 @@
                         Grid.Column="1">
                     <xctk:IntegerUpDown Value="{Binding NumericUpDownValue}"
                                         Width="{Binding NumericUpDownWidth}"
-                                        Visibility="{Binding NumericUpDownVisibility}"
                                         FontSize="16"
                                         Padding="5"
                              Margin="10"/>
