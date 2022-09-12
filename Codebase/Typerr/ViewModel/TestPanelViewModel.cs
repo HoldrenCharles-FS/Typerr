@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -131,19 +132,25 @@ namespace Typerr.ViewModel
             }
         }
 
+        private static Timer _timer;
+        private static Timer _updateTimer;
+        public int MinutesElapsed { get; set; }
+        public int SecondsElapsed { get; set; }
+
         public Rectangle PauseBar1 { get; private set; }
         public Rectangle PauseBar2 { get; private set; }
         public Polygon StartIcon { get; private set; }
 
-        public TestPanelViewModel(User user)
+        public TestPanelViewModel(User user, int wordCount)
         {
             _user = user;
+            
             StopTestCommand = new StopTestCommand(this);
             PauseTestCommand = new PauseTestCommand(this);
-            Init();
+            Init(wordCount);
         }
 
-        private void Init()
+        private void Init(int wordCount)
         {
             PausePanel = new StackPanel();
             PausePanel.Orientation = Orientation.Horizontal;
@@ -177,6 +184,54 @@ namespace Typerr.ViewModel
             CurrentWPM = "TBD";
 
             ModeLabel = (_user.Mode == 0) ? "Time Remaining" : "Words Remaining";
+            ModeData = (_user.Mode == 0) ? $"{_user.Minutes}:00" : wordCount.ToString();
+            TimeElapsed = "0:00";
+            StartTimer();
+        }
+
+        private void StartTimer()
+        {
+            _timer = new Timer(60000);
+            _timer.Elapsed += OnTimedEvent;
+            _timer.AutoReset = true;
+            _timer.Enabled = true;
+
+            _updateTimer = new Timer(1000);
+            _updateTimer.Elapsed += OnUpdateTimedEvent;
+            _updateTimer.AutoReset = true;
+            _updateTimer.Enabled = true;
+        }
+
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            MinutesElapsed++;
+
+            if (MinutesElapsed == _user.Minutes)
+            {
+                StopTestCommand.Execute(null);
+            }
+        }
+
+        private void OnUpdateTimedEvent(object source, ElapsedEventArgs e)
+        {
+            SecondsElapsed++;
+
+            TimeElapsed = MinutesElapsed.ToString();
+            TimeElapsed += ":";
+
+            TimeElapsed += (SecondsElapsed < 10)
+                ? "0" + (SecondsElapsed % 60).ToString()
+                : (SecondsElapsed % 60).ToString();
+
+            if (_user.Mode == 0)
+            {
+                ModeData = (_user.Minutes - MinutesElapsed - 1).ToString();
+                ModeData += ":";
+
+                ModeData += (60 - SecondsElapsed % 60 < 10)
+                    ? "0" + (60 - SecondsElapsed % 60).ToString()
+                : (60 - SecondsElapsed % 60).ToString();
+            }
         }
 
         private void UpdatePauseFace()
