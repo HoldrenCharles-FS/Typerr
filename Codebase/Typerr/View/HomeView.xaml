@@ -10,8 +10,9 @@
              d:DataContext="{d:DesignInstance Type=viewmodel:HomeViewModel}"
              mc:Ignorable="d" 
              Background="White">
-    
 
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Auto">
         <StackPanel>
             <!--#region Recent Tests -->
             <TextBlock Text="Recent Tests"
@@ -114,5 +115,5 @@
         
         
         </StackPanel>
-    
+    </ScrollViewer>
 </UserControl>
