@@ -18,14 +18,14 @@ namespace Typerr.ViewModel
     {
         public TestModel TestModel { get; }
 
+        private readonly User _user;
+
+        public TestPanelViewModel TestPanelVM { get; set; }
         // Everything the user has typed so far
         private string _userText;
         public string UserText
         {
-            get
-            {
-                return _userText;
-            }
+            get => _userText;
             set
             {
                 if (!_isPaused)
@@ -38,7 +38,7 @@ namespace Typerr.ViewModel
                         UpdateTest();
                     }
                 }
-                
+
             }
         }
 
@@ -50,10 +50,7 @@ namespace Typerr.ViewModel
         private string _text;
         public string Text
         {
-            get
-            {
-                return _text;
-            }
+            get => _text;
             set
             {
                 _text = value;
@@ -61,27 +58,10 @@ namespace Typerr.ViewModel
             }
         }
 
-        private TextBox _inputField;
-        public TextBox InputField
-        {
-            get
-            {
-                return _inputField;
-            }
-            set
-            {
-                _inputField = value;
-                OnPropertyChanged(nameof(InputField));
-            }
-        }
-
         private RichTextBox _richTextBlock;
         public RichTextBox RichTextBlock
         {
-            get
-            {
-                return _richTextBlock;
-            }
+            get => _richTextBlock;
             set
             {
                 _richTextBlock = value;
@@ -89,32 +69,25 @@ namespace Typerr.ViewModel
             }
         }
 
-        private ObservableCollection<int> _errorPositions;
-
-        public ObservableCollection<int> ErrorPositions
-        {
-            get { return _errorPositions; }
-            set { _errorPositions = value; }
-        }
+        public List<int> ErrorPositions { get; set; }
 
         private List<Run> _runs;
 
         private readonly SolidColorBrush _gray = new SolidColorBrush(Colors.Gray);
         private readonly SolidColorBrush _lightGray = new SolidColorBrush(Colors.LightGray);
 
-        public TestViewModel(TestModel testModel)
+        public TestViewModel(TestModel testModel, User user)
         {
             TestModel = testModel;
+            _user = user;
             Init();
         }
 
         private void Init()
         {
+            ErrorPositions = new List<int>();
             _runs = new List<Run>();
             Text = TestModel.article.text;
-
-
-
             RichTextBlock = new RichTextBox();
             RichTextBlock.IsReadOnly = true;
             RichTextBlock.IsHitTestVisible = false;
@@ -167,16 +140,24 @@ namespace Typerr.ViewModel
 
         private void UpdateTest()
         {
-            
+            // The user hit backspace to the beginning
             if (_userText.Length == 0)
             {
+                // Reset the runs
                 _runs.Clear();
                 _runs.Add(BuildRun(Text[0].ToString(), RunType.Current));
                 _runs.Add(BuildRun(Text[1..], RunType.Untyped));
+                TestPanelVM.TypingErrors = 0;
+                TestPanelVM.WordsTyped = 0;
+                if (_user.Mode == 1)
+                {
+                    TestPanelVM.ModeData = TestModel.WordCount.ToString();
+                }
             }
             // The user entered a new character
             else if (_userText.Length == _previousUserText.Length + 1)
             {
+                // Modify the list of runs
                 Run untyped = BuildRun(_runs[^1].Text[1..], RunType.Untyped);
                 _runs[^1] = BuildRun(_runs[^1].Text[0], RunType.Current);
                 _runs.Add(untyped);
@@ -188,10 +169,23 @@ namespace Typerr.ViewModel
                 else
                 {
                     lastChar = BuildRun(Text[_userText.Length - 1], RunType.Wrong);
+                    ErrorPositions.Add(_userText.Length - 1);
+                    TestPanelVM.TypingErrors++;
                 }
 
                 _runs[^3] = lastChar;
 
+                // Word Count
+                if (Text[_userText.Length - 1] == ' ')
+                {
+                    TestPanelVM.WordsTyped++;
+
+                    if (_user.Mode == 1)
+                    {
+                        TestPanelVM.ModeData = (int.Parse(TestPanelVM.ModeData) - 1).ToString();
+                    }
+
+                }
             }
             // The user hit backspace
             else if (_userText.Length == _previousUserText.Length - 1)
@@ -200,6 +194,25 @@ namespace Typerr.ViewModel
                 _runs.RemoveAt(_runs.Count - 1);
                 _runs[^1] = untyped;
                 _runs[^2] = BuildRun(_text[_runs.Count - 2], RunType.Current);
+
+                // Typing errors
+                if (ErrorPositions.Count > 0 && ErrorPositions[^1] == _userText.Length)
+                {
+                    ErrorPositions.RemoveAt(ErrorPositions.Count - 1);
+                    TestPanelVM.TypingErrors--;
+                }
+
+                // Word Count
+                if (Text[_userText.Length - 1] == ' ')
+                {
+                    TestPanelVM.WordsTyped--;
+
+                    if (_user.Mode == 1)
+                    {
+                        TestPanelVM.ModeData = (int.Parse(TestPanelVM.ModeData) + 1).ToString();
+                    }
+
+                }
             }
             RichTextBlock.Document.Blocks.Clear();
             Paragraph paragraph = new Paragraph();
