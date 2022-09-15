@@ -29,13 +29,5 @@ namespace Typerr.View
         {
             InputField.Focus();
         }
-
-        private void InputField_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Back)
-            {
-                Console.WriteLine();
-            }
-        }
     }
 }

@@ -210,6 +210,13 @@ namespace Typerr.ViewModel
             _updateTimer.Enabled = true;
         }
 
+        internal void StopTest()
+        {
+            _timer.Stop();
+            _updateTimer.Stop();
+            StopTestCommand.Execute(null);
+        }
+
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             MinutesElapsed++;
@@ -220,14 +227,9 @@ namespace Typerr.ViewModel
 
             if (MinutesElapsed == _user.Minutes && _user.Mode == 0)
             {
-                _timer.Stop();
-                _updateTimer.Stop();
-
                 ModeData = "0:00";
-
                 TimeElapsed = $"{_user.Minutes}:00";
-
-                StopTestCommand.Execute(null);
+                StopTest();
             }
         }
 

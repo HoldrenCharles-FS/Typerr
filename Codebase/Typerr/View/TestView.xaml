@@ -10,16 +10,30 @@
              d:DataContext="{d:DesignInstance Type=viewmodel:TestViewModel}"
              mc:Ignorable="d">
     <Grid>
-
         <TextBox Name = "InputField"
-                     Text = "{Binding UserText, UpdateSourceTrigger=PropertyChanged}"
-                     FontSize = "45"
-                     Background = "Transparent"
-                     Foreground = "Transparent"
-                     TextWrapping = "Wrap"
-                     IsHitTestVisible = "False"
-                     BorderThickness = "0">
+                 Text = "{Binding UserText, UpdateSourceTrigger=PropertyChanged}"
+                 FontSize = "45"
+                 Background = "Transparent"
+                 Foreground = "Transparent"
+                 TextWrapping = "Wrap"
+                 IsHitTestVisible = "False"
+                 BorderThickness = "0"
+                 Margin="10">
         </TextBox>
-        <ContentControl Content="{Binding RichTextBlock}"/>
+        <TextBox Name = "OutputField"
+                 Text = "{Binding OutputText, UpdateSourceTrigger=PropertyChanged}"
+                 FontSize = "45"
+                 Background = "Transparent"
+                 Foreground = "Transparent"
+                 TextWrapping = "Wrap"
+                 IsHitTestVisible = "False"
+                 Focusable="False"
+                 IsReadOnly="True"
+                 BorderThickness = "0"
+                 Margin="10">
+        </TextBox>
+        <ContentControl Content="{Binding RichTextBlock}"
+                        Margin="10"
+                        Name="ContentControl"/>
     </Grid>
 </UserControl>

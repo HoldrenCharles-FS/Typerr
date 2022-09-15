@@ -35,10 +35,29 @@ namespace Typerr.ViewModel
                     OnPropertyChanged(nameof(UserText));
                     if (_testStarted)
                     {
+                        if (Text != null && _userText.Length > 0)
+                        {
+                            _outputText = Text[(_userText.Length - 1)..];
+                        }
+
                         UpdateTest();
                     }
                 }
 
+            }
+        }
+
+        private string _outputText;
+        public string OutputText
+        {
+            get
+            {
+                return _outputText;
+            }
+            set
+            {
+                _outputText = value;
+                OnPropertyChanged(nameof(OutputText));
             }
         }
 
@@ -49,16 +68,7 @@ namespace Typerr.ViewModel
         private bool _testStarted = false;
         private bool _isPaused = false;
 
-        private string _text;
-        public string Text
-        {
-            get => _text;
-            set
-            {
-                _text = value;
-                OnPropertyChanged(nameof(Text));
-            }
-        }
+        public string Text { get; private set; }
 
         private RichTextBox _richTextBlock;
         public RichTextBox RichTextBlock
@@ -151,6 +161,12 @@ namespace Typerr.ViewModel
 
         private void UpdateTest()
         {
+            TextPointer textPointer = _runs[^2].ContentStart;
+
+            var characterRect = textPointer.GetCharacterRect(LogicalDirection.Forward);
+            RichTextBlock.ScrollToVerticalOffset(RichTextBlock.VerticalOffset + characterRect.Top - RichTextBlock.ActualHeight / 2d);
+
+
             // The user hit backspace to the beginning
             if (_userText.Length == 0)
             {
@@ -166,6 +182,22 @@ namespace Typerr.ViewModel
                     TestPanelVM.ModeData = TestModel.WordCount.ToString();
                 }
             }
+            // The user has hit the end
+            else if (_userText.Length == Text.Length)
+            {
+                if (_userText[^1] == Text[_userText.Length - 1])
+                {
+                    _runs.RemoveAt(_runs.Count - 1);
+                    _runs[^1] = BuildRun(_userText[^1], RunType.Right);
+                }
+                else
+                {
+                    _runs[^1] = BuildRun(Text[_userText.Length - 1], RunType.Wrong);
+                    _errorPositions.Add(_userText.Length - 1);
+                    TestPanelVM.TypingErrors++;
+                }
+                TestPanelVM.StopTest();
+            }
             // The user entered a new character
             else if (_userText.Length == _previousUserText.Length + 1)
             {
@@ -174,7 +206,7 @@ namespace Typerr.ViewModel
                 _runs[^1] = BuildRun(_runs[^1].Text[0], RunType.Current);
                 _runs.Add(untyped);
                 Run lastChar;
-                if (_userText[^1] == _text[_userText.Length - 1])
+                if (_userText[^1] == Text[_userText.Length - 1])
                 {
                     lastChar = BuildRun(_userText[^1], RunType.Right);
                 }
@@ -214,10 +246,10 @@ namespace Typerr.ViewModel
             // The user hit backspace
             else if (_userText.Length == _previousUserText.Length - 1)
             {
-                Run untyped = BuildRun(_text[(_runs.Count - 2)..], RunType.Untyped);
+                Run untyped = BuildRun(Text[(_runs.Count - 2)..], RunType.Untyped);
                 _runs.RemoveAt(_runs.Count - 1);
                 _runs[^1] = untyped;
-                _runs[^2] = BuildRun(_text[_runs.Count - 2], RunType.Current);
+                _runs[^2] = BuildRun(Text[_runs.Count - 2], RunType.Current);
 
                 // Typing errors
                 if (_errorPositions.Count > 0 && _errorPositions[^1] == _userText.Length)
@@ -244,12 +276,15 @@ namespace Typerr.ViewModel
 
                 }
             }
+            
+            
             RichTextBlock.Document.Blocks.Clear();
             Paragraph paragraph = new Paragraph();
             foreach (Run run in _runs)
             {
                 paragraph.Inlines.Add(run);
             }
+            
             RichTextBlock.Document.Blocks.Add(paragraph);
         }
 
