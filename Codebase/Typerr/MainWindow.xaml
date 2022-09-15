@@ -82,6 +82,7 @@
                         Orientation="Horizontal"
                         Height="32">
                 <Button x:Name="WindowMinimize"
+                        Focusable="False"
                         BorderThickness="0" 
                         Width="46" 
                         Background="{StaticResource AppTheme}">
@@ -126,7 +127,8 @@
                                             FontSize="20"/>
                     </Button.Content>
                 </Button>
-                <Button x:Name="WindowMaximize" 
+                <Button x:Name="WindowMaximize"
+                        Focusable="False"
                         BorderThickness="0" 
                         Width="46" 
                         Background="{StaticResource AppTheme}">
@@ -167,6 +169,7 @@
                 </Button>
                 <Button x:Name="WindowClose" 
                         BorderThickness="0" 
+                        Focusable="False"
                         Width="46" 
                         Background="{StaticResource AppTheme}">
                     <Button.Style>

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -27,14 +28,16 @@ namespace Typerr.ViewModel
             }
             set
             {
-                _previousUserText = _userText;
-                _userText = value;
-                OnPropertyChanged(nameof(UserText));
-                if (_testStarted)
+                if (!_isPaused)
                 {
-                    UpdateTest();
+                    _previousUserText = _userText;
+                    _userText = value;
+                    OnPropertyChanged(nameof(UserText));
+                    if (_testStarted)
+                    {
+                        UpdateTest();
+                    }
                 }
-                
                 
             }
         }
@@ -42,6 +45,7 @@ namespace Typerr.ViewModel
         private string _previousUserText = "";
 
         private bool _testStarted = false;
+        private bool _isPaused = false;
 
         private string _text;
         public string Text
@@ -54,6 +58,20 @@ namespace Typerr.ViewModel
             {
                 _text = value;
                 OnPropertyChanged(nameof(Text));
+            }
+        }
+
+        private TextBox _inputField;
+        public TextBox InputField
+        {
+            get
+            {
+                return _inputField;
+            }
+            set
+            {
+                _inputField = value;
+                OnPropertyChanged(nameof(InputField));
             }
         }
 
@@ -94,6 +112,9 @@ namespace Typerr.ViewModel
         {
             _runs = new List<Run>();
             Text = TestModel.article.text;
+
+
+
             RichTextBlock = new RichTextBox();
             RichTextBlock.IsReadOnly = true;
             RichTextBlock.IsHitTestVisible = false;
@@ -187,6 +208,16 @@ namespace Typerr.ViewModel
                 paragraph.Inlines.Add(run);
             }
             RichTextBlock.Document.Blocks.Add(paragraph);
+        }
+
+        internal void Unpause()
+        {
+            _isPaused = false;
+        }
+
+        internal void Pause()
+        {
+            _isPaused = true;
         }
     }
 }

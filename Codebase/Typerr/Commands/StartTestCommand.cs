@@ -29,9 +29,9 @@ namespace Typerr.Commands
             UserService.Write(_testPreviewViewModel.User);
 
             _testPreviewViewModel.TestPreviewCloseCommand.Execute(parameter);
-
-            _navigationStore.CurrentViewModel = new TestViewModel(_testPreviewViewModel.TestModel);
-            _mainViewModel.CurrentPanel = new TestPanelViewModel(_user, _testPreviewViewModel.TestModel.WordCount, _mainViewModel);
+            TestViewModel testViewModel = new TestViewModel(_testPreviewViewModel.TestModel);
+            _navigationStore.CurrentViewModel = testViewModel;
+            _mainViewModel.CurrentPanel = new TestPanelViewModel(testViewModel, _user, _testPreviewViewModel.TestModel.WordCount, _mainViewModel);
             
         }
     }

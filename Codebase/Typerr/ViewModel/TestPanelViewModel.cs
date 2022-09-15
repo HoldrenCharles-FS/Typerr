@@ -16,6 +16,7 @@ namespace Typerr.ViewModel
     {
         public ICommand StopTestCommand { get; }
         public ICommand PauseTestCommand { get; }
+        public TestViewModel TestVM { get; }
 
         private readonly User _user;
 
@@ -141,12 +142,13 @@ namespace Typerr.ViewModel
         public Rectangle PauseBar2 { get; private set; }
         public Polygon StartIcon { get; private set; }
 
-        public TestPanelViewModel(User user, int wordCount, MainViewModel mainViewModel)
+        public TestPanelViewModel(TestViewModel testVM, User user, int wordCount, MainViewModel mainViewModel)
         {
+            TestVM = testVM;
             _user = user;
             
             StopTestCommand = new StopTestCommand(this, mainViewModel);
-            PauseTestCommand = new PauseTestCommand(this);
+            PauseTestCommand = new PauseTestCommand(this, testVM);
             Init(wordCount);
         }
 
@@ -195,7 +197,7 @@ namespace Typerr.ViewModel
             _timer.Elapsed += OnTimedEvent;
             _timer.AutoReset = true;
             _timer.Enabled = true;
-
+            
             _updateTimer = new Timer(1000);
             _updateTimer.Elapsed += OnUpdateTimedEvent;
             _updateTimer.AutoReset = true;
@@ -250,13 +252,26 @@ namespace Typerr.ViewModel
             if (_isPaused)
             {
                 PausePanel.Children.Add(StartIcon);
+
+                if (_timer != null || _updateTimer != null)
+                {
+                    _timer.Stop();
+                    _updateTimer.Stop();
+                }
+                
             }
             else
             {
 
-                    PausePanel.Children.Add(PauseBar1);
-                    PausePanel.Children.Add(PauseBar2);
-                
+                PausePanel.Children.Add(PauseBar1);
+                PausePanel.Children.Add(PauseBar2);
+
+                if (_timer != null || _updateTimer != null)
+                {
+                    _timer.Start();
+                    _updateTimer.Start();
+                }
+
             }
         }
     }
