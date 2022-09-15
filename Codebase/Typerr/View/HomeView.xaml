@@ -34,7 +34,8 @@
                     Grid.Column="0"
                     Margin="20,0,0,20"
                     >
-                <components:CreateTestTile Grid.Column="0" x:Name="CreateTestButton"/>
+                <components:CreateTestTile Grid.Column="0" 
+                                           x:Name="CreateTestButton"/>
                 <ItemsControl ItemsSource="{Binding LibTileViewModels}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -51,13 +52,11 @@
             </ScrollViewer>
             <Button x:Name="GoToLibraryButton" 
                     Grid.Column="1"
-                Background="White"
+                    Background="White"
                     HorizontalAlignment="Right"
                     BorderThickness="0" 
                     Width="46" 
-                   
-                    Command="{Binding GoToLibraryCommand}"
-                    >
+                    Command="{Binding GoToLibraryCommand}">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Template">

@@ -27,7 +27,8 @@
                 <Button Width="auto"
                         Height="auto"
                         OpacityMask="#222"
-                        BorderThickness="0">
+                        BorderThickness="0"
+                        Command="{Binding LibTileCommand}">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Media.Imaging;
 
 namespace Typerr.Model
@@ -13,6 +14,8 @@ namespace Typerr.Model
         public BitmapImage Image { get; set; }
         public BitmapImage Favicon { get; set; }
         public int WordCount { get; set; }
+
+        public FileInfo FileName { get; set; }
 
         public TestModel()
         {

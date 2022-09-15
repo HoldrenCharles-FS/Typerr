@@ -12,10 +12,6 @@ namespace Typerr.ViewModel
     {
         private readonly User _user;
 
-        private readonly ObservableCollection<LibTileViewModel> _allLibTileViewModels;
-
-        public IEnumerable<LibTileViewModel> AllLibTileViewModels => _allLibTileViewModels;
-
         private ObservableCollection<LibTileViewModel> _libTileViewModels;
 
         public ObservableCollection<LibTileViewModel> LibTileViewModels
@@ -24,27 +20,25 @@ namespace Typerr.ViewModel
             set { _libTileViewModels = value; }
         }
 
+        public MainViewModel MainViewModel { get; }
+        public NavPanelViewModel NavPanelViewModel { get; set; }
         public ICommand CreateTestTileCommand { get; }
         public ICommand GoToLibraryCommand { get; }
 
 
-        public HomeViewModel(ICommand createTestTileCommand, ICommand goToLibraryCommand, User user)
+        public HomeViewModel(MainViewModel mainViewModel, ICommand createTestTileCommand, ICommand goToLibraryCommand, User user)
         {
+            MainViewModel = mainViewModel;
             CreateTestTileCommand = createTestTileCommand;
             GoToLibraryCommand = goToLibraryCommand;
-            _allLibTileViewModels = new ObservableCollection<LibTileViewModel>();
             _libTileViewModels = new ObservableCollection<LibTileViewModel>();
             _user = user;
+            RefreshLibrary();
         }
 
-        public void AddLibTile(TestModel testModel)
+        public void RefreshLibrary()
         {
-            LibTileViewModel libTileViewModel = new LibTileViewModel(testModel, _user);
-
-            _allLibTileViewModels.Insert(0, libTileViewModel);
-           
-
-            IEnumerable<LibTileViewModel> result = _allLibTileViewModels.Take(6);
+            IEnumerable<LibTileViewModel> result = MainViewModel.AllLibTileViewModels.Take(6);
 
             LibTileViewModels.Clear();
 
@@ -52,10 +46,6 @@ namespace Typerr.ViewModel
             {
                 LibTileViewModels.Add(r);
             }
-        }
-
-        public void HomeLibraryContent_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
         }
     }
 }

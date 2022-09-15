@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Typerr"
         xmlns:views="clr-namespace:Typerr.View"
         xmlns:vms="clr-namespace:Typerr.ViewModel"
-        xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome" 
+        xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome" xmlns:components="clr-namespace:Typerr.Components"
         d:DataContext="{d:DesignInstance Type=vms:MainViewModel}"
         mc:Ignorable="d"
         Height="650" Width="1000"
@@ -14,14 +14,32 @@
         WindowState="Maximized"
         ResizeMode="CanResize"
         FontSize="14"
-        MinHeight="650" MinWidth="1000">
+        MinHeight="650" MinWidth="1090">
     
     <Window.Resources>
+        <DataTemplate DataType="{x:Type vms:NavPanelViewModel}">
+            <components:NavPanel/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vms:HomeViewModel}">
             <views:HomeView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:LibraryViewModel}">
+            <views:LibraryView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vms:CreateTestViewModel}">
-            <views:CreateTestView/>
+            <views:CreateTestView Margin="20 40"/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:TestPreviewViewModel}">
+            <views:TestPreviewView Width="725"/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:TestViewModel}">
+            <views:TestView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:TestPanelViewModel}">
+            <components:TestPanel/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:ResultsViewModel}">
+            <views:ResultsViewxaml/>
         </DataTemplate>
     </Window.Resources>
 
@@ -49,37 +67,10 @@
             <Border Background="{StaticResource AppTheme}" 
                     Width="auto" 
                     Height="auto">
-                <StackPanel>
-                    <!--App Title-->
-                    <TextBlock Text="Typerr"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left"
-                               Margin="30,20,0,52"
-                               Foreground="White"
-                               FontSize="28"/>
-                    <!--Home Radio Button-->
-                    <RadioButton Content="Home"
-                                 Height="50"
-                                 Foreground="White"
-                                 FontSize="14"
-                                 IsChecked="True"
-                                 Command="{Binding CurrentViewModel}"
-                                 Style="{StaticResource MenuButtonTheme}"/>
-                    <!--Library Radio Button-->
-                    <RadioButton Content="Library"
-                                 Height="50"
-                                 Foreground="White"
-                                 FontSize="14"
-                                 Style="{StaticResource MenuButtonTheme}"/>
-                    <!--Subscriptions Radio Button-->
-                    <RadioButton Content="Subscriptions"
-                                 Height="50"
-                                 IsEnabled="False"
-                                 Foreground="#bbb"
-                                 FontSize="14"
-                                 Style="{StaticResource MenuButtonTheme}"/>
-
-                </StackPanel>
+                <ContentControl x:Name="SidebarArea" 
+                            Content="{Binding CurrentPanel}"
+                            Grid.Column="1" 
+                            Grid.Row="1"/>
             </Border>
         </Grid>
 
@@ -219,7 +210,7 @@
         <!--#endregion-->
         <Grid x:Name="OverlayBar" 
               Panel.ZIndex="1000" 
-              Visibility="{Binding OverlayBarVisibility}"
+              Visibility="{Binding OverlayVisibility}"
               IsHitTestVisible="False"
               WindowChrome.IsHitTestVisibleInChrome="True"
               Grid.ColumnSpan="2"
@@ -238,7 +229,6 @@
         <Grid x:Name="Overlay" 
               Panel.ZIndex="1000" 
               Visibility="{Binding OverlayVisibility}"
-              WindowChrome.IsHitTestVisibleInChrome="True"
               Grid.ColumnSpan="2"
               Grid.Row="1"
               Loaded="Overlay_Loaded">
@@ -252,11 +242,10 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <views:CreateTestView DataContext="{Binding CreateTestViewModel}" x:Name="CreateTestOverlay"
-                    Grid.Column="1" 
-                                      Grid.Row="1" 
-                                      Margin="20 40"
-                                      />
+            <ContentControl x:Name="DialogArea" 
+                            Content="{Binding CurrentDialog}"
+                            Grid.Column="1" 
+                            Grid.Row="1"/>
             </Grid>
             <!--View / Content-->
 

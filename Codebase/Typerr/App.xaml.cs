@@ -19,81 +19,36 @@ namespace Typerr
     public partial class App : Application
     {
         private readonly NavigationStore _navigationStore;
-        private User _user;
-
-        public User User
-        {
-            get { return _user; }
-            set { _user = value; }
-        }
-
+        public User User { get; set; }
 
         public App()
         {
             _navigationStore = new NavigationStore();
-            GetUser();
+            User = UserService.Read();
         }
 
-        private void GetUser()
-        {
-            if (File.Exists("user"))
-            {
-                using (FileStream fileStream = File.OpenRead("user"))
-                {
-                    using (XmlReader reader = XmlReader.Create(fileStream))
-                    {
-
-
-                        reader.MoveToContent();
-                        var data = reader.ReadElementContentAsString();
-
-                        User = new User(int.Parse(data));
-                    }
-                }
-
-                Current.Properties["User"] = User;
-            } 
-            else
-            {
-                CreateUser();
-            }
-        }
-
-        private void CreateUser()
-        {
-            FileStream writer = new FileStream(@"user", FileMode.CreateNew);
-
-            using (XmlWriter xmlWriter = XmlWriter.Create(writer))
-            {
-                xmlWriter.WriteElementString("RecentWpm", "33");
-
-                xmlWriter.WriteEndDocument();
-
-                writer.Flush();
-            }
-
-            writer.Close();
-
-            _user = new User(33);
-
-            Current.Properties["User"] = _user;
-        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            MainViewModel mainViewModel = new MainViewModel(_navigationStore);
+            MainViewModel mainViewModel = new MainViewModel(_navigationStore, User);
             CreateTestTileCommand createTestTileCommand = new CreateTestTileCommand(mainViewModel);
-            CreateTestCloseCommand createTestCloseCommand = new CreateTestCloseCommand(mainViewModel);
-            GoToLibraryCommand goToLibraryCommand = new GoToLibraryCommand(_navigationStore);
-             HomeViewModel homeViewModel = new HomeViewModel(createTestTileCommand, goToLibraryCommand, _user);
+            DialogCloseCommand createTestCloseCommand = new DialogCloseCommand(mainViewModel);
+            NavigationCommand goToLibraryCommand = new NavigationCommand(_navigationStore, new LibraryViewModel(mainViewModel), mainViewModel, NavigationOption.None);
+            NavigationCommand goToLibraryButtonCommand = new NavigationCommand(_navigationStore, new LibraryViewModel(mainViewModel), mainViewModel, NavigationOption.GoToLibraryButton);
+            HomeViewModel homeViewModel = new HomeViewModel(mainViewModel, createTestTileCommand, goToLibraryButtonCommand, User);
+            NavigationCommand goToHomeCommand = new NavigationCommand(_navigationStore, homeViewModel, mainViewModel, NavigationOption.None);
             CreateTestViewModel createTestViewModel = new CreateTestViewModel(createTestCloseCommand, homeViewModel);
-            mainViewModel.CreateTestViewModel = createTestViewModel;    
+            mainViewModel.CreateTestViewModel = createTestViewModel;
+            NavPanelViewModel navPanelViewModel = new NavPanelViewModel(goToHomeCommand, goToLibraryCommand);
+            mainViewModel.NavPanelViewModel = navPanelViewModel;
+            mainViewModel.CurrentPanel = mainViewModel.NavPanelViewModel;
+            homeViewModel.NavPanelViewModel = navPanelViewModel;
 
-            LoadTests(homeViewModel);
+            LoadTests(mainViewModel, homeViewModel);
 
             _navigationStore.CurrentViewModel = homeViewModel;
-            MainWindow = new MainWindow() 
-            { 
+            MainWindow = new MainWindow()
+            {
                 DataContext = mainViewModel
             };
             MainWindow.Show();
@@ -101,7 +56,7 @@ namespace Typerr
             base.OnStartup(e);
         }
 
-        private void LoadTests(HomeViewModel homeViewModel)
+        private void LoadTests(MainViewModel mainViewModel, HomeViewModel homeViewModel)
         {
             DirectoryInfo dir = new DirectoryInfo("tests");
 
@@ -111,11 +66,11 @@ namespace Typerr
 
             if (files.Length > 0)
             {
-                TestModel testModel = new TestModel();
-                testModel.article = new Article();
-
                 foreach (FileInfo file in files)
                 {
+                    TestModel testModel = new TestModel();
+                    testModel.article = new Article();
+
                     if (file.FullName.EndsWith(".typr") && file.Length > 0)
                     {
                         using (FileStream fileStream = File.OpenRead(file.FullName))
@@ -126,26 +81,33 @@ namespace Typerr
                                 reader.ReadToFollowing("TestModel");
                                 reader.MoveToFirstAttribute();
 
-                                byte[] bytes = Convert.FromBase64String(reader.Value);
-                                MemoryStream memoryStream = new MemoryStream(bytes, 0, bytes.Length);
-                                memoryStream.Write(bytes, 0, bytes.Length);
-                                Image image = Image.FromStream(memoryStream, true);
-                                
-                                BitmapImage bitmapImage = new BitmapImage();
-                                using (MemoryStream memStream2 = new MemoryStream())
+                                if (reader.Value == "NULL")
                                 {
-                                    image.Save(memStream2, System.Drawing.Imaging.ImageFormat.Png);
-                                    memStream2.Position = 0;
-
-                                    bitmapImage.BeginInit();
-                                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                                    bitmapImage.UriSource = null;
-                                    bitmapImage.StreamSource = memStream2;
-                                    bitmapImage.EndInit();
+                                    testModel.Image = null;
                                 }
-                                memoryStream.Close();
-                                testModel.Image = bitmapImage;
+                                else
+                                {
+                                    byte[] bytes = Convert.FromBase64String(reader.Value);
+                                    MemoryStream memoryStream = new MemoryStream(bytes, 0, bytes.Length);
+                                    memoryStream.Write(bytes, 0, bytes.Length);
+                                    Image image = Image.FromStream(memoryStream, true);
 
+                                    BitmapImage bitmapImage = new BitmapImage();
+                                    using (MemoryStream memStream2 = new MemoryStream())
+                                    {
+                                        image.Save(memStream2, System.Drawing.Imaging.ImageFormat.Png);
+                                        memStream2.Position = 0;
+
+                                        bitmapImage.BeginInit();
+                                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                                        bitmapImage.UriSource = null;
+                                        bitmapImage.StreamSource = memStream2;
+                                        bitmapImage.EndInit();
+                                    }
+                                    memoryStream.Close();
+                                    testModel.Image = bitmapImage;
+                                }
+                                
                                 reader.ReadToFollowing("article");
                                 reader.MoveToFirstAttribute();
                                 testModel.article.title = reader.Value;
@@ -176,7 +138,7 @@ namespace Typerr
                                 {
                                     testModel.article.pub_date = DateTime.Parse(reader.Value);
                                 }
-                                
+
 
                                 reader.MoveToNextAttribute();
                                 testModel.article.image = reader.Value;
@@ -191,15 +153,16 @@ namespace Typerr
                                 reader.MoveToNextAttribute();
                                 testModel.testData.LastPosition = int.Parse(reader.Value);
 
-
-                                
+                                testModel.FileName = file;
                             }
                         }
 
-                        homeViewModel.AddLibTile(testModel);
+                        mainViewModel.AddLibTile(testModel, homeViewModel);
                     }
 
                 }
+
+                homeViewModel.RefreshLibrary();
             }
         }
     }

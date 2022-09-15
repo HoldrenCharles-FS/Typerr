@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Typerr.Stores;
 using Typerr.ViewModel;
 
 namespace Typerr.Commands
@@ -14,8 +15,9 @@ namespace Typerr.Commands
 
         public override void Execute(object parameter)
         {
-            _mainViewModel.OverlayBarVisibility = Visibility.Visible;
+            _mainViewModel.CurrentDialog = _mainViewModel.CreateTestViewModel;
             _mainViewModel.OverlayVisibility = Visibility.Visible;
+            
         }
     }
 }

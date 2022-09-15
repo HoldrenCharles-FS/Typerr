@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Typerr.Commands;
@@ -30,35 +31,45 @@ namespace Typerr.ViewModel
         }
 
         #region Test Properties
-        private string textArea;
+        private string _textArea;
         public string TextArea
         {
             get
             {
-                return textArea;
+                return _textArea;
             }
             set
             {
-                textArea = value;
+                _textArea = value;
                 OnPropertyChanged(nameof(TextArea));
 
                 if (TestModel != null)
                 {
-                    TestModel.article.text = textArea;
+                    TestModel.article.text = _textArea;
                 }
 
 
-                if (!string.IsNullOrWhiteSpace(textArea) && textArea != DefaultMessage)
+                if (!string.IsNullOrWhiteSpace(_textArea) && _textArea != DefaultMessage)
                 {
                     SidebarEnabled = true;
+                    if (!string.IsNullOrWhiteSpace(Title))
+                    {
+                        CreateButtonEnabled = true;
+                    }
                 }
                 else
                 {
                     SidebarEnabled = false;
+                    CreateButtonEnabled = false;
                 }
-                if (Uri.IsWellFormedUriString(textArea, UriKind.Absolute))
+                if (Uri.IsWellFormedUriString(_textArea, UriKind.Absolute) || Uri.IsWellFormedUriString(Url, UriKind.Absolute))
                 {
                     GetTestButtonEnabled = true;
+                    if (Uri.IsWellFormedUriString(_textArea, UriKind.Absolute) && !ObtainedUrl)
+                    {
+                        Url = _textArea;
+                        ObtainedUrl = true;
+                    }
                 }
                 else
                 {
@@ -81,6 +92,15 @@ namespace Typerr.ViewModel
                 if (TestModel != null)
                 {
                     TestModel.article.title = _title;
+                }
+
+                if (!string.IsNullOrWhiteSpace(_textArea) && _textArea != DefaultMessage && !string.IsNullOrWhiteSpace(_title))
+                {
+                    CreateButtonEnabled = true;
+                }
+                else
+                {
+                    CreateButtonEnabled = false;
                 }
 
             }
@@ -179,6 +199,20 @@ namespace Typerr.ViewModel
                 OnPropertyChanged(nameof(Image));
             }
         }
+
+        private string _url;
+        public string Url
+        {
+            get
+            {
+                return _url;
+            }
+            set
+            {
+                _url = value;
+                OnPropertyChanged(nameof(Url));
+            }
+        }
         #endregion
 
         private string _uploadImagePrompt;
@@ -234,6 +268,20 @@ namespace Typerr.ViewModel
             }
         }
 
+        private bool _createButtonEnabled;
+        public bool CreateButtonEnabled
+        {
+            get
+            {
+                return _createButtonEnabled;
+            }
+            set
+            {
+                _createButtonEnabled = value;
+                OnPropertyChanged(nameof(CreateButtonEnabled));
+            }
+        }
+
         private string _foregroundColor;
         public string ForegroundColor
         {
@@ -262,6 +310,8 @@ namespace Typerr.ViewModel
             }
         }
 
+        public bool ObtainedUrl { get; private set; } = false;
+
         public static string DefaultMessage { get; } = "Paste a URL here or begin typing to create your test";
 
         // Number obtained from actualheight property from the side column single row textbox's default height
@@ -281,6 +331,7 @@ namespace Typerr.ViewModel
             SidebarEnabled = false;
             GetTestButtonEnabled = false;
             TestModel = new TestModel();
+            
         }
     }
 }
