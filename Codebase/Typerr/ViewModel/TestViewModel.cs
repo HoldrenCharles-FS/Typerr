@@ -146,13 +146,14 @@ namespace Typerr.ViewModel
 
         private void UpdateTest()
         {
-            // The user entered a new character
+            
             if (_userText.Length == 0)
             {
                 _runs.Clear();
                 _runs.Add(BuildRun(Text[0].ToString(), RunType.Current));
                 _runs.Add(BuildRun(Text[1..], RunType.Untyped));
             }
+            // The user entered a new character
             else if (_userText.Length == _previousUserText.Length + 1)
             {
                 Run untyped = BuildRun(_runs[^1].Text[1..], RunType.Untyped);
