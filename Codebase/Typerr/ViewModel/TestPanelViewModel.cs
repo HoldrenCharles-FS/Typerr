@@ -133,11 +133,15 @@ namespace Typerr.ViewModel
             }
         }
 
+        private List<int> _wpmRates;
+
+        // Timers and time data
         private static Timer _timer;
         private static Timer _updateTimer;
         public int MinutesElapsed { get; set; }
         public int SecondsElapsed { get; set; }
 
+        // UI Elements
         public Rectangle PauseBar1 { get; private set; }
         public Rectangle PauseBar2 { get; private set; }
         public Polygon StartIcon { get; private set; }
@@ -154,6 +158,8 @@ namespace Typerr.ViewModel
 
         private void Init(int wordCount)
         {
+            _wpmRates = new List<int>();
+
             PausePanel = new StackPanel();
             PausePanel.Orientation = Orientation.Horizontal;
             PauseBar1 = new Rectangle();
@@ -207,16 +213,18 @@ namespace Typerr.ViewModel
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             MinutesElapsed++;
+            CurrentWPM = TestVM.CorrectWords.ToString();
 
-            if (MinutesElapsed == _user.Minutes)
+            _wpmRates.Add(TestVM.CorrectWords);
+            TestVM.ResetCorrectWords();
+
+            if (MinutesElapsed == _user.Minutes && _user.Mode == 0)
             {
                 _timer.Stop();
                 _updateTimer.Stop();
 
-                if (_user.Mode == 0)
-                {
-                    ModeData = "0:00";
-                }
+                ModeData = "0:00";
+
                 TimeElapsed = $"{_user.Minutes}:00";
 
                 StopTestCommand.Execute(null);

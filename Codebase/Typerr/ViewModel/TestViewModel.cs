@@ -42,6 +42,8 @@ namespace Typerr.ViewModel
             }
         }
 
+        public int CorrectWords { get; private set; }
+
         private string _previousUserText = "";
 
         private bool _testStarted = false;
@@ -69,12 +71,15 @@ namespace Typerr.ViewModel
             }
         }
 
-        public List<int> ErrorPositions { get; set; }
-
+        // List of runs to add to the RichTextBlock
         private List<Run> _runs;
 
-        private readonly SolidColorBrush _gray = new SolidColorBrush(Colors.Gray);
-        private readonly SolidColorBrush _lightGray = new SolidColorBrush(Colors.LightGray);
+        // The list of error positions is needed to know when to undo typing errors
+        private List<int> _errorPositions;
+
+        // These variables are related to tracking if the user got a word wrong
+        private string[] _words;
+        private bool[] _correctWordMap;
 
         public TestViewModel(TestModel testModel, User user)
         {
@@ -85,7 +90,10 @@ namespace Typerr.ViewModel
 
         private void Init()
         {
-            ErrorPositions = new List<int>();
+            _errorPositions = new List<int>();
+            _words = TestModel.article.text.Split(" ");
+            _correctWordMap = new bool[_words.Length];
+            _correctWordMap[0] = true;
             _runs = new List<Run>();
             Text = TestModel.article.text;
             RichTextBlock = new RichTextBox();
@@ -122,6 +130,7 @@ namespace Typerr.ViewModel
 
         private Run RunBuilderTask(string doNotUse, RunType runAway)
         {
+            
             Run run = new Run(doNotUse);
             run.FontSize = 45;
             run.Foreground = new SolidColorBrush(
@@ -133,6 +142,8 @@ namespace Typerr.ViewModel
             run.Background = new SolidColorBrush(
                 (runAway == RunType.Current)
                 ? Colors.DarkGray
+                : (doNotUse == " " && runAway == RunType.Wrong)
+                ? Color.FromArgb(64, 255, 0, 0)
                 : Colors.White);
 
             return run;
@@ -147,6 +158,7 @@ namespace Typerr.ViewModel
                 _runs.Clear();
                 _runs.Add(BuildRun(Text[0].ToString(), RunType.Current));
                 _runs.Add(BuildRun(Text[1..], RunType.Untyped));
+
                 TestPanelVM.TypingErrors = 0;
                 TestPanelVM.WordsTyped = 0;
                 if (_user.Mode == 1)
@@ -169,8 +181,13 @@ namespace Typerr.ViewModel
                 else
                 {
                     lastChar = BuildRun(Text[_userText.Length - 1], RunType.Wrong);
-                    ErrorPositions.Add(_userText.Length - 1);
+                    _errorPositions.Add(_userText.Length - 1);
                     TestPanelVM.TypingErrors++;
+
+                    if (Text[_userText.Length - 1] != ' ')
+                    {
+                        _correctWordMap[TestPanelVM.WordsTyped] = false;
+                    }
                 }
 
                 _runs[^3] = lastChar;
@@ -180,11 +197,18 @@ namespace Typerr.ViewModel
                 {
                     TestPanelVM.WordsTyped++;
 
+                    if (_correctWordMap[TestPanelVM.WordsTyped - 1])
+                    {
+                        CorrectWords++;
+                    }
+
                     if (_user.Mode == 1)
                     {
                         TestPanelVM.ModeData = (int.Parse(TestPanelVM.ModeData) - 1).ToString();
                     }
 
+                    // Reset the flag for the next word
+                    _correctWordMap[TestPanelVM.WordsTyped] = true;
                 }
             }
             // The user hit backspace
@@ -196,16 +220,22 @@ namespace Typerr.ViewModel
                 _runs[^2] = BuildRun(_text[_runs.Count - 2], RunType.Current);
 
                 // Typing errors
-                if (ErrorPositions.Count > 0 && ErrorPositions[^1] == _userText.Length)
+                if (_errorPositions.Count > 0 && _errorPositions[^1] == _userText.Length)
                 {
-                    ErrorPositions.RemoveAt(ErrorPositions.Count - 1);
+                    _errorPositions.RemoveAt(_errorPositions.Count - 1);
                     TestPanelVM.TypingErrors--;
                 }
 
                 // Word Count
                 if (Text[_userText.Length - 1] == ' ')
                 {
+                    _correctWordMap[TestPanelVM.WordsTyped] = false;
                     TestPanelVM.WordsTyped--;
+
+                    if (CorrectWords > 0)
+                    {
+                        CorrectWords--;
+                    }
 
                     if (_user.Mode == 1)
                     {
@@ -231,6 +261,11 @@ namespace Typerr.ViewModel
         internal void Pause()
         {
             _isPaused = true;
+        }
+
+        public void ResetCorrectWords()
+        {
+            CorrectWords = 0;
         }
     }
 }
