@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using Typerr.Commands;
-using Typerr.Components;
 using Typerr.Model;
 
 namespace Typerr.ViewModel
@@ -35,29 +29,10 @@ namespace Typerr.ViewModel
                     OnPropertyChanged(nameof(UserText));
                     if (_testStarted)
                     {
-                        if (Text != null && _userText.Length > 0)
-                        {
-                            _outputText = Text[(_userText.Length - 1)..];
-                        }
-
                         UpdateTest();
                     }
                 }
 
-            }
-        }
-
-        private string _outputText;
-        public string OutputText
-        {
-            get
-            {
-                return _outputText;
-            }
-            set
-            {
-                _outputText = value;
-                OnPropertyChanged(nameof(OutputText));
             }
         }
 

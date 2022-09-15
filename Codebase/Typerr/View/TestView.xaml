@@ -18,20 +18,7 @@
                  TextWrapping = "Wrap"
                  IsHitTestVisible = "False"
                  BorderThickness = "0"
-                 Margin="10">
-        </TextBox>
-        <TextBox Name = "OutputField"
-                 Text = "{Binding OutputText, UpdateSourceTrigger=PropertyChanged}"
-                 FontSize = "45"
-                 Background = "Transparent"
-                 Foreground = "Transparent"
-                 TextWrapping = "Wrap"
-                 IsHitTestVisible = "False"
-                 Focusable="False"
-                 IsReadOnly="True"
-                 BorderThickness = "0"
-                 Margin="10">
-        </TextBox>
+                 Margin="10"/>
         <ContentControl Content="{Binding RichTextBlock}"
                         Margin="10"
                         Name="ContentControl"/>
