@@ -83,6 +83,7 @@ namespace Typerr.ViewModel
 
         // List of runs to add to the RichTextBlock
         private List<Run> _runs;
+        private Paragraph _paragraph;
 
         // The list of error positions is needed to know when to undo typing errors
         private List<int> _errorPositions;
@@ -113,10 +114,10 @@ namespace Typerr.ViewModel
             UserText = "";
             _runs.Add(BuildRun(Text[0].ToString(), RunType.Current));
             _runs.Add(BuildRun(Text[1..], RunType.Untyped));
-            Paragraph paragraph = new Paragraph();
-            paragraph.Inlines.Add(_runs[0]);
-            paragraph.Inlines.Add(_runs[1]);
-            RichTextBlock.Document.Blocks.Add(paragraph);
+            _paragraph = new Paragraph();
+            _paragraph.Inlines.Add(_runs[0]);
+            _paragraph.Inlines.Add(_runs[1]);
+            RichTextBlock.Document.Blocks.Add(_paragraph);
             _testStarted = true;
         }
 
@@ -170,10 +171,14 @@ namespace Typerr.ViewModel
             // The user hit backspace to the beginning
             if (_userText.Length == 0)
             {
-                // Reset the runs
+                RichTextBlock.Document.Blocks.Clear();
+                _paragraph.Inlines.Clear();
                 _runs.Clear();
                 _runs.Add(BuildRun(Text[0].ToString(), RunType.Current));
                 _runs.Add(BuildRun(Text[1..], RunType.Untyped));
+                _paragraph.Inlines.Add(_runs[0]);
+                _paragraph.Inlines.Add(_runs[1]);
+                RichTextBlock.Document.Blocks.Add(_paragraph);
 
                 TestPanelVM.TypingErrors = 0;
                 TestPanelVM.WordsTyped = 0;
@@ -185,14 +190,26 @@ namespace Typerr.ViewModel
             // The user has hit the end
             else if (_userText.Length == Text.Length)
             {
+                _paragraph.Inlines.Remove(_runs[^1]);
+                _runs.RemoveAt(_runs.Count - 1);
+
                 if (_userText[^1] == Text[_userText.Length - 1])
                 {
-                    _runs.RemoveAt(_runs.Count - 1);
-                    _runs[^1] = BuildRun(_userText[^1], RunType.Right);
+                    Run right = BuildRun(_userText[^1], RunType.Right);
+
+                    _paragraph.Inlines.InsertAfter(_runs[^1], right);
+                    _paragraph.Inlines.Remove(_runs[^1]);
+
+                    _runs[^1] = right;
                 }
                 else
                 {
-                    _runs[^1] = BuildRun(Text[_userText.Length - 1], RunType.Wrong);
+                    Run wrong = BuildRun(Text[_userText.Length - 1], RunType.Wrong);
+
+                    _paragraph.Inlines.InsertAfter(_runs[^1], wrong);
+                    _paragraph.Inlines.Remove(_runs[^1]);
+
+                    _runs[^1] = wrong;
                     _errorPositions.Add(_userText.Length - 1);
                     TestPanelVM.TypingErrors++;
                 }
@@ -202,17 +219,31 @@ namespace Typerr.ViewModel
             else if (_userText.Length == _previousUserText.Length + 1)
             {
                 // Modify the list of runs
+
+                // Define new runs
                 Run untyped = BuildRun(_runs[^1].Text[1..], RunType.Untyped);
-                _runs[^1] = BuildRun(_runs[^1].Text[0], RunType.Current);
+                Run current = BuildRun(_runs[^1].Text[0], RunType.Current);
+
+                // Replace the old untyped in the paragraph with a current
+                _paragraph.Inlines.Remove(_runs[^1]);
+                _paragraph.Inlines.Add(current);
+
+                // Replace the old untyped in the runs with a current char
+                _runs[^1] = current;
+
+                // Add the new untyped to the paragraph and runs
+                _paragraph.Inlines.Add(untyped);
                 _runs.Add(untyped);
-                Run lastChar;
+
+                // Define the previous char
+                Run previousChar;
                 if (_userText[^1] == Text[_userText.Length - 1])
                 {
-                    lastChar = BuildRun(_userText[^1], RunType.Right);
+                    previousChar = BuildRun(_userText[^1], RunType.Right);
                 }
                 else
                 {
-                    lastChar = BuildRun(Text[_userText.Length - 1], RunType.Wrong);
+                    previousChar = BuildRun(Text[_userText.Length - 1], RunType.Wrong);
                     _errorPositions.Add(_userText.Length - 1);
                     TestPanelVM.TypingErrors++;
 
@@ -222,7 +253,10 @@ namespace Typerr.ViewModel
                     }
                 }
 
-                _runs[^3] = lastChar;
+                // Replace the old current with the previous char
+                _paragraph.Inlines.InsertAfter(_runs[^3], previousChar);
+                _paragraph.Inlines.Remove(_runs[^3]);
+                _runs[^3] = previousChar;
 
                 // Word Count
                 if (Text[_userText.Length - 1] == ' ')
@@ -246,10 +280,22 @@ namespace Typerr.ViewModel
             // The user hit backspace
             else if (_userText.Length == _previousUserText.Length - 1)
             {
+                // Define new runs
                 Run untyped = BuildRun(Text[(_runs.Count - 2)..], RunType.Untyped);
+                Run current = BuildRun(Text[_runs.Count - 3], RunType.Current);
+
+                // Replace the old current with the new untyped
+                _paragraph.Inlines.Remove(_runs[^1]);
+                _paragraph.Inlines.InsertAfter(_runs[^2], untyped);
+                _paragraph.Inlines.Remove(_runs[^2]);
+
                 _runs.RemoveAt(_runs.Count - 1);
                 _runs[^1] = untyped;
-                _runs[^2] = BuildRun(Text[_runs.Count - 2], RunType.Current);
+
+                // Replace the previous char with a current
+                _paragraph.Inlines.InsertAfter(_runs[^2], current);
+                _paragraph.Inlines.Remove(_runs[^2]);
+                _runs[^2] = current;
 
                 // Typing errors
                 if (_errorPositions.Count > 0 && _errorPositions[^1] == _userText.Length)
@@ -276,16 +322,6 @@ namespace Typerr.ViewModel
 
                 }
             }
-            
-            
-            RichTextBlock.Document.Blocks.Clear();
-            Paragraph paragraph = new Paragraph();
-            foreach (Run run in _runs)
-            {
-                paragraph.Inlines.Add(run);
-            }
-            
-            RichTextBlock.Document.Blocks.Add(paragraph);
         }
 
         internal void Unpause()
