@@ -12,10 +12,11 @@ namespace Typerr.Model
         // Additional Fields
         private readonly DateTime _creationDate;
         public BitmapImage Image { get; set; }
+        public string Base64Image { get; set; }
         public BitmapImage Favicon { get; set; }
         public int WordCount { get; set; }
 
-        public FileInfo FileName { get; set; }
+        public string Filename { get; set; }
 
         public TestModel()
         {

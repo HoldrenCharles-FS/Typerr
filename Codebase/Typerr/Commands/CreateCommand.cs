@@ -24,54 +24,24 @@ namespace Typerr.Commands
         public override void Execute(object parameter)
         {
             _createTestViewModel.TestModel.WordCount = TestService.GetWordCount(_createTestViewModel.TestModel.article.text);
-            FileStream writer = new FileStream(GenerateFileName(), FileMode.CreateNew);
-            string image = "NULL";
+
             if (_createTestViewModel.Image != null)
             {
                 _createTestViewModel.TestModel.Image = _createTestViewModel.Image;
-                image = CompressImage();
+                _createTestViewModel.TestModel.Base64Image = CompressImage();
             }
-
-            using (XmlWriter xmlWriter = XmlWriter.Create(writer))
+            else
             {
-                xmlWriter.WriteStartDocument();
-                xmlWriter.WriteStartElement("TestModel");
-                xmlWriter.WriteAttributeString("Image", image);
-                xmlWriter.WriteStartElement("article");
-                xmlWriter.WriteAttributeString("title", _createTestViewModel.TestModel.article.title);
-                xmlWriter.WriteAttributeString("text", _createTestViewModel.TestModel.article.text);
-                xmlWriter.WriteAttributeString("summary", _createTestViewModel.TestModel.article.summary);
-                xmlWriter.WriteAttributeString("author", _createTestViewModel.TestModel.article.author);
-                xmlWriter.WriteAttributeString("site_name", _createTestViewModel.TestModel.article.site_name);
-                xmlWriter.WriteAttributeString("canonical_url", _createTestViewModel.TestModel.article.canonical_url);
-                xmlWriter.WriteAttributeString("pub_date", _createTestViewModel.TestModel.article.pub_date.ToString());
-                xmlWriter.WriteAttributeString("image", _createTestViewModel.TestModel.article.image);
-                xmlWriter.WriteAttributeString("favicon", _createTestViewModel.TestModel.article.favicon);
-                xmlWriter.WriteEndElement();
-
-                xmlWriter.WriteStartElement("testData");
-                xmlWriter.WriteAttributeString("TestStarted", _createTestViewModel.TestModel.testData.TestStarted.ToString());
-                xmlWriter.WriteAttributeString("LastPosition", _createTestViewModel.TestModel.testData.LastPosition.ToString());
-                xmlWriter.WriteEndElement();
-
-                xmlWriter.WriteEndDocument();
-
-                writer.Flush();
+                _createTestViewModel.TestModel.Base64Image = "NULL";
             }
 
-            writer.Close();
+            TestService.Write(_createTestViewModel.TestModel, GenerateFileName());
 
             _homeViewModel.MainViewModel.AddLibTile(_createTestViewModel.TestModel, _homeViewModel);
             _homeViewModel.RefreshLibrary();
 
             _createTestViewModel.CreateTestCloseCommand.Execute(parameter);
-            _createTestViewModel.TextArea = CreateTestViewModel.DefaultMessage;
-            _createTestViewModel.Title = "";
-            _createTestViewModel.Author = "";
-            _createTestViewModel.Summary = "";
-            _createTestViewModel.Source = "";
-            _createTestViewModel.Image = null;
-            _createTestViewModel.PublishDate = null;
+            _createTestViewModel.Reset();
 
         }
 

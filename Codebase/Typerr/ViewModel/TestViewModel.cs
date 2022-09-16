@@ -62,7 +62,7 @@ namespace Typerr.ViewModel
         private Paragraph _paragraph;
 
         // The list of error positions is needed to know when to undo typing errors
-        private List<int> _errorPositions;
+        public List<int> ErrorPositions { get; private set; }
 
         // These variables are related to tracking if the user got a word wrong
         private string[] _words;
@@ -77,7 +77,7 @@ namespace Typerr.ViewModel
 
         private void Init()
         {
-            _errorPositions = new List<int>();
+            ErrorPositions = new List<int>();
             _words = TestModel.article.text.Split(" ");
             _correctWordMap = new bool[_words.Length];
             _correctWordMap[0] = true;
@@ -192,7 +192,7 @@ namespace Typerr.ViewModel
                     _paragraph.Inlines.Remove(_runs[^1]);
 
                     _runs[^1] = wrong;
-                    _errorPositions.Add(_userText.Length - 1);
+                    ErrorPositions.Add(_userText.Length - 1);
                     TestPanelVM.TypingErrors++;
 
                     _correctWordMap[TestPanelVM.WordsTyped] = false;
@@ -231,7 +231,7 @@ namespace Typerr.ViewModel
                 else
                 {
                     previousChar = BuildRun(Text[_userText.Length - 1], RunType.Wrong);
-                    _errorPositions.Add(_userText.Length - 1);
+                    ErrorPositions.Add(_userText.Length - 1);
                     TestPanelVM.TypingErrors++;
 
                     if (Text[_userText.Length - 1] != ' ')
@@ -286,9 +286,9 @@ namespace Typerr.ViewModel
                 _runs[^2] = current;
 
                 // Typing errors
-                if (_errorPositions.Count > 0 && _errorPositions[^1] == _userText.Length)
+                if (ErrorPositions.Count > 0 && ErrorPositions[^1] == _userText.Length)
                 {
-                    _errorPositions.RemoveAt(_errorPositions.Count - 1);
+                    ErrorPositions.RemoveAt(ErrorPositions.Count - 1);
                     TestPanelVM.TypingErrors--;
                 }
 

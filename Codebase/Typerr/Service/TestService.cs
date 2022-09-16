@@ -1,9 +1,90 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Windows.Media.Imaging;
+using System.Xml;
+using Typerr.Model;
 
 namespace Typerr.Service
 {
     public class TestService
     {
+        public static void Write(TestModel testModel, string filename = null)
+        {
+            if (string.IsNullOrWhiteSpace(filename))
+            {
+                filename = testModel.Filename;
+            }
+            else
+            {
+                // Assign the newly created tests filename to the paramater passed in
+                testModel.Filename = filename;
+            }
+
+            try
+            {
+                File.Delete(filename);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            
+
+            string errorPositions = "NULL";
+
+            if (testModel.testData.ErrorPositions.Count == 1)
+            {
+                errorPositions = testModel.testData.ErrorPositions[0].ToString();
+            }
+            else if (testModel.testData.ErrorPositions.Count > 0)
+            {
+                errorPositions = "";
+                for (int i = 0; i < testModel.testData.ErrorPositions.Count; i++)
+                {
+                    errorPositions += testModel.testData.ErrorPositions[i].ToString();
+                    if (i != testModel.testData.ErrorPositions.Count - 1)
+                    {
+                        errorPositions += ",";
+                    }
+                }
+            }
+
+            FileStream writer = new FileStream(filename, FileMode.CreateNew);
+
+            using (XmlWriter xmlWriter = XmlWriter.Create(writer))
+            {
+                xmlWriter.WriteStartDocument();
+                xmlWriter.WriteStartElement("TestModel");
+                xmlWriter.WriteAttributeString("Image", string.IsNullOrWhiteSpace(testModel.Base64Image) ? "NULL" : testModel.Base64Image);
+                xmlWriter.WriteStartElement("article");
+                xmlWriter.WriteAttributeString("title", testModel.article.title);
+                xmlWriter.WriteAttributeString("text", testModel.article.text);
+                xmlWriter.WriteAttributeString("summary", testModel.article.summary);
+                xmlWriter.WriteAttributeString("author", testModel.article.author);
+                xmlWriter.WriteAttributeString("site_name", testModel.article.site_name);
+                xmlWriter.WriteAttributeString("canonical_url", testModel.article.canonical_url);
+                xmlWriter.WriteAttributeString("pub_date", testModel.article.pub_date.ToString());
+                xmlWriter.WriteAttributeString("image", testModel.article.image);
+                xmlWriter.WriteAttributeString("favicon", testModel.article.favicon);
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteStartElement("testData");
+                xmlWriter.WriteAttributeString("TestStarted", testModel.testData.TestStarted.ToString());
+                xmlWriter.WriteAttributeString("LastPosition", testModel.testData.LastPosition.ToString());
+                xmlWriter.WriteAttributeString("ErrorPositions", errorPositions);
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteEndDocument();
+
+                writer.Flush();
+            }
+
+            writer.Close();
+        }
+
         // Calculates Word Count
         public static int GetWordCount(string txt)
         {
@@ -33,7 +114,7 @@ namespace Typerr.Service
             return txt;
         }
 
-        public static string FormatTimeRemaining(int wordCount, int wpm) 
+        public static string FormatTimeRemaining(int wordCount, int wpm)
         {
             string time = "";
 

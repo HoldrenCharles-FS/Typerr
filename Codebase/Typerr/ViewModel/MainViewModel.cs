@@ -103,11 +103,11 @@ namespace Typerr.ViewModel
             _allLibTileViewModels.Insert(0, libTileViewModel);
         }
 
-        public void RemoveLibTile(FileInfo fileInfo)
+        public void RemoveLibTile(string filename)
         {
             foreach (LibTileViewModel libTile in AllLibTileViewModels)
             {
-                if (libTile.TestModel.FileName == fileInfo)
+                if (libTile.TestModel.Filename == filename)
                 {
                     _allLibTileViewModels.Remove(libTile);
                     break;

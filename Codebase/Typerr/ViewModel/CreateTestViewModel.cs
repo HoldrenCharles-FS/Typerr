@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Typerr.Commands;
 using Typerr.Model;
@@ -40,6 +40,7 @@ namespace Typerr.ViewModel
             }
             set
             {
+
                 _textArea = value;
                 OnPropertyChanged(nameof(TextArea));
 
@@ -52,9 +53,13 @@ namespace Typerr.ViewModel
                 if (!string.IsNullOrWhiteSpace(_textArea) && _textArea != DefaultMessage)
                 {
                     SidebarEnabled = true;
-                    if (!string.IsNullOrWhiteSpace(Title))
+                    if (!string.IsNullOrWhiteSpace(Title) && _textArea.Length <= 10000)
                     {
                         CreateButtonEnabled = true;
+                    }
+                    else
+                    {
+                        CreateButtonEnabled = false;
                     }
                 }
                 else
@@ -94,7 +99,7 @@ namespace Typerr.ViewModel
                     TestModel.article.title = _title;
                 }
 
-                if (!string.IsNullOrWhiteSpace(_textArea) && _textArea != DefaultMessage && !string.IsNullOrWhiteSpace(_title))
+                if (!string.IsNullOrWhiteSpace(_textArea) && _textArea != DefaultMessage && !string.IsNullOrWhiteSpace(_title) && _textArea.Length <= 10000)
                 {
                     CreateButtonEnabled = true;
                 }
@@ -102,6 +107,7 @@ namespace Typerr.ViewModel
                 {
                     CreateButtonEnabled = false;
                 }
+
 
             }
         }
@@ -331,7 +337,18 @@ namespace Typerr.ViewModel
             SidebarEnabled = false;
             GetTestButtonEnabled = false;
             TestModel = new TestModel();
-            
+        }
+
+        public void Reset()
+        {
+            TestModel = null;
+            TextArea = DefaultMessage;
+            Title = "";
+            Author = "";
+            Summary = "";
+            Source = "";
+            Image = null;
+            PublishDate = null;
         }
     }
 }

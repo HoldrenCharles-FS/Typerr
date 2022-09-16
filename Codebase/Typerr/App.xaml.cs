@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -80,6 +81,7 @@ namespace Typerr
                             {
                                 reader.MoveToFirstAttribute();
                                 reader.ReadToFollowing("TestModel");
+
                                 reader.MoveToFirstAttribute();
 
                                 if (reader.Value == "NULL")
@@ -153,12 +155,27 @@ namespace Typerr
 
                                 reader.MoveToNextAttribute();
                                 testModel.testData.LastPosition = int.Parse(reader.Value);
+                                
+                                reader.MoveToNextAttribute();
+                                string[] errorPositions = reader.Value.Split(',');
 
-                                testModel.FileName = file;
+                                testModel.testData.ErrorPositions = new List<int>();
+                                foreach (string pos in errorPositions)
+                                {
+                                    if (pos == "NULL")
+                                        break;
+                                    testModel.testData.ErrorPositions.Add(int.Parse(pos));
+                                }
+
+                                testModel.Filename = file.FullName;
                             }
                         }
 
                         mainViewModel.AddLibTile(testModel, homeViewModel);
+                    }
+                    else if (file.Length == 0)
+                    {
+                        File.Delete(file.FullName);
                     }
 
                 }
