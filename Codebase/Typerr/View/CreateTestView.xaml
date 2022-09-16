@@ -105,6 +105,8 @@
                 <Button x:Name="GetTestButton"
                         Grid.Column="2"
                         Content="Get Test" 
+                        ToolTip="{Binding GetTestButtonToolTip, UpdateSourceTrigger=PropertyChanged}"
+                        ToolTipService.ShowOnDisabled="True"
                         Style="{StaticResource SecondaryButtonTheme}"
                         Command="{Binding GetTestCommand}"
                         IsEnabled="{Binding GetTestButtonEnabled, UpdateSourceTrigger=PropertyChanged}">
@@ -314,6 +316,7 @@
                     Content="Create Test"
                     Command="{Binding CreateCommand}"
                     HorizontalAlignment="Right"
+                    ToolTip="{Binding CreateTestButtonToolTip, UpdateSourceTrigger=PropertyChanged}"
                     ToolTipService.ShowOnDisabled="True"
                     IsEnabled="{Binding CreateButtonEnabled, UpdateSourceTrigger=PropertyChanged}">
                 <Button.Style>
@@ -365,10 +368,6 @@
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
-                <Button.ToolTip>
-                        <Binding Path="CreateTestButtonToolTip"
-                             UpdateSourceTrigger="PropertyChanged"/>
-                </Button.ToolTip>
             </Button>
         </Grid>
     </Grid>

@@ -28,6 +28,7 @@ namespace Typerr.Commands
             }
             else
             {
+                _createTestViewModel.ObtainedUrl = true;
                 _createTestViewModel.TestModel.article.text = TestService.FormatText(_createTestViewModel.TestModel.article.text);
                 _createTestViewModel.TestModel.WordCount = TestService.GetWordCount(_createTestViewModel.TestModel.article.text);
 

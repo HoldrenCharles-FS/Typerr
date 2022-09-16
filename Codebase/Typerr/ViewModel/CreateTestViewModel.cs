@@ -82,7 +82,6 @@ namespace Typerr.ViewModel
                     if (Uri.IsWellFormedUriString(_textArea, UriKind.Absolute) && !ObtainedUrl)
                     {
                         Url = _textArea;
-                        ObtainedUrl = true;
                     }
                 }
                 else
@@ -279,6 +278,18 @@ namespace Typerr.ViewModel
             }
             set
             {
+                if (value && ObtainedUrl)
+                {
+                    GetTestButtonToolTip = "Click here to reset the article.";
+                }
+                else if (value && !ObtainedUrl)
+                {
+                    GetTestButtonToolTip = "Click here to send a request to the Article and Data Extraction API.";
+                }
+                else
+                {
+                    GetTestButtonToolTip = "This button is disabled until a URL is provided.";
+                }
                 _getTestButtonEnabled = value;
                 OnPropertyChanged(nameof(GetTestButtonEnabled));
             }
@@ -299,7 +310,7 @@ namespace Typerr.ViewModel
                 }
                 else
                 {
-                    CreateTestButtonToolTip = "All tests require a title and body.";
+                    CreateTestButtonToolTip = "This button is disabled until a title and body are provided.";
                 }
                 _createButtonEnabled = value;
                 OnPropertyChanged(nameof(CreateButtonEnabled));
@@ -376,7 +387,21 @@ namespace Typerr.ViewModel
             }
         }
 
-        public bool ObtainedUrl { get; private set; } = false;
+        private string _getTestButtonToolTip;
+        public string GetTestButtonToolTip
+        {
+            get
+            {
+                return _getTestButtonToolTip;
+            }
+            set
+            {
+                _getTestButtonToolTip = value;
+                OnPropertyChanged(nameof(GetTestButtonToolTip));
+            }
+        }
+
+        public bool ObtainedUrl { get; set; } = false;
 
         public static string DefaultMessage { get; } = "Paste a URL here or begin typing to create your test";
 
