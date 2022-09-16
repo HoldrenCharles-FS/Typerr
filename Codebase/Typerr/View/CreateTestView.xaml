@@ -57,8 +57,8 @@
                      LostFocus="TextAreaBox_LostFocus"
                      MinWidth="400">
                 <TextBox.Style>
-                    <Style>
-                        <Setter Property="Validation.ErrorTemplate">
+                        <Style>
+                            <Setter Property="Validation.ErrorTemplate">
                             <Setter.Value>
                                 <ControlTemplate>
                                     <DockPanel>
@@ -70,19 +70,18 @@
                                         <AdornedElementPlaceholder x:Name="placeholder"/>
                                     </DockPanel>
                                 </ControlTemplate>
+                                
+                                
                             </Setter.Value>
                         </Setter>
                     </Style>
                 </TextBox.Style>
                 <TextBox.Text>
-                    <Binding NotifyOnValidationError="True" 
+                        <Binding NotifyOnValidationError="True" 
                           UpdateSourceTrigger="PropertyChanged" 
                               ValidatesOnExceptions="True"
                               Path="TextArea">
-                        <Binding.ValidationRules>
-                            <local:TextAreaValidationError ValidatesOnTargetUpdated="True" />
-                        </Binding.ValidationRules>
-                    </Binding>
+                        </Binding>
                 </TextBox.Text>
                 <TextBox.ToolTip>
                         <Binding Path="TextAreaToolTip"

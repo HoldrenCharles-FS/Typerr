@@ -24,10 +24,12 @@ namespace Typerr.Commands
 
             if (string.IsNullOrEmpty(_createTestViewModel.TestModel.article.text))
             {
-                _createTestViewModel.TextArea = CreateTestViewModel.DefaultMessage;
+                _createTestViewModel.Reset();
+                _createTestViewModel.HttpResponseOk = 0;
             }
             else
             {
+                _createTestViewModel.HttpResponseOk = 1;
                 _createTestViewModel.ObtainedUrl = true;
                 _createTestViewModel.TestModel.article.text = TestService.FormatText(_createTestViewModel.TestModel.article.text);
                 _createTestViewModel.TestModel.WordCount = TestService.GetWordCount(_createTestViewModel.TestModel.article.text);

@@ -1,13 +1,19 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Typerr.Commands;
 using Typerr.Model;
+using Typerr.Service;
+using Typerr.View;
 
 namespace Typerr.ViewModel
 {
-    public class CreateTestViewModel : ViewModelBase
+    public class CreateTestViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         public ICommand OpenFromFileCommand { get; }
         public ICommand GetTestCommand { get; }
@@ -40,9 +46,12 @@ namespace Typerr.ViewModel
             }
             set
             {
+                ClearErrors(nameof(TextArea));
+
                 if (value.Length > 10000)
                 {
                     TextAreaBrush = new SolidColorBrush(Colors.Red);
+                    AddError(nameof(TextArea), $"Tests cannot exceed 10,000 characters. Please delete {TestService.FormatNumber(value.Length - 10000)} more characters.");
                 }
                 else
                 {
@@ -295,6 +304,31 @@ namespace Typerr.ViewModel
             }
         }
 
+        private int _httpResponseOk;
+        public int HttpResponseOk
+        {
+            get
+            {
+                return _httpResponseOk;
+            }
+            set
+            {
+                _httpResponseOk = value;
+                ClearErrors(nameof(TextArea));
+                if (_httpResponseOk == 0)
+                {
+                    TextAreaBrush = new SolidColorBrush(Colors.Red);
+                    AddError(nameof(TextArea), "Sorry, the request failed to return any data. You can try a different URL or copy and paste the text itself.");
+                }
+                else
+                {
+                    TextAreaBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
+                }
+
+                OnPropertyChanged(nameof(HttpResponseOk));
+            }
+        }
+
         private bool _createButtonEnabled;
         public bool CreateButtonEnabled
         {
@@ -388,6 +422,8 @@ namespace Typerr.ViewModel
         }
 
         private string _getTestButtonToolTip;
+
+
         public string GetTestButtonToolTip
         {
             get
@@ -409,6 +445,12 @@ namespace Typerr.ViewModel
         // Variable is introduced to force those fields to stay at that height.
         public double SingleRowHeight { get; } = 40.620000000000005;
 
+        private readonly Dictionary<string, List<string>> _propertyErrors;
+
+        public bool HasErrors => _propertyErrors.Any();
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
         public CreateTestViewModel(ICommand createTestCloseCommand, HomeViewModel homeViewModel)
         {
             OpenFromFileCommand = new OpenFromFileCommand(this);
@@ -417,6 +459,12 @@ namespace Typerr.ViewModel
             CreateTestCloseCommand = createTestCloseCommand;
             RemoveImageCommand = new RemoveImageCommand(this);
             AddImageCommand = new AddImageCommand(this);
+            _propertyErrors = new Dictionary<string, List<string>>();
+            Init();
+        }
+
+        private void Init()
+        {
             TextArea = DefaultMessage;
             PublishDate = null;
             SidebarEnabled = false;
@@ -425,6 +473,7 @@ namespace Typerr.ViewModel
             TestModel = new TestModel();
             TextAreaBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
             TextAreaToolTip = "Paste a URL here to generate a test(Ctrl + V or from the Right-Click Menu)";
+            HttpResponseOk = -1;
         }
 
         public void Reset()
@@ -437,6 +486,34 @@ namespace Typerr.ViewModel
             Source = "";
             Image = null;
             PublishDate = null;
+        }
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return _propertyErrors.GetValueOrDefault(propertyName, null);
+        }
+
+        public void AddError(string propertyName, string errorMessage)
+        {
+            if (!_propertyErrors.ContainsKey(propertyName))
+            {
+                _propertyErrors.Add(propertyName, new List<string>());
+            }
+
+            _propertyErrors[propertyName].Add(errorMessage);
+            
+            OnErrorsChanged(propertyName);
+        }
+
+        private void ClearErrors(string propertyName)
+        {
+            _propertyErrors.Remove(propertyName);
+            OnErrorsChanged(propertyName);
+        }
+
+        private void OnErrorsChanged(string propertyName)
+        {
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
     }
 }

@@ -49,24 +49,4 @@ namespace Typerr.View
             }
         }
     }
-
-    public class TextAreaValidationError : ValidationRule
-    {
-        public TextAreaValidationError()
-        {
-        }
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
-        {
-            string str = value.ToString();
-            if (str.Length > 10000)
-            {
-                return new ValidationResult(false, $"Tests cannot exceed 10,000 characters. Please delete {TestService.FormatNumber(str.Length - 10000)} more characters.");
-            }
-            else
-            {
-                return ValidationResult.ValidResult;
-            }
-
-        }
-    }
 }
