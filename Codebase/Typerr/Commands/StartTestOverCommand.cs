@@ -17,6 +17,8 @@ namespace Typerr.Commands
 
         public override void Execute(object parameter)
         {
+            _testViewModel.TestModel.testData.Reset();
+
             TestViewModel testViewModel = new TestViewModel(_testViewModel.TestModel, _mainViewModel.User);
             _mainViewModel.OverlayVisibility = Visibility.Collapsed;
             TestPanelViewModel testPanelViewModel = new TestPanelViewModel(_testViewModel, _mainViewModel.User, _testViewModel.TestModel.WordCount, _mainViewModel);

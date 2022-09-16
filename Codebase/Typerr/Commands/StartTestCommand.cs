@@ -8,23 +8,35 @@ using Typerr.ViewModel;
 
 namespace Typerr.Commands
 {
+    public enum StartTestOption
+    {
+        Start,
+        Resume
+    }
     public class StartTestCommand : CommandBase
     {
         private readonly NavigationStore _navigationStore;
         private readonly TestPreviewViewModel _testPreviewViewModel;
         private readonly MainViewModel _mainViewModel;
         private readonly User _user;
+        private readonly StartTestOption _startTestOption;
 
-        public StartTestCommand(NavigationStore navigationStore, TestPreviewViewModel testPreviewViewModel, MainViewModel mainViewModel, User user)
+        public StartTestCommand(NavigationStore navigationStore, 
+            TestPreviewViewModel testPreviewViewModel, MainViewModel mainViewModel, StartTestOption startTestOption)
         {
             _navigationStore = navigationStore;
             _testPreviewViewModel = testPreviewViewModel;
             _mainViewModel = mainViewModel;
-            _user = user;
+            _user = _testPreviewViewModel.User;
+            _startTestOption = startTestOption;
         }
 
         public override void Execute(object parameter)
         {
+            if (_startTestOption == StartTestOption.Start)
+            {
+                _testPreviewViewModel.TestModel.testData.Reset();
+            }
             _testPreviewViewModel.User.Minutes = _testPreviewViewModel.NumericUpDownValue;
             UserService.Write(_testPreviewViewModel.User);
 

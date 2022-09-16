@@ -33,7 +33,11 @@ namespace Typerr.View
         private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             InputField.Focus();
+        }
 
+        private void InputField_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            InputField.CaretIndex = InputField.Text.Length;
         }
     }
 }

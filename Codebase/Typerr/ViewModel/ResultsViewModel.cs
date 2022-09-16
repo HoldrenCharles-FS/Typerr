@@ -146,7 +146,7 @@ namespace Typerr.ViewModel
             Highest = _testPanelViewModel.GetHighest();
             Average = (int)_testPanelViewModel.GetAverage();
             double accuracy = Math.Round((double)_testViewModel.CorrectWordsTotal / _testPanelViewModel.WordsTyped * 100, 1);
-            Accuracy = "Accuracy: " + accuracy + "%";
+            Accuracy = "Accuracy: " + (double.IsNaN(accuracy) ? 0 : accuracy) + "%";
 
             StarOffset = 20;
             Star1 = new PackIconBootstrapIcons();

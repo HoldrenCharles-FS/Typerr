@@ -14,6 +14,7 @@
         <TextBox Name = "InputField"
                  Text = "{Binding UserText, UpdateSourceTrigger=PropertyChanged}"
                  FontSize = "45"
+                 PreviewKeyDown="InputField_PreviewKeyDown"
                  Background = "Transparent"
                  Foreground = "Transparent"
                  TextWrapping = "Wrap"

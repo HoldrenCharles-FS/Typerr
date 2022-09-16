@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -68,6 +69,8 @@ namespace Typerr.ViewModel
         public string[] Words { get; private set; }
         public bool[] CorrectWordMap { get; private set; }
 
+        public int StartingPosition { get; private set; }
+
         public TestViewModel(TestModel testModel, User user)
         {
             TestModel = testModel;
@@ -80,21 +83,88 @@ namespace Typerr.ViewModel
             ErrorPositions = new List<int>();
             Words = TestModel.article.text.Split(" ");
             CorrectWordMap = new bool[Words.Length];
-            CorrectWordMap[0] = true;
             _runs = new List<Run>();
             Text = TestModel.article.text;
             RichTextBlock = new RichTextBox();
             RichTextBlock.IsReadOnly = true;
             RichTextBlock.IsHitTestVisible = false;
             RichTextBlock.BorderThickness = new Thickness(0);
-            UserText = "";
-            _runs.Add(BuildRun(Text[0].ToString(), RunType.Current));
-            _runs.Add(BuildRun(Text[1..], RunType.Untyped));
             _paragraph = new Paragraph();
-            _paragraph.Inlines.Add(_runs[0]);
-            _paragraph.Inlines.Add(_runs[1]);
-            RichTextBlock.Document.Blocks.Add(_paragraph);
-            _testStarted = true;
+
+            if (TestModel.testData.TestStarted)
+            {
+                StartingPosition = TestModel.testData.LastPosition;
+                if (TestModel.testData.ErrorPositions.Count > 0)
+                {
+                    ErrorPositions = TestModel.testData.ErrorPositions;
+                    ErrorPositions.Sort();
+                }
+                int index = 0;
+                int length = 0;
+
+                foreach (string word in Words)
+                {
+                    length += word.Length;
+
+                    if (length > StartingPosition)
+                    {
+                        break;
+                    }
+
+                    index++;
+                }
+
+                CorrectWordMap[index] = true;
+
+                UserText = Text[0..StartingPosition];
+
+                index = 0;
+                for (int i = 0; i < StartingPosition; i++)
+                {
+                    if (index < ErrorPositions.Count)
+                    {
+                        if (i == ErrorPositions[index])
+                        {
+                            index++;
+                            _runs.Add(BuildRun(Text[i], RunType.Wrong));
+                            _paragraph.Inlines.Add(_runs[^1]);
+                        }
+                        else
+                        {
+                            _runs.Add(BuildRun(Text[i], RunType.Right));
+                            _paragraph.Inlines.Add(_runs[^1]);
+                        }
+                    }
+                    else
+                    {
+                        _runs.Add(BuildRun(Text[i], RunType.Right));
+                        _paragraph.Inlines.Add(_runs[^1]);
+                    }
+                }
+
+                _runs.Add(BuildRun(Text[StartingPosition], RunType.Current));
+                _paragraph.Inlines.Add(_runs[^1]);
+
+                _runs.Add(BuildRun(Text[(StartingPosition + 1)..], RunType.Untyped));
+                _paragraph.Inlines.Add(_runs[^1]);
+
+                RichTextBlock.Document.Blocks.Add(_paragraph);
+                _testStarted = true;
+            }
+            else
+            {
+                StartingPosition = 0;
+                CorrectWordMap[0] = true;
+
+                UserText = "";
+                _runs.Add(BuildRun(Text[0].ToString(), RunType.Current));
+                _runs.Add(BuildRun(Text[1..], RunType.Untyped));
+                _paragraph.Inlines.Add(_runs[0]);
+                _paragraph.Inlines.Add(_runs[1]);
+                RichTextBlock.Document.Blocks.Add(_paragraph);
+                _testStarted = true;
+            }
+            
         }
 
         enum RunType

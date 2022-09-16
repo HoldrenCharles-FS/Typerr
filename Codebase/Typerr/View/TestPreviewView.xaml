@@ -249,7 +249,7 @@
                             Style="{StaticResource SecondaryButtonTheme}"
                             Visibility="{Binding StartTestOverVisibility}"
                             Width="{Binding StartTestOverWidth}"
-                            Command="{Binding StartTestCommand}"/>
+                            Command="{Binding StartTestOverCommand}"/>
                     <Button Content="{Binding StartTestText}"
                             Style="{StaticResource PrimaryButtonTheme}"
                             Command="{Binding StartTestCommand}"/>

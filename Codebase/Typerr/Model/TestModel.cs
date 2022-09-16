@@ -25,6 +25,5 @@ namespace Typerr.Model
             testData = new TestData();
             _creationDate = DateTime.Now;
         }
-       
     }
 }

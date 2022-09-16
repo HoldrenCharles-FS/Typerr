@@ -21,5 +21,10 @@ namespace Typerr.Model
             ErrorPositions = new List<int>();
         }
 
+        public void Reset()
+        {
+            Init();
+        }
+
     }
 }
