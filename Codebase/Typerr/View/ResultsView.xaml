@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Typerr.View"
-             xmlns:viewmodel="clr-namespace:Typerr.ViewModel" >
+             xmlns:viewmodel="clr-namespace:Typerr.ViewModel">
     <Grid Background="White" Width="600" Height="440">
         <Grid.RowDefinitions>
             <RowDefinition/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -30,8 +31,8 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0"
                         Margin="20 0 0 0">
-                <Border Height="20"/>
-                <Label Content="40"
+                <Border Height="55"/>
+                <Label Content="{Binding Highest}"
                        HorizontalAlignment="Center"
                        FontSize="60"
                        FontWeight="Bold"
@@ -48,9 +49,9 @@
                        Padding="0"/>
             </StackPanel>
             <StackPanel Grid.Column="2"
-                        Margin="20 10">
+                        Margin="50 10">
                 
-                <Label Content="36"
+                <Label Content="{Binding Average}"
                        HorizontalAlignment="Center"
                        FontSize="80"
                        FontWeight="Bold"
@@ -69,8 +70,8 @@
             </StackPanel>
             <StackPanel Grid.Column="4"
                         Margin="0 0 20 0">
-                <Border Height="20"/>
-                <Label Content="32"
+                <Border Height="55"/>
+                <Label Content="{Binding Lowest}"
                        HorizontalAlignment="Center"
                        FontSize="60"
                        FontWeight="Bold"
@@ -87,11 +88,20 @@
                        Padding="0"/>
             </StackPanel>
         </Grid>
+        
+        <Label Content="{Binding Accuracy}"
+               Grid.Row="4"
+               Margin="20 0 0 0"
+               VerticalAlignment="Center"
+               FontWeight="Light"
+               FontSize="25"
+               Foreground="{StaticResource AppTheme}"/>
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Right"
-                    Grid.Row="3">
+                    Grid.Row="4">
             <Button Content="Start Test Over"
-                    Style="{StaticResource SecondaryButtonTheme}"/>
+                    Style="{StaticResource SecondaryButtonTheme}"
+                    Command="{Binding StartTestOverCommand}"/>
             <Button Content="Return to Menu" 
                     Style="{StaticResource PrimaryButtonTheme}"/>
         </StackPanel>

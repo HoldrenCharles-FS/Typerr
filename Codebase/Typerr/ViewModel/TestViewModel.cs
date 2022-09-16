@@ -37,6 +37,7 @@ namespace Typerr.ViewModel
         }
 
         public int CorrectWords { get; private set; }
+        public int CorrectWordsTotal { get; private set; }
 
         private string _previousUserText = "";
 
@@ -176,6 +177,12 @@ namespace Typerr.ViewModel
                     _paragraph.Inlines.Remove(_runs[^1]);
 
                     _runs[^1] = right;
+
+                    if (_correctWordMap[TestPanelVM.WordsTyped])
+                    {
+                        CorrectWords++;
+                        CorrectWordsTotal++;
+                    }
                 }
                 else
                 {
@@ -187,7 +194,12 @@ namespace Typerr.ViewModel
                     _runs[^1] = wrong;
                     _errorPositions.Add(_userText.Length - 1);
                     TestPanelVM.TypingErrors++;
+
+                    _correctWordMap[TestPanelVM.WordsTyped] = false;
+                    
                 }
+                TestPanelVM.WordsTyped++;
+                _isPaused = true;
                 TestPanelVM.StopTest();
             }
             // The user entered a new character
@@ -241,6 +253,7 @@ namespace Typerr.ViewModel
                     if (_correctWordMap[TestPanelVM.WordsTyped - 1])
                     {
                         CorrectWords++;
+                        CorrectWordsTotal++;
                     }
 
                     if (_user.Mode == 1)
@@ -288,6 +301,7 @@ namespace Typerr.ViewModel
                     if (CorrectWords > 0)
                     {
                         CorrectWords--;
+                        CorrectWordsTotal--;
                     }
 
                     if (_user.Mode == 1)
@@ -312,6 +326,16 @@ namespace Typerr.ViewModel
         public void ResetCorrectWords()
         {
             CorrectWords = 0;
+        }
+
+        internal void Restart()
+        {
+            _isPaused = false;
+            _testStarted = false;
+            _previousUserText = "";
+            CorrectWords = 0;
+            CorrectWordsTotal = 0;
+            Init();
         }
     }
 }

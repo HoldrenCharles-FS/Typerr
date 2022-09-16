@@ -114,5 +114,10 @@ namespace Typerr.ViewModel
             }
         }
 
+        public void SetCurrentView(ViewModelBase viewModelBase)
+        {
+            _navigationStore.CurrentViewModel = viewModelBase;
+        }
+
     }
 }

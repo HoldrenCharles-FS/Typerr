@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
+using Typerr.Stores;
 using Typerr.ViewModel;
 
 namespace Typerr.Commands
@@ -19,7 +20,7 @@ namespace Typerr.Commands
 
         public override void Execute(object parameter)
         {
-            _mainViewModel.CurrentDialog = new ResultsViewModel();
+            _mainViewModel.CurrentDialog = new ResultsViewModel(_testPanelViewModel, _testPanelViewModel.TestVM, _mainViewModel);
             _mainViewModel.OverlayVisibility = Visibility.Visible;
         }
 

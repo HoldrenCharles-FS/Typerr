@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Timers;
 using System.Windows;
@@ -16,7 +17,7 @@ namespace Typerr.ViewModel
     {
         public ICommand StopTestCommand { get; }
         public ICommand PauseTestCommand { get; }
-        public TestViewModel TestVM { get; }
+        public TestViewModel TestVM { get; internal set; }
 
         private readonly User _user;
 
@@ -283,6 +284,48 @@ namespace Typerr.ViewModel
                 }
 
             }
+        }
+
+        internal int GetLowest()
+        {
+            int value = 0;
+            if (_wpmRates.Count == 0)
+            {
+                value = TestVM.CorrectWordsTotal;
+            }
+            else
+            {
+                value = _wpmRates.Min();
+            }
+            return value;
+        }
+
+        internal int GetHighest()
+        {
+            int value = 0;
+            if (_wpmRates.Count == 0)
+            {
+                value = TestVM.CorrectWordsTotal;
+            }
+            else
+            {
+                value = _wpmRates.Max();
+            }
+            return value;
+        }
+
+        internal double GetAverage()
+        {
+            int value = 0;
+            if (_wpmRates.Count == 0)
+            {
+                value = TestVM.CorrectWordsTotal;
+            }
+            else
+            {
+                value = _wpmRates.Max();
+            }
+            return value;
         }
     }
 

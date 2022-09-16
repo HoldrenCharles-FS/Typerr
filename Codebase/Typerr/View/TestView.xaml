@@ -7,6 +7,7 @@
              xmlns:viewmodel="clr-namespace:Typerr.ViewModel" 
              FocusManager.FocusedElement="{Binding ElementName=InputField}"
              Loaded="UserControl_Loaded"
+             DataContextChanged="UserControl_DataContextChanged"
              d:DataContext="{d:DesignInstance Type=viewmodel:TestViewModel}"
              mc:Ignorable="d">
     <Grid>

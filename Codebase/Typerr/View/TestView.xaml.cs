@@ -29,5 +29,11 @@ namespace Typerr.View
         {
             InputField.Focus();
         }
+
+        private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            InputField.Focus();
+
+        }
     }
 }
