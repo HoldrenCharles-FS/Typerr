@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using Typerr.Service;
 using Typerr.ViewModel;
 
 namespace Typerr.View
@@ -59,7 +60,7 @@ namespace Typerr.View
             string str = value.ToString();
             if (str.Length > 10000)
             {
-                return new ValidationResult(false, $"Tests cannot exceed 10,000 characters. Please delete {str.Length - 10000} more characters.");
+                return new ValidationResult(false, $"Tests cannot exceed 10,000 characters. Please delete {TestService.FormatNumber(str.Length - 10000)} more characters.");
             }
             else
             {

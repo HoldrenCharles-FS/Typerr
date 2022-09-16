@@ -40,7 +40,14 @@ namespace Typerr.ViewModel
             }
             set
             {
-
+                if (value.Length > 10000)
+                {
+                    TextAreaBrush = new SolidColorBrush(Colors.Red);
+                }
+                else
+                {
+                    TextAreaBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
+                }
                 _textArea = value;
                 OnPropertyChanged(nameof(TextArea));
 
@@ -52,6 +59,7 @@ namespace Typerr.ViewModel
 
                 if (!string.IsNullOrWhiteSpace(_textArea) && _textArea != DefaultMessage)
                 {
+                    TextAreaToolTip = "Typerr will automatically format the text, from here you can remove any text you don't want, such as section headers.";
                     SidebarEnabled = true;
                     if (!string.IsNullOrWhiteSpace(Title) && _textArea.Length <= 10000)
                     {
@@ -64,6 +72,7 @@ namespace Typerr.ViewModel
                 }
                 else
                 {
+                    TextAreaToolTip = "Paste a URL here to generate a test(Ctrl + V or from the Right-Click Menu)";
                     SidebarEnabled = false;
                     CreateButtonEnabled = false;
                 }
@@ -101,6 +110,7 @@ namespace Typerr.ViewModel
 
                 if (!string.IsNullOrWhiteSpace(_textArea) && _textArea != DefaultMessage && !string.IsNullOrWhiteSpace(_title) && _textArea.Length <= 10000)
                 {
+                    
                     CreateButtonEnabled = true;
                 }
                 else
@@ -283,6 +293,14 @@ namespace Typerr.ViewModel
             }
             set
             {
+                if (value)
+                {
+                    CreateTestButtonToolTip = "Click here to create your new test.";
+                }
+                else
+                {
+                    CreateTestButtonToolTip = "All tests require a title and body.";
+                }
                 _createButtonEnabled = value;
                 OnPropertyChanged(nameof(CreateButtonEnabled));
             }
@@ -316,6 +334,48 @@ namespace Typerr.ViewModel
             }
         }
 
+        private SolidColorBrush _textAreaBrush;
+        public SolidColorBrush TextAreaBrush
+        {
+            get
+            {
+                return _textAreaBrush;
+            }
+            set
+            {
+                _textAreaBrush = value;
+                OnPropertyChanged(nameof(TextAreaBrush));
+            }
+        }
+
+        private string _textAreaToolTip;
+        public string TextAreaToolTip
+        {
+            get
+            {
+                return _textAreaToolTip;
+            }
+            set
+            {
+                _textAreaToolTip = value;
+                OnPropertyChanged(nameof(TextAreaToolTip));
+            }
+        }
+
+        private string _createTestButtonToolTip;
+        public string CreateTestButtonToolTip
+        {
+            get
+            {
+                return _createTestButtonToolTip;
+            }
+            set
+            {
+                _createTestButtonToolTip = value;
+                OnPropertyChanged(nameof(CreateTestButtonToolTip));
+            }
+        }
+
         public bool ObtainedUrl { get; private set; } = false;
 
         public static string DefaultMessage { get; } = "Paste a URL here or begin typing to create your test";
@@ -336,7 +396,10 @@ namespace Typerr.ViewModel
             PublishDate = null;
             SidebarEnabled = false;
             GetTestButtonEnabled = false;
+            CreateButtonEnabled = false;
             TestModel = new TestModel();
+            TextAreaBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
+            TextAreaToolTip = "Paste a URL here to generate a test(Ctrl + V or from the Right-Click Menu)";
         }
 
         public void Reset()
