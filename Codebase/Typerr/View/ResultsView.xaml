@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Typerr.View"
-             xmlns:viewmodel="clr-namespace:Typerr.ViewModel">
+             xmlns:viewmodel="clr-namespace:Typerr.ViewModel" xmlns:iconpacks="http://metro.mahapps.com/winfx/xaml/iconpacks">
     <Grid Background="White" Width="600" Height="440">
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -66,7 +66,49 @@
                        FontSize="34"
                        HorizontalAlignment="Center"
                        Padding="0"/>
-                <Border Background="Yellow" Width="150" Height="70"/>
+                <Border Width="150" 
+                        Height="70">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <Border Height="{Binding StarOffset}"/>
+                            <Grid>
+                                <iconpacks:PackIconBootstrapIcons Kind="Star"
+                                                                  Foreground="Black"
+                                                                  Width="51"
+                                                                  Height="51"/>
+                                <ContentControl Content="{Binding Star1}"/>
+
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <Grid>
+                                <iconpacks:PackIconBootstrapIcons Kind="Star"
+                                                                  Foreground="Black"
+                                                                  Width="51"
+                                                                  Height="51"/>
+                                <ContentControl Content="{Binding Star2}"/>
+
+                            </Grid>
+                            <Border Height="{Binding StarOffset}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <Border Height="{Binding StarOffset}"/>
+                            <Grid>
+                                <iconpacks:PackIconBootstrapIcons Kind="Star"
+                                                                  Foreground="Black"
+                                                                  Width="51"
+                                                                  Height="51"/>
+                                <ContentControl Content="{Binding Star3}"/>
+
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </StackPanel>
             <StackPanel Grid.Column="4"
                         Margin="0 0 20 0">

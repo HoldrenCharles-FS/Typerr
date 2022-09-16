@@ -65,8 +65,8 @@ namespace Typerr.ViewModel
         public List<int> ErrorPositions { get; private set; }
 
         // These variables are related to tracking if the user got a word wrong
-        private string[] _words;
-        private bool[] _correctWordMap;
+        public string[] Words { get; private set; }
+        public bool[] CorrectWordMap { get; private set; }
 
         public TestViewModel(TestModel testModel, User user)
         {
@@ -78,9 +78,9 @@ namespace Typerr.ViewModel
         private void Init()
         {
             ErrorPositions = new List<int>();
-            _words = TestModel.article.text.Split(" ");
-            _correctWordMap = new bool[_words.Length];
-            _correctWordMap[0] = true;
+            Words = TestModel.article.text.Split(" ");
+            CorrectWordMap = new bool[Words.Length];
+            CorrectWordMap[0] = true;
             _runs = new List<Run>();
             Text = TestModel.article.text;
             RichTextBlock = new RichTextBox();
@@ -178,10 +178,11 @@ namespace Typerr.ViewModel
 
                     _runs[^1] = right;
 
-                    if (_correctWordMap[TestPanelVM.WordsTyped])
+                    if (CorrectWordMap[TestPanelVM.WordsTyped])
                     {
                         CorrectWords++;
                         CorrectWordsTotal++;
+                        
                     }
                 }
                 else
@@ -195,10 +196,16 @@ namespace Typerr.ViewModel
                     ErrorPositions.Add(_userText.Length - 1);
                     TestPanelVM.TypingErrors++;
 
-                    _correctWordMap[TestPanelVM.WordsTyped] = false;
+                    CorrectWordMap[TestPanelVM.WordsTyped] = false;
                     
                 }
                 TestPanelVM.WordsTyped++;
+
+                if (_user.Mode == 1)
+                {
+                    TestPanelVM.ModeData = "0";
+                }
+
                 _isPaused = true;
                 TestPanelVM.StopTest();
             }
@@ -236,7 +243,7 @@ namespace Typerr.ViewModel
 
                     if (Text[_userText.Length - 1] != ' ')
                     {
-                        _correctWordMap[TestPanelVM.WordsTyped] = false;
+                        CorrectWordMap[TestPanelVM.WordsTyped] = false;
                     }
                 }
 
@@ -250,7 +257,7 @@ namespace Typerr.ViewModel
                 {
                     TestPanelVM.WordsTyped++;
 
-                    if (_correctWordMap[TestPanelVM.WordsTyped - 1])
+                    if (CorrectWordMap[TestPanelVM.WordsTyped - 1])
                     {
                         CorrectWords++;
                         CorrectWordsTotal++;
@@ -262,7 +269,7 @@ namespace Typerr.ViewModel
                     }
 
                     // Reset the flag for the next word
-                    _correctWordMap[TestPanelVM.WordsTyped] = true;
+                    CorrectWordMap[TestPanelVM.WordsTyped] = true;
                 }
             }
             // The user hit backspace
@@ -295,7 +302,7 @@ namespace Typerr.ViewModel
                 // Word Count
                 if (Text[_userText.Length - 1] == ' ')
                 {
-                    _correctWordMap[TestPanelVM.WordsTyped] = false;
+                    CorrectWordMap[TestPanelVM.WordsTyped] = false;
                     TestPanelVM.WordsTyped--;
 
                     if (CorrectWords > 0)
