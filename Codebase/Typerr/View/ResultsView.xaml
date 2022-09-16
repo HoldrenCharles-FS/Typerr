@@ -103,7 +103,8 @@
                     Style="{StaticResource SecondaryButtonTheme}"
                     Command="{Binding StartTestOverCommand}"/>
             <Button Content="Return to Menu" 
-                    Style="{StaticResource PrimaryButtonTheme}"/>
+                    Style="{StaticResource PrimaryButtonTheme}"
+                    Command="{Binding ReturnToMenuCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>

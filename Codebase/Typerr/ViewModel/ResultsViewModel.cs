@@ -76,7 +76,8 @@ namespace Typerr.ViewModel
         {
             _testPanelViewModel = testPanelViewModel;
             _testViewModel = testViewModel;
-            StartTestOverCommand = new StartTestOverCommand(this, mainViewModel, testViewModel);
+            StartTestOverCommand = new StartTestOverCommand(mainViewModel, testViewModel);
+            ReturnToMenuCommand = new ReturnToMenuCommand(mainViewModel);
             Init();
         }
 

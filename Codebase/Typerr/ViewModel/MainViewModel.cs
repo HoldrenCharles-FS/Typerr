@@ -18,6 +18,9 @@ namespace Typerr.ViewModel
 
         public User User { get; }
 
+        public HomeViewModel HomeViewModel { get; private set; }
+        public NavPanelViewModel NavPanelViewModel { get; private set; }
+
         private readonly ObservableCollection<LibTileViewModel> _allLibTileViewModels;
 
         public IEnumerable<LibTileViewModel> AllLibTileViewModels => _allLibTileViewModels;
@@ -49,8 +52,6 @@ namespace Typerr.ViewModel
                 OnPropertyChanged(nameof(CurrentPanel));
             }
         }
-
-        public NavPanelViewModel NavPanelViewModel { get; set; }
 
         private Visibility _overlayVisibility;
         public Visibility OverlayVisibility
@@ -117,6 +118,15 @@ namespace Typerr.ViewModel
         public void SetCurrentView(ViewModelBase viewModelBase)
         {
             _navigationStore.CurrentViewModel = viewModelBase;
+        }
+        
+        public void SetHomeViewModel(HomeViewModel homeViewModel)
+        {
+            HomeViewModel = homeViewModel;
+        }
+        public void SetNavPanelViewModel(NavPanelViewModel navPanelViewModel)
+        {
+            NavPanelViewModel = navPanelViewModel;
         }
 
     }

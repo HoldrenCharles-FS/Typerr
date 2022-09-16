@@ -6,13 +6,11 @@ namespace Typerr.Commands
 {
     public class StartTestOverCommand : CommandBase
     {
-        private readonly ResultsViewModel _resultsViewModel;
         private readonly MainViewModel _mainViewModel;
         private readonly TestViewModel _testViewModel;
 
-        public StartTestOverCommand(ResultsViewModel resultsViewModel, MainViewModel mainViewModel, TestViewModel testViewModel)
+        public StartTestOverCommand(MainViewModel mainViewModel, TestViewModel testViewModel)
         {
-            _resultsViewModel = resultsViewModel;
             _mainViewModel = mainViewModel;
             _testViewModel = testViewModel;
         }

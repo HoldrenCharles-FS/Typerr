@@ -248,7 +248,8 @@
                     <Button Content="Start Test Over"
                             Style="{StaticResource SecondaryButtonTheme}"
                             Visibility="{Binding StartTestOverVisibility}"
-                            Width="{Binding StartTestOverWidth}"/>
+                            Width="{Binding StartTestOverWidth}"
+                            Command="{Binding StartTestCommand}"/>
                     <Button Content="{Binding StartTestText}"
                             Style="{StaticResource PrimaryButtonTheme}"
                             Command="{Binding StartTestCommand}"/>

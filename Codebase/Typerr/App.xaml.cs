@@ -36,11 +36,12 @@ namespace Typerr
             NavigationCommand goToLibraryCommand = new NavigationCommand(_navigationStore, new LibraryViewModel(mainViewModel), mainViewModel, NavigationOption.None);
             NavigationCommand goToLibraryButtonCommand = new NavigationCommand(_navigationStore, new LibraryViewModel(mainViewModel), mainViewModel, NavigationOption.GoToLibraryButton);
             HomeViewModel homeViewModel = new HomeViewModel(mainViewModel, createTestTileCommand, goToLibraryButtonCommand, User);
+            mainViewModel.SetHomeViewModel(homeViewModel);
             NavigationCommand goToHomeCommand = new NavigationCommand(_navigationStore, homeViewModel, mainViewModel, NavigationOption.None);
             CreateTestViewModel createTestViewModel = new CreateTestViewModel(createTestCloseCommand, homeViewModel);
             mainViewModel.CreateTestViewModel = createTestViewModel;
             NavPanelViewModel navPanelViewModel = new NavPanelViewModel(goToHomeCommand, goToLibraryCommand);
-            mainViewModel.NavPanelViewModel = navPanelViewModel;
+            mainViewModel.SetNavPanelViewModel(navPanelViewModel);
             mainViewModel.CurrentPanel = mainViewModel.NavPanelViewModel;
             homeViewModel.NavPanelViewModel = navPanelViewModel;
 
