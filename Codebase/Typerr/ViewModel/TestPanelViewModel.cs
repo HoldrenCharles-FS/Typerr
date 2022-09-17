@@ -213,6 +213,8 @@ namespace Typerr.ViewModel
 
         internal void StopTest()
         {
+            double wpm = GetAverage();
+            _user.RecentWpm = wpm == 0 ? _user.RecentWpm : (int)wpm;
             _timer.Stop();
             _updateTimer.Stop();
             StopTestCommand.Execute(null);

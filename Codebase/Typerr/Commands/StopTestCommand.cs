@@ -34,6 +34,7 @@ namespace Typerr.Commands
             }
 
             TestService.Write(_testPanelViewModel.TestVM.TestModel);
+            UserService.Write(_mainViewModel.User);
 
             Application.Current.Dispatcher.Invoke((Action)delegate {
                 _mainViewModel.UpdateLibTile(_testPanelViewModel.TestVM.TestModel.Filename);

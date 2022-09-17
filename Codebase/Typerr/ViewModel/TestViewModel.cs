@@ -278,6 +278,7 @@ namespace Typerr.ViewModel
 
                 IsPaused = true;
                 TestModel.testData.Reset();
+
                 TestPanelVM.StopTest();
             }
             // The user entered a new character
