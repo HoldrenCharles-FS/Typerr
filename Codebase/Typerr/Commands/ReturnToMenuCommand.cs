@@ -17,6 +17,8 @@ namespace Typerr.Commands
         {
             _mainViewModel.OverlayVisibility = Visibility.Collapsed;
             _mainViewModel.SetCurrentView(_mainViewModel.HomeViewModel);
+            _mainViewModel.NavPanelViewModel.RadioHomeIsChecked = true;
+            _mainViewModel.NavPanelViewModel.RadioLibraryIsChecked = false;
             _mainViewModel.CurrentPanel = _mainViewModel.NavPanelViewModel;
         }
     }
