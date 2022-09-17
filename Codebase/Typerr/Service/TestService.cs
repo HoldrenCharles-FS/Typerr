@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -85,94 +86,109 @@ namespace Typerr.Service
             writer.Close();
         }
 
-        // Calculates Word Count
-        public static int GetWordCount(string txt)
+        public static TestModel Read(string filename)
         {
-            // Call Format Text before calling word count
-            char[] delimiters = new char[] { ' ', '\r', '\n' };
-            return txt.Split(delimiters, StringSplitOptions.RemoveEmptyEntries).Length;
-        }
+            TestModel testModel = new TestModel();
+            testModel.article = new Article();
 
-        public static string FormatText(string txt)
-        {
-            txt = txt.Replace("—", " ");
-            txt = txt.Replace("--", " ");
-            txt = txt.Replace("---", " ");
-            txt = txt.Replace("\n", " ");
-            txt = txt.Replace("\r", " ");
-            txt = txt.Replace("\r", " ");
-            txt = txt.Replace("&#xA;", " ");
-            txt = txt.Replace("&quot;", " ");
-
-            while (txt.Contains(" .")) txt = txt.Replace(" .", ".");
-            while (txt.Contains(" ,")) txt = txt.Replace(" ,", ",");
-            while (txt.Contains(" !")) txt = txt.Replace(" !", "!");
-            while (txt.Contains(" '")) txt = txt.Replace(" '", "'");
-
-            while (txt.Contains("  ")) txt = txt.Replace("  ", " ");
-
-            return txt;
-        }
-
-        public static string FormatTimeRemaining(int wordCount, int wpm)
-        {
-            string time = "";
-
-            int timeRemaining = wordCount / wpm;
-
-            if (timeRemaining < 1 && timeRemaining > 0)
+            using (FileStream fileStream = File.OpenRead(filename))
             {
-                time = timeRemaining * 60 + "s";
-            }
-            else if (timeRemaining > 43830)
-            {
-                time = Math.Round((double)timeRemaining / 43830, 1) + "mo";
-            }
-            else if (timeRemaining > 1440)
-            {
-                time = Math.Round((double)timeRemaining / 1440, 1) + "d";
-            }
-            else if (timeRemaining > 60)
-            {
-                time = Math.Round((double)timeRemaining / 60, 1) + "h";
-            }
-            else
-            {
-                time = timeRemaining + "m";
-            }
-
-
-            return time;
-        }
-
-        public static string FormatNumber(int num)
-        {
-            string text = num.ToString();
-
-            for (int i = text.Length, j = 0; i > 0; i--, j++)
-            {
-                if (j % 3 == 0 && j != 0)
+                using (XmlReader reader = XmlReader.Create(fileStream))
                 {
-                    text = text.Insert(i, ",");
+                    reader.MoveToFirstAttribute();
+                    reader.ReadToFollowing("TestModel");
+
+                    reader.MoveToFirstAttribute();
+
+                    if (reader.Value == "NULL")
+                    {
+                        testModel.Image = null;
+                    }
+                    else
+                    {
+                        byte[] bytes = Convert.FromBase64String(reader.Value);
+                        MemoryStream memoryStream = new MemoryStream(bytes, 0, bytes.Length);
+                        memoryStream.Write(bytes, 0, bytes.Length);
+                        Image image = Image.FromStream(memoryStream, true);
+
+                        BitmapImage bitmapImage = new BitmapImage();
+                        using (MemoryStream memStream2 = new MemoryStream())
+                        {
+                            image.Save(memStream2, System.Drawing.Imaging.ImageFormat.Png);
+                            memStream2.Position = 0;
+
+                            bitmapImage.BeginInit();
+                            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                            bitmapImage.UriSource = null;
+                            bitmapImage.StreamSource = memStream2;
+                            bitmapImage.EndInit();
+                        }
+                        memoryStream.Close();
+                        testModel.Image = bitmapImage;
+                    }
+
+                    reader.ReadToFollowing("article");
+                    reader.MoveToFirstAttribute();
+                    testModel.article.title = reader.Value;
+
+                    reader.MoveToNextAttribute();
+                    testModel.article.text = FormatService.FormatText(reader.Value);
+
+                    testModel.WordCount = FormatService.GetWordCount(testModel.article.text);
+
+                    reader.MoveToNextAttribute();
+                    testModel.article.summary = reader.Value;
+
+                    reader.MoveToNextAttribute();
+                    testModel.article.author = reader.Value;
+
+                    reader.MoveToNextAttribute();
+                    testModel.article.site_name = reader.Value;
+
+                    reader.MoveToNextAttribute();
+                    testModel.article.canonical_url = reader.Value;
+
+                    reader.MoveToNextAttribute();
+                    if (string.IsNullOrEmpty(reader.Value) || !DateTime.TryParse(reader.Value, out DateTime result))
+                    {
+                        testModel.article.pub_date = null;
+                    }
+                    else
+                    {
+                        testModel.article.pub_date = DateTime.Parse(reader.Value);
+                    }
+
+
+                    reader.MoveToNextAttribute();
+                    testModel.article.image = reader.Value;
+
+                    reader.MoveToNextAttribute();
+                    testModel.article.favicon = reader.Value;
+
+                    reader.ReadToFollowing("testData");
+                    reader.MoveToFirstAttribute();
+                    testModel.testData.TestStarted = bool.Parse(reader.Value);
+
+                    reader.MoveToNextAttribute();
+                    testModel.testData.LastPosition = int.Parse(reader.Value);
+
+                    reader.MoveToNextAttribute();
+                    string[] errorPositions = reader.Value.Split(',');
+
+                    testModel.testData.ErrorPositions = new List<int>();
+                    foreach (string pos in errorPositions)
+                    {
+                        if (pos == "NULL")
+                            break;
+                        testModel.testData.ErrorPositions.Add(int.Parse(pos));
+                    }
+
+                    testModel.Filename = filename;
                 }
             }
 
-            return text;
-        }
 
-        public static string GetMode(int mode)
-        {
-            string text = "";
-            switch (mode)
-            {
-                case 0:
-                    text = "MINUTES";
-                    break;
-                case 1:
-                    text = "MARATHON";
-                    break;
-            }
-            return text;
+            return testModel;
         }
     }
 }

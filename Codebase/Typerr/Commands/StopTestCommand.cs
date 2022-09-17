@@ -21,13 +21,21 @@ namespace Typerr.Commands
 
         public override void Execute(object parameter)
         {
+            // If the user text is not null and is less than the total length
             if (_testPanelViewModel.TestVM.UserText.Length < _testPanelViewModel.TestVM.Text.Length && _testPanelViewModel.TestVM.UserText.Length > 0)
             {
                 _testPanelViewModel.TestVM.TestModel.testData.ErrorPositions = _testPanelViewModel.TestVM.ErrorPositions;
                 _testPanelViewModel.TestVM.TestModel.testData.TestStarted = true;
                 _testPanelViewModel.TestVM.TestModel.testData.LastPosition = _testPanelViewModel.TestVM.UserText.Length;
-                TestService.Write(_testPanelViewModel.TestVM.TestModel);
             }
+            else if (_testPanelViewModel.TestVM.UserText.Length == 0)
+            {
+                _testPanelViewModel.TestVM.TestModel.testData.Reset();
+            }
+
+            TestService.Write(_testPanelViewModel.TestVM.TestModel);
+            _mainViewModel.UpdateLibTile(_testPanelViewModel.TestVM.TestModel.Filename);
+
             Application.Current.Dispatcher.Invoke((Action)delegate {
                 _mainViewModel.CurrentDialog = new ResultsViewModel(_testPanelViewModel, _testPanelViewModel.TestVM, _mainViewModel);
                 _mainViewModel.OverlayVisibility = Visibility.Visible;

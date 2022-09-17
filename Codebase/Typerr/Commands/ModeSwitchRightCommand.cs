@@ -27,7 +27,7 @@ namespace Typerr.Commands
                 _testPreviewViewModel.User.Mode++;
             }
 
-            _testPreviewViewModel.ModeText = TestService.GetMode(_testPreviewViewModel.User.Mode);
+            _testPreviewViewModel.ModeText = FormatService.GetMode(_testPreviewViewModel.User.Mode);
             _testPreviewViewModel.NumericUpDownWidth = (_testPreviewViewModel.User.Mode == 0)
                 ? 60 : 0;
         }

@@ -23,7 +23,7 @@ namespace Typerr.Commands
 
         public override void Execute(object parameter)
         {
-            _createTestViewModel.TestModel.WordCount = TestService.GetWordCount(_createTestViewModel.TestModel.article.text);
+            _createTestViewModel.TestModel.WordCount = FormatService.GetWordCount(_createTestViewModel.TestModel.article.text);
 
             if (_createTestViewModel.Image != null)
             {

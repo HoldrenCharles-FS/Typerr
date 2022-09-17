@@ -207,7 +207,7 @@ namespace Typerr.ViewModel
             Image = TestModel.Image;
             Title = TestModel.article.title;
             Summary = TestModel.article.summary;
-            ModeText = TestService.GetMode(User.Mode);
+            ModeText = FormatService.GetMode(User.Mode);
             NumericUpDownValue = (User.Mode == 0)
                 ? User.Minutes : 3;
             NumericUpDownWidth = (User.Mode == 0)
@@ -275,9 +275,9 @@ namespace Typerr.ViewModel
 
         private void FormatWordCountAndTimeRemaining()
         {
-            string wordCount = TestService.FormatNumber(TestModel.WordCount);
+            string wordCount = FormatService.FormatNumber(TestModel.WordCount);
 
-            string timeRemaining = TestService.FormatTimeRemaining(TestModel.WordCount, User.RecentWpm);
+            string timeRemaining = FormatService.FormatTimeRemaining(TestModel.WordCount, User.RecentWpm);
 
             string line1 = (string.IsNullOrEmpty(TestModel.article.author) && string.IsNullOrEmpty(TestModel.article.site_name))
                 ? ""

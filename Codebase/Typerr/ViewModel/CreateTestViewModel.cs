@@ -51,7 +51,7 @@ namespace Typerr.ViewModel
                 if (value.Length > 10000)
                 {
                     TextAreaBrush = new SolidColorBrush(Colors.Red);
-                    AddError(nameof(TextArea), $"Tests cannot exceed 10,000 characters. Please delete {TestService.FormatNumber(value.Length - 10000)} more characters.");
+                    AddError(nameof(TextArea), $"Tests cannot exceed 10,000 characters. Please delete {FormatService.FormatNumber(value.Length - 10000)} more characters.");
                 }
                 else
                 {

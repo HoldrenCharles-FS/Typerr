@@ -31,8 +31,8 @@ namespace Typerr.Commands
             {
                 _createTestViewModel.HttpResponseOk = 1;
                 _createTestViewModel.ObtainedUrl = true;
-                _createTestViewModel.TestModel.article.text = TestService.FormatText(_createTestViewModel.TestModel.article.text);
-                _createTestViewModel.TestModel.WordCount = TestService.GetWordCount(_createTestViewModel.TestModel.article.text);
+                _createTestViewModel.TestModel.article.text = FormatService.FormatText(_createTestViewModel.TestModel.article.text);
+                _createTestViewModel.TestModel.WordCount = FormatService.GetWordCount(_createTestViewModel.TestModel.article.text);
 
                 _createTestViewModel.TextArea = _createTestViewModel.TestModel.article.text;
                 _createTestViewModel.Title = _createTestViewModel.TestModel.article.title;
