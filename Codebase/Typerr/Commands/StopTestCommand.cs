@@ -27,10 +27,12 @@ namespace Typerr.Commands
                 _testPanelViewModel.TestVM.TestModel.testData.TestStarted = true;
                 _testPanelViewModel.TestVM.TestModel.testData.LastPosition = _testPanelViewModel.TestVM.UserText.Length;
                 TestService.Write(_testPanelViewModel.TestVM.TestModel);
-            }    
-
-            _mainViewModel.CurrentDialog = new ResultsViewModel(_testPanelViewModel, _testPanelViewModel.TestVM, _mainViewModel);
-            _mainViewModel.OverlayVisibility = Visibility.Visible;
+            }
+            Application.Current.Dispatcher.Invoke((Action)delegate {
+                _mainViewModel.CurrentDialog = new ResultsViewModel(_testPanelViewModel, _testPanelViewModel.TestVM, _mainViewModel);
+                _mainViewModel.OverlayVisibility = Visibility.Visible;
+            });
+            
         }
 
         
