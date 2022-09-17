@@ -161,7 +161,9 @@
                                         Width="{Binding NumericUpDownWidth}"
                                         FontSize="16"
                                         Padding="5"
-                             Margin="10"/>
+                                        Margin="10"
+                                        Minimum="1"
+                                        Maximum="60"/>
 
 
                     <Button Background="Transparent" 
@@ -206,6 +208,7 @@
                            FontWeight="Bold"
                            FontFamily="Calibri"
                            FontSize="24"
+                           ToolTip="{Binding ModeToolTip}"
                            Foreground="{StaticResource AppTheme}"/>
                     <Button Background="Transparent" 
                             BorderBrush="Transparent"

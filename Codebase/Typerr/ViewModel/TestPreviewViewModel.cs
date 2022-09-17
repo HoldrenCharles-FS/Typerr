@@ -99,7 +99,22 @@ namespace Typerr.ViewModel
             set
             {
                 _modeText = value;
+                ModeToolTip = ModeToolTip;
                 OnPropertyChanged(nameof(ModeText));
+            }
+        }
+
+        private string _modeToolTip;
+        public string ModeToolTip
+        {
+            get
+            {
+                return _modeToolTip;
+            }
+            set
+            {
+                _modeToolTip = User.Mode == 0 ? "Timed test" : "No time limit"; ;
+                OnPropertyChanged(nameof(ModeToolTip));
             }
         }
 
@@ -204,6 +219,7 @@ namespace Typerr.ViewModel
 
         private void Init()
         {
+            ModeToolTip = ModeToolTip;
             Image = TestModel.Image;
             Title = TestModel.article.title;
             Summary = TestModel.article.summary;
