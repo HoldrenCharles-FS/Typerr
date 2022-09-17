@@ -230,6 +230,7 @@ namespace Typerr.ViewModel
             {
                 ModeData = "0:00";
                 TimeElapsed = $"{_user.Minutes}:00";
+                TestVM.IsPaused = true;
                 StopTest();
             }
         }

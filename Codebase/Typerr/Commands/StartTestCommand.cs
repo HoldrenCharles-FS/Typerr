@@ -37,6 +37,7 @@ namespace Typerr.Commands
             {
                 _testPreviewViewModel.TestModel.testData.Reset();
             }
+
             _testPreviewViewModel.User.Minutes = _testPreviewViewModel.NumericUpDownValue;
             UserService.Write(_testPreviewViewModel.User);
 

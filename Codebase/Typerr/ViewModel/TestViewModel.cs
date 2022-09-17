@@ -23,7 +23,7 @@ namespace Typerr.ViewModel
             get => _userText;
             set
             {
-                if (!_isPaused)
+                if (!IsPaused)
                 {
                     _previousUserText = _userText;
                     _userText = value;
@@ -43,7 +43,7 @@ namespace Typerr.ViewModel
         private string _previousUserText = "";
 
         private bool _testStarted = false;
-        private bool _isPaused = false;
+        public bool IsPaused { get; set; }
 
         public string Text { get; private set; }
 
@@ -276,7 +276,7 @@ namespace Typerr.ViewModel
                     TestPanelVM.ModeData = "0";
                 }
 
-                _isPaused = true;
+                IsPaused = true;
                 TestModel.testData.Reset();
                 TestPanelVM.StopTest();
             }
@@ -393,12 +393,12 @@ namespace Typerr.ViewModel
 
         internal void Unpause()
         {
-            _isPaused = false;
+            IsPaused = false;
         }
 
         internal void Pause()
         {
-            _isPaused = true;
+            IsPaused = true;
         }
 
         public void ResetCorrectWords()
@@ -408,7 +408,7 @@ namespace Typerr.ViewModel
 
         internal void Restart()
         {
-            _isPaused = false;
+            IsPaused = false;
             _testStarted = false;
             _previousUserText = "";
             CorrectWords = 0;

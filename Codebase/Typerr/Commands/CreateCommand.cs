@@ -34,7 +34,7 @@ namespace Typerr.Commands
             {
                 _createTestViewModel.TestModel.Base64Image = "NULL";
             }
-
+            _createTestViewModel.TestModel.article.text = FormatService.FormatText(_createTestViewModel.TestModel.article.text);
             TestService.Write(_createTestViewModel.TestModel, GenerateFileName());
 
             _homeViewModel.MainViewModel.AddLibTile(_createTestViewModel.TestModel, _homeViewModel);

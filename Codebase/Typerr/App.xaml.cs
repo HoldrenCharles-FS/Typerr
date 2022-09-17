@@ -62,6 +62,11 @@ namespace Typerr
         {
             DirectoryInfo dir = new DirectoryInfo("tests");
 
+            if (!dir.Exists)
+            {
+                dir.Create();
+            }
+
             FileInfo[] files = dir.GetFiles();
 
             files = files.OrderBy(x => x.CreationTime).ToArray();
