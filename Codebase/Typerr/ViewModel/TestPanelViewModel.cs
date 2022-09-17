@@ -238,10 +238,10 @@ namespace Typerr.ViewModel
         {
             SecondsElapsed++;
 
-            TimeElapsed = MinutesElapsed.ToString();
+            TimeElapsed = SecondsElapsed % 60 == 0 ? (MinutesElapsed + 1).ToString() : MinutesElapsed.ToString();
             TimeElapsed += ":";
 
-            TimeElapsed += (SecondsElapsed < 10)
+            TimeElapsed += ((SecondsElapsed % 60) < 10)
                 ? "0" + (SecondsElapsed % 60).ToString()
                 : (SecondsElapsed % 60).ToString();
 
