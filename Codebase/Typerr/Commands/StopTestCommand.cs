@@ -34,9 +34,9 @@ namespace Typerr.Commands
             }
 
             TestService.Write(_testPanelViewModel.TestVM.TestModel);
-            _mainViewModel.UpdateLibTile(_testPanelViewModel.TestVM.TestModel.Filename);
 
             Application.Current.Dispatcher.Invoke((Action)delegate {
+                _mainViewModel.UpdateLibTile(_testPanelViewModel.TestVM.TestModel.Filename);
                 _mainViewModel.CurrentDialog = new ResultsViewModel(_testPanelViewModel, _testPanelViewModel.TestVM, _mainViewModel);
                 _mainViewModel.OverlayVisibility = Visibility.Visible;
             });
