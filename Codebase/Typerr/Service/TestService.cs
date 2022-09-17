@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Media.Imaging;
 using System.Xml;
@@ -106,6 +105,7 @@ namespace Typerr.Service
                     }
                     else
                     {
+                        testModel.Base64Image = reader.Value;
                         byte[] bytes = Convert.FromBase64String(reader.Value);
                         MemoryStream memoryStream = new MemoryStream(bytes, 0, bytes.Length);
                         memoryStream.Write(bytes, 0, bytes.Length);
