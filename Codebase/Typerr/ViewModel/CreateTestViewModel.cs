@@ -81,7 +81,7 @@ namespace Typerr.ViewModel
                 }
                 else
                 {
-                    TextAreaToolTip = "Paste a URL here to generate a test(Ctrl + V or from the Right-Click Menu)";
+                    TextAreaToolTip = "Paste a URL here to generate a test (Ctrl+V or from the Right-Click Menu)";
                     SidebarEnabled = false;
                     CreateButtonEnabled = false;
                 }
@@ -472,7 +472,6 @@ namespace Typerr.ViewModel
             CreateButtonEnabled = false;
             TestModel = new TestModel();
             TextAreaBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
-            TextAreaToolTip = "Paste a URL here to generate a test(Ctrl + V or from the Right-Click Menu)";
             HttpResponseOk = -1;
         }
 
