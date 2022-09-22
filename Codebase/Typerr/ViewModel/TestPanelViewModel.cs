@@ -211,13 +211,19 @@ namespace Typerr.ViewModel
             _updateTimer.Enabled = true;
         }
 
-        internal void StopTest()
+        internal void StopTest(bool fromCommand = false)
         {
+            _isPaused = true;
+            TestVM.Pause();
             double wpm = GetAverage();
             _user.RecentWpm = wpm == 0 ? _user.RecentWpm : (int)wpm;
             _timer.Stop();
             _updateTimer.Stop();
-            StopTestCommand.Execute(null);
+            if (!fromCommand)
+            {
+                StopTestCommand.Execute(null);
+            }
+            
         }
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)

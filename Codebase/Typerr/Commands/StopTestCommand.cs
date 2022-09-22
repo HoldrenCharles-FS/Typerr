@@ -21,6 +21,7 @@ namespace Typerr.Commands
 
         public override void Execute(object parameter)
         {
+            _testPanelViewModel.StopTest(true);
             // If the user text is not null and is less than the total length
             if (_testPanelViewModel.TestVM.UserText.Length < _testPanelViewModel.TestVM.Text.Length && _testPanelViewModel.TestVM.UserText.Length > 0)
             {
