@@ -22,6 +22,18 @@ namespace Typerr.Service
 
                     throw;
                 }
+
+                string requestTimes = "";
+
+                for (int i = 0; i < user.RequestTimes.Count; i++)
+                {
+                    requestTimes += user.RequestTimes[i].ToString();
+                    if (i != user.RequestTimes.Count - 1)
+                    {
+                        requestTimes += ",";
+                    }
+                }
+
                 FileStream writer = new FileStream(@"user", FileMode.CreateNew);
 
                 using (XmlWriter xmlWriter = XmlWriter.Create(writer))
@@ -31,6 +43,7 @@ namespace Typerr.Service
                     xmlWriter.WriteAttributeString("RecentWPM", user.RecentWpm.ToString());
                     xmlWriter.WriteAttributeString("Mode", user.Mode.ToString());
                     xmlWriter.WriteAttributeString("Minutes", user.Minutes.ToString());
+                    xmlWriter.WriteAttributeString("RequestTimes", requestTimes);
                     xmlWriter.WriteEndElement();
                     xmlWriter.WriteEndDocument();
 
@@ -57,6 +70,7 @@ namespace Typerr.Service
                         int recentWpm = 33;
                         int mode = 0;
                         int minutes = 3;
+                        List<DateTime> requestTimes = new List<DateTime>();
                         reader.MoveToFirstAttribute();
                         reader.ReadToFollowing("User");
                         reader.MoveToFirstAttribute();
@@ -74,7 +88,23 @@ namespace Typerr.Service
                         {
                             minutes = result;
                         }
-                        return new User(recentWpm, mode, minutes);
+                        
+                        reader.MoveToNextAttribute();
+                        string[] requestTimesData = reader.Value.Split(',');
+
+                        if (requestTimesData.Length != 1 && requestTimesData[0] != "")
+                        {
+                            foreach (var request in requestTimesData)
+                            {
+                                if ((DateTime.Now - DateTime.Parse(request)).Days <= 30)
+                                {
+                                    requestTimes.Add(DateTime.Parse(request));
+                                }
+                            }
+                        }
+                        
+
+                        return new User(recentWpm, mode, minutes, requestTimes);
                     }
                 }
 
@@ -96,6 +126,7 @@ namespace Typerr.Service
                 xmlWriter.WriteAttributeString("RecentWPM", "33");
                 xmlWriter.WriteAttributeString("Mode", "0");
                 xmlWriter.WriteAttributeString("Minutes", "3");
+                xmlWriter.WriteAttributeString("RequestTimes", "");
                 xmlWriter.WriteEndElement();
                 xmlWriter.WriteEndDocument();
 
@@ -104,7 +135,7 @@ namespace Typerr.Service
 
             writer.Close();
 
-            return new User(33, 0, 3);
+            return new User(33, 0, 3, new List<DateTime>());
         }
     }
 }

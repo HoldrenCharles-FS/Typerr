@@ -48,6 +48,7 @@
                      TextWrapping="Wrap" 
                      AcceptsReturn="True" 
                      VerticalScrollBarVisibility="Auto" 
+                     PreviewKeyDown="TextAreaBox_PreviewKeyDown"
                      Padding="10"
                      BorderBrush="{Binding TextAreaBrush}"
                      Grid.Row="0"

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Media.Imaging;
+using Typerr.Model;
 using Typerr.Service;
 using Typerr.ViewModel;
 using TyperrDemo.Services;
@@ -9,10 +11,12 @@ namespace Typerr.Commands
     public class GetTestCommand : CommandBase
     {
         private readonly CreateTestViewModel _createTestViewModel;
+        private readonly User _user;
 
-        public GetTestCommand(CreateTestViewModel createTestViewModel)
+        public GetTestCommand(CreateTestViewModel createTestViewModel, User user)
         {
             _createTestViewModel = createTestViewModel;
+            _user = user;
         }
 
         public override async void Execute(object parameter)
@@ -20,6 +24,17 @@ namespace Typerr.Commands
             if (!Uri.IsWellFormedUriString(_createTestViewModel.Url, UriKind.Absolute))
                 return;
 
+            // 75 requests a month
+            if (_user.RequestTimes.Count > 75)
+            {
+                _createTestViewModel.Reset();
+                _createTestViewModel.HttpResponseOk = -2;
+                _createTestViewModel.LoadingAnimationVisibility = Visibility.Hidden;
+                return;
+            }
+
+            _user.RequestTimes.Add(DateTime.Now);
+            UserService.Write(_user);
             _createTestViewModel.TestModel = await UrlService.GetTestByUrl(_createTestViewModel.Url);
 
             if (string.IsNullOrEmpty(_createTestViewModel.TestModel.article.text))

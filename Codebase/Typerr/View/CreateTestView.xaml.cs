@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Typerr.Service;
 using Typerr.ViewModel;
 
@@ -31,6 +32,18 @@ namespace Typerr.View
             {
                 TextAreaBox.Text = CreateTestViewModel.DefaultMessage;
             }
+        }
+
+        private void TextAreaBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (TextAreaBox.Text.Length > 0)
+            {
+                if (TextAreaBox.Text == CreateTestViewModel.DefaultMessage)
+                {
+                    TextAreaBox.Text = "";
+                }
+            }
+            
         }
     }
 }
