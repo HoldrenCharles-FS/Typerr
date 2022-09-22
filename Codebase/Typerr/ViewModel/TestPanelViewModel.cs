@@ -332,7 +332,7 @@ namespace Typerr.ViewModel
             }
             else
             {
-                value = _wpmRates.Max();
+                value = (int)_wpmRates.Average();
             }
             return value;
         }

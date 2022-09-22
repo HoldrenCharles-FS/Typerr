@@ -7,6 +7,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Components\AddSubscriptionTile.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Components\CreateTestTile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -19,7 +22,13 @@
     <Compile Update="Components\NavPanel.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Components\SubTile.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Components\TestPanel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\AddSubscriptionView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\CreateTestView.xaml.cs">
@@ -42,6 +51,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Components\AddSubscriptionTile.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Components\CreateTestTile.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -54,10 +66,16 @@
     <Page Update="Components\NavPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Components\SubTile.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Components\TestPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\AddSubscriptionView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\CreateTestView.xaml">

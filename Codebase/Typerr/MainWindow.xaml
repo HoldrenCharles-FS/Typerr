@@ -41,6 +41,9 @@
         <DataTemplate DataType="{x:Type vms:ResultsViewModel}">
             <views:ResultsViewxaml/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:AddSubscriptionViewModel}">
+            <views:AddSubscriptionView/>
+        </DataTemplate>
     </Window.Resources>
 
     <WindowChrome.WindowChrome>

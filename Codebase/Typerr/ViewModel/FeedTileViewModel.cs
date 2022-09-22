@@ -7,7 +7,7 @@ namespace Typerr.ViewModel
 {
     public class FeedTileViewModel : ViewModelBase
     {
-        // Implementing RSS features later
+        
         public FeedTileViewModel()
         {
 

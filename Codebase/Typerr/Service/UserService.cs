@@ -34,6 +34,17 @@ namespace Typerr.Service
                     }
                 }
 
+                string subscriptions = "";
+
+                for (int i = 0; i < user.Subscriptions.Count; i++)
+                {
+                    subscriptions += user.Subscriptions[i].ToString();
+                    if (i != user.Subscriptions.Count - 1)
+                    {
+                        subscriptions += ",";
+                    }
+                }
+
                 FileStream writer = new FileStream(@"user", FileMode.CreateNew);
 
                 using (XmlWriter xmlWriter = XmlWriter.Create(writer))
@@ -44,6 +55,7 @@ namespace Typerr.Service
                     xmlWriter.WriteAttributeString("Mode", user.Mode.ToString());
                     xmlWriter.WriteAttributeString("Minutes", user.Minutes.ToString());
                     xmlWriter.WriteAttributeString("RequestTimes", requestTimes);
+                    xmlWriter.WriteAttributeString("Subscriptions", subscriptions);
                     xmlWriter.WriteEndElement();
                     xmlWriter.WriteEndDocument();
 
@@ -71,6 +83,7 @@ namespace Typerr.Service
                         int mode = 0;
                         int minutes = 3;
                         List<DateTime> requestTimes = new List<DateTime>();
+                        List<string> subscriptions = new List<string>();
                         reader.MoveToFirstAttribute();
                         reader.ReadToFollowing("User");
                         reader.MoveToFirstAttribute();
@@ -102,9 +115,20 @@ namespace Typerr.Service
                                 }
                             }
                         }
-                        
 
-                        return new User(recentWpm, mode, minutes, requestTimes);
+                        reader.MoveToNextAttribute();
+                        string[] subscriptionsData = reader.Value.Split(',');
+
+                        if (subscriptionsData.Length != 1 && subscriptionsData[0] != "")
+                        {
+                            foreach (var subscription in subscriptionsData)
+                            {
+                                subscriptions.Add(subscription);
+                            }
+                        }
+
+
+                        return new User(recentWpm, mode, minutes, requestTimes, subscriptions);
                     }
                 }
 
@@ -135,7 +159,7 @@ namespace Typerr.Service
 
             writer.Close();
 
-            return new User(33, 0, 3, new List<DateTime>());
+            return new User(33, 0, 3, new List<DateTime>(), new List<string>());
         }
     }
 }

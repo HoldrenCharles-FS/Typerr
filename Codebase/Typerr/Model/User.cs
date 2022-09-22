@@ -14,12 +14,15 @@ namespace Typerr.Model
 
         public List<DateTime> RequestTimes { get; set; }
 
-        public User(int recentWpm, int mode, int minutes, List<DateTime> requestTimes)
+        public List<string> Subscriptions { get; set; }
+
+        public User(int recentWpm, int mode, int minutes, List<DateTime> requestTimes, List<string> subscriptions)
         {
             RecentWpm = recentWpm;
             Mode = mode;
             Minutes = minutes;
             RequestTimes = requestTimes;
+            Subscriptions = subscriptions;
         }
     }
 }

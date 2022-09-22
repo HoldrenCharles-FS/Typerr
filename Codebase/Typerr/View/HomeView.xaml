@@ -22,81 +22,82 @@
                    Grid.Column="0"
                    HorizontalAlignment="Left"
                    Margin="30,20,0,20"/>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="46"/>
-            </Grid.ColumnDefinitions>
-            <ScrollViewer VerticalScrollBarVisibility="Disabled"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="46"/>
+                </Grid.ColumnDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Disabled"
                           HorizontalScrollBarVisibility="Auto"
                           PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
-            <StackPanel x:Name="HomeLibraryContent" 
+                    <StackPanel x:Name="HomeLibraryContent" 
                     Orientation="Horizontal" 
                     Grid.Column="0"
                     Margin="20,0,0,20"
                     >
-                <components:CreateTestTile Grid.Column="0" 
+                        <components:CreateTestTile Grid.Column="0" 
                                            x:Name="CreateTestButton"/>
-                <ItemsControl ItemsSource="{Binding LibTileViewModels}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <components:LibTile/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </StackPanel>
-            </ScrollViewer>
-            <Button x:Name="GoToLibraryButton" 
+                        <ItemsControl ItemsSource="{Binding LibTileViewModels}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <components:LibTile/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+                <Button x:Name="GoToLibraryButton" 
                     Grid.Column="1"
                     Background="White"
                     HorizontalAlignment="Right"
                     BorderThickness="0" 
                     Width="46" 
                     Command="{Binding GoToLibraryCommand}">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border x:Name="wButton" 
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="wButton" 
                                                 Background="{TemplateBinding Background}">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" 
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" 
                                                      Value="True">
-                                            <Setter Property="Background" 
+                                                <Setter Property="Background" 
                                                         Value="#eee" 
                                                         TargetName="wButton" />
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" 
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" 
                                                      Value="True">
-                                            <Setter Property="Background"
+                                                <Setter Property="Background"
                                                         Value="#ddd" 
                                                         TargetName="wButton" />
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-                <Button.ToolTip>
-                    Go to library
-                </Button.ToolTip>
-                <iconPacks:PackIconCoolicons Kind="ChevronRight" 
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Button.ToolTip>
+                        Go to library
+                    </Button.ToolTip>
+                    <iconPacks:PackIconCoolicons Kind="ChevronRight" 
                                     Foreground="{StaticResource AppTheme}" 
                                     />
 
-            </Button>
-        </Grid>
-        <!--#endregion-->
-            <!--Feed
+                </Button>
+            </Grid>
+            <!--#endregion-->
+            <!--#region Feed-->
+            <StackPanel Height="{Binding FeedContentHeight}">
         <TextBlock Text="Feed"
                    Foreground="Black"
                    FontWeight="Bold"
@@ -104,16 +105,92 @@
                    HorizontalAlignment="Left"
                    Margin="30,20,0,20"/>
 
-        <StackPanel x:Name="FeedContent" 
-                    Orientation="Horizontal" 
+            <WrapPanel x:Name="FeedContent"
                     Margin="20,0,0,20">
-            <components:FeedTile/>
-            <components:FeedTile/>
-            <components:FeedTile/>
-        </StackPanel>
-        -->
-        
-        
+                <ItemsControl ItemsSource="{Binding FeedTileViewModels}"
+                              Height="{Binding FeedContentHeight}"/>
+            </WrapPanel>
+            </StackPanel>
+            <!--#endregion-->
+            <!--#region Subscriptions-->
+            <TextBlock Text="Subscriptions"
+                   Foreground="Black"
+                   FontWeight="Bold"
+                   FontSize="24"
+                   Grid.Column="0"
+                   HorizontalAlignment="Left"
+                   Margin="30,20,0,20"/>
+            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="46"/>
+                </Grid.ColumnDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Disabled"
+                          HorizontalScrollBarVisibility="Auto"
+                          PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                    <StackPanel Orientation="Horizontal" 
+                                Grid.Column="0"
+                                Margin="20,0,0,20">
+                        <components:AddSubscriptionTile Grid.Column="0"/>
+                        <ItemsControl ItemsSource="{Binding SubTileViewModels}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <components:LibTile/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+                <Button Grid.Column="1"
+                    Background="White"
+                    HorizontalAlignment="Right"
+                    BorderThickness="0" 
+                    Width="46" 
+                    Command="{Binding GoToLibraryCommand}">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="wButton" 
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" 
+                                                     Value="True">
+                                                <Setter Property="Background" 
+                                                        Value="#eee" 
+                                                        TargetName="wButton" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" 
+                                                     Value="True">
+                                                <Setter Property="Background"
+                                                        Value="#ddd" 
+                                                        TargetName="wButton" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Button.ToolTip>
+                        Go to library
+                    </Button.ToolTip>
+                    <iconPacks:PackIconCoolicons Kind="ChevronRight" 
+                                    Foreground="{StaticResource AppTheme}" 
+                                    />
+
+                </Button>
+            </Grid>
+            <!--#endregion-->
         </StackPanel>
     </ScrollViewer>
 </UserControl>
