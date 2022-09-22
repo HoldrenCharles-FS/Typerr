@@ -45,7 +45,7 @@ namespace Typerr.Commands
                 // Refresh the Prompt Message
                 _createTestViewModel.UploadImagePrompt = _createTestViewModel.UploadImagePrompt;
             }
-            
+            _createTestViewModel.LoadingAnimationVisibility = System.Windows.Visibility.Hidden;
         }
     }
 }

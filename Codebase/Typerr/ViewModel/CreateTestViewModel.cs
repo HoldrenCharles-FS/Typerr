@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -92,6 +93,7 @@ namespace Typerr.ViewModel
                     {
                         Url = _textArea;
                         GetTestCommand.Execute(null);
+                        LoadingAnimationVisibility = Visibility.Visible;
                     }
                 }
                 else
@@ -305,6 +307,20 @@ namespace Typerr.ViewModel
             }
         }
 
+        private Visibility _loadingAnimationVisibility;
+        public Visibility LoadingAnimationVisibility
+        {
+            get
+            {
+                return _loadingAnimationVisibility;
+            }
+            set
+            {
+                _loadingAnimationVisibility = value;
+                OnPropertyChanged(nameof(LoadingAnimationVisibility));
+            }
+        }
+
         private int _httpResponseOk;
         public int HttpResponseOk
         {
@@ -473,19 +489,20 @@ namespace Typerr.ViewModel
             CreateButtonEnabled = false;
             TestModel = new TestModel();
             TextAreaBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
+            LoadingAnimationVisibility = Visibility.Hidden;
             HttpResponseOk = -1;
         }
 
         public void Reset()
         {
             TestModel = null;
-            TextArea = DefaultMessage;
             Title = "";
             Author = "";
             Summary = "";
             Source = "";
             Image = null;
             PublishDate = null;
+            Init();
         }
 
         public IEnumerable GetErrors(string propertyName)
