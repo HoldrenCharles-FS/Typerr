@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using Typerr.Commands;
 using Typerr.Model;
+using Typerr.Service;
 using Typerr.Stores;
 using Typerr.View;
 
@@ -17,6 +18,9 @@ namespace Typerr.ViewModel
         public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
 
         public User User { get; }
+
+        public HomeViewModel HomeViewModel { get; private set; }
+        public NavPanelViewModel NavPanelViewModel { get; private set; }
 
         private readonly ObservableCollection<LibTileViewModel> _allLibTileViewModels;
 
@@ -49,8 +53,6 @@ namespace Typerr.ViewModel
                 OnPropertyChanged(nameof(CurrentPanel));
             }
         }
-
-        public NavPanelViewModel NavPanelViewModel { get; set; }
 
         private Visibility _overlayVisibility;
         public Visibility OverlayVisibility
@@ -97,21 +99,52 @@ namespace Typerr.ViewModel
 
         public void AddLibTile(TestModel testModel, HomeViewModel homeViewModel)
         {
-            LibTileViewModel libTileViewModel = new LibTileViewModel(_navigationStore, homeViewModel, testModel, User);
-
-            _allLibTileViewModels.Insert(0, libTileViewModel);
+            _allLibTileViewModels.Insert(0, new LibTileViewModel(_navigationStore, homeViewModel, testModel, User));
         }
 
-        public void RemoveLibTile(FileInfo fileInfo)
+        public void RemoveLibTile(string filename)
         {
             foreach (LibTileViewModel libTile in AllLibTileViewModels)
             {
-                if (libTile.TestModel.FileName == fileInfo)
+                if (libTile.TestModel.Filename == filename)
                 {
                     _allLibTileViewModels.Remove(libTile);
                     break;
                 }
             }
+        }
+
+        public void UpdateLibTile(string filename)
+        {
+            foreach (LibTileViewModel libTile in AllLibTileViewModels)
+            {
+                if (libTile.TestModel.Filename == filename)
+                {
+                    _allLibTileViewModels.Insert(_allLibTileViewModels.IndexOf(libTile), LoadTest(filename));
+                    _allLibTileViewModels.Remove(libTile);
+                    HomeViewModel.RefreshLibrary();
+                    break;
+                }
+            }
+        }
+
+        private LibTileViewModel LoadTest(string filename)
+        {
+            return new LibTileViewModel(_navigationStore, HomeViewModel, TestService.Read(filename), User);
+        }
+
+        public void SetCurrentView(ViewModelBase viewModelBase)
+        {
+            _navigationStore.CurrentViewModel = viewModelBase;
+        }
+        
+        public void SetHomeViewModel(HomeViewModel homeViewModel)
+        {
+            HomeViewModel = homeViewModel;
+        }
+        public void SetNavPanelViewModel(NavPanelViewModel navPanelViewModel)
+        {
+            NavPanelViewModel = navPanelViewModel;
         }
 
     }

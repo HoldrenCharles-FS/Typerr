@@ -8,30 +8,45 @@ using Typerr.ViewModel;
 
 namespace Typerr.Commands
 {
+    public enum StartTestOption
+    {
+        Start,
+        Resume
+    }
     public class StartTestCommand : CommandBase
     {
         private readonly NavigationStore _navigationStore;
         private readonly TestPreviewViewModel _testPreviewViewModel;
         private readonly MainViewModel _mainViewModel;
         private readonly User _user;
+        private readonly StartTestOption _startTestOption;
 
-        public StartTestCommand(NavigationStore navigationStore, TestPreviewViewModel testPreviewViewModel, MainViewModel mainViewModel, User user)
+        public StartTestCommand(NavigationStore navigationStore, 
+            TestPreviewViewModel testPreviewViewModel, MainViewModel mainViewModel, StartTestOption startTestOption)
         {
             _navigationStore = navigationStore;
             _testPreviewViewModel = testPreviewViewModel;
             _mainViewModel = mainViewModel;
-            _user = user;
+            _user = _testPreviewViewModel.User;
+            _startTestOption = startTestOption;
         }
 
         public override void Execute(object parameter)
         {
+            if (_startTestOption == StartTestOption.Start)
+            {
+                _testPreviewViewModel.TestModel.testData.Reset();
+            }
+
             _testPreviewViewModel.User.Minutes = _testPreviewViewModel.NumericUpDownValue;
             UserService.Write(_testPreviewViewModel.User);
 
             _testPreviewViewModel.TestPreviewCloseCommand.Execute(parameter);
-
-            _navigationStore.CurrentViewModel = new TestViewModel(_testPreviewViewModel.TestModel);
-            _mainViewModel.CurrentPanel = new TestPanelViewModel(_user, _testPreviewViewModel.TestModel.WordCount, _mainViewModel);
+            TestViewModel testViewModel = new TestViewModel(_testPreviewViewModel.TestModel, _user);
+            _navigationStore.CurrentViewModel = testViewModel;
+            TestPanelViewModel testPanelViewModel = new TestPanelViewModel(testViewModel, _user, _testPreviewViewModel.TestModel.WordCount, _mainViewModel);
+            _mainViewModel.CurrentPanel = testPanelViewModel;
+            testViewModel.TestPanelVM = testPanelViewModel;
             
         }
     }

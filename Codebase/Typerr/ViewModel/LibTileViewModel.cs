@@ -137,9 +137,9 @@ namespace Typerr.View
 
         private void FormatWordCountAndTimeRemaining()
         {
-            WordCount = TestService.FormatNumber(TestModel.WordCount);
+            WordCount = FormatService.FormatNumber(TestModel.WordCount);
 
-            TimeRemaining = TestService.FormatTimeRemaining(TestModel.WordCount, User.RecentWpm);
+            TimeRemaining = FormatService.FormatTimeRemaining(TestModel.WordCount, User.RecentWpm);
 
             string line1 = (string.IsNullOrEmpty(AuthorName) && string.IsNullOrEmpty(WebsiteName))
                 ? ""

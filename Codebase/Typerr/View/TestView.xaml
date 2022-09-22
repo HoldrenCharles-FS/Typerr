@@ -7,83 +7,22 @@
              xmlns:viewmodel="clr-namespace:Typerr.ViewModel" 
              FocusManager.FocusedElement="{Binding ElementName=InputField}"
              Loaded="UserControl_Loaded"
+             DataContextChanged="UserControl_DataContextChanged"
              d:DataContext="{d:DesignInstance Type=viewmodel:TestViewModel}"
              mc:Ignorable="d">
     <Grid>
-        <TextBox Name="InputField"  
-                 Text="{Binding UserText, UpdateSourceTrigger=PropertyChanged}"
-                 FontSize="45"
-                 Background="Transparent"
-                 Foreground="Transparent"
-                 TextWrapping="Wrap"
-                 IsHitTestVisible="False"
-                 BorderThickness="0">
-        </TextBox>
-        <ContentControl Content="{Binding RichTextBlock}"/>
-        
+        <TextBox Name = "InputField"
+                 Text = "{Binding UserText, UpdateSourceTrigger=PropertyChanged}"
+                 FontSize = "45"
+                 PreviewKeyDown="InputField_PreviewKeyDown"
+                 Background = "Transparent"
+                 Foreground = "Transparent"
+                 TextWrapping = "Wrap"
+                 IsHitTestVisible = "False"
+                 BorderThickness = "0"
+                 Margin="10"/>
+        <ContentControl Content="{Binding RichTextBlock}"
+                        Margin="10"
+                        Name="ContentControl"/>
     </Grid>
-    
-    
-    
-    
-    <!--<RichTextBox IsReadOnly="True" 
-                 BorderThickness="0" 
-                 Background="White"
-                 IsHitTestVisible="False">
-        <FlowDocument>
-            <Paragraph>
-                <Run Text="{Binding Text}"
-                     FontSize="45">
-                    <Run.Style>
-                        <Style TargetType="{x:Type Run}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Run}">
-                                        <TextBlock x:Name="Runn" 
-                                                Background="{TemplateBinding Background}"
-                                                Foreground="{TemplateBinding Foreground}">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                        </TextBlock>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="" 
-                                                     Value="True">
-                                                <Setter Property="Background" 
-                                                        Value="#eee" 
-                                                        TargetName="Runn" />
-                                            </Trigger>
-                                            <Trigger Property="IsPressed" 
-                                                     Value="True">
-                                                <Setter Property="Background"
-                                                        Value="#ddd" 
-                                                        TargetName="Runn" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Run.Style>
-                </Run>
-            </Paragraph>
-        </FlowDocument>
-    </RichTextBox>-->
-
-
-        <!--<Grid Background="White">
-        <ItemsControl ItemsSource="{Binding Runs}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>-->
-        
-        
-        <!--<TextBlock x:Name="TestBlock" Margin="5"
-                   Foreground="Black"
-                       VerticalAlignment="Top"
-                       HorizontalAlignment="Left"
-                       FontSize="35"
-                       FontFamily="Bold"
-                       TextWrapping="Wrap"/>-->
 </UserControl>

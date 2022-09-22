@@ -9,15 +9,14 @@
              d:DataContext="{d:DesignInstance Type=viewmodel:TestPanelViewModel}"
              mc:Ignorable="d">
     <Viewbox Margin="0 25">
-    <StackPanel VerticalAlignment="Top"
-                HorizontalAlignment="Center">
-            <StackPanel.Resources>
-                
-            </StackPanel.Resources>
-        <Button Width="105"
+        <StackPanel VerticalAlignment="Top"
+                HorizontalAlignment="Center"
+                     Focusable="False">
+            <Button Width="105"
                 Height="105"
                 Background="{StaticResource AppTheme}"
                 Margin="0 0 0 10"
+                Focusable="False"
                 BorderThickness="0"
                 Command="{Binding StopTestCommand}">
             <Button.Template>
@@ -43,79 +42,67 @@
         <Button x:Name="PauseButton" 
                 Width="75"
                 Height="75"
+                Focusable="False"
                 Background="{StaticResource AppTheme}"
                 Margin="0 0 0 10"
                 Command="{Binding PauseTestCommand}">
             <Button.Template>
                     <ControlTemplate TargetType="Button">
-                        <Grid>
-                <Ellipse Width="70"
+                        <Grid  Focusable="False">
+                            <Ellipse Width="70"
+                                      Focusable="False"
                          Height="70"
                          Stroke="White"
                          Fill="{StaticResource AppTheme}"
                          StrokeThickness="4.5"/>
-                            
-                            <!--<StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Center">
-                                <Polygon Points="5,5, 5,30 30,17 30,17"
-                                         Stroke="White"
-                                         StrokeThickness="1.5"
-                                         Fill="White"
-                                         Height="35"
-                                         Width="35"
-                                         />
-                                <Border Width="10"
-                            Height="35"
-                            Margin="4 0"
-                            BorderBrush="White"
-                            Background="White"
-                            BorderThickness="2"
-                            CornerRadius="0.5"/>
-                    <Border Width="10"
-                            Height="35"
-                            Margin="4 0"
-                            BorderBrush="White"
-                            Background="White"
-                            BorderThickness="2"
-                            CornerRadius="0.5"/>
-                </StackPanel>-->
-                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Grid>
                 </ControlTemplate>
             </Button.Template>
                 <ContentControl Content="{Binding PausePanel}"
-                                IsHitTestVisible="False"/>
+                                IsHitTestVisible="False"
+                                 Focusable="False"/>
             </Button>
         
         <Label Content="Current WPM"
-               Style="{StaticResource TestLabelTheme}"/>
+               Style="{StaticResource TestLabelTheme}"
+                Focusable="False"/>
         <Label Content="{Binding CurrentWPM}"
                Style="{StaticResource TestDataTheme}"
-               Margin="0 0 0 10"/>
+               Margin="0 0 0 10"
+                Focusable="False"/>
          
         <!--Mode Dependent-->
         <Label Content="{Binding ModeLabel}"
-               Style="{StaticResource TestLabelTheme}"/>
+               Style="{StaticResource TestLabelTheme}"
+                Focusable="False"/>
         <Label Content="{Binding ModeData}"
                Style="{StaticResource TestDataTheme}"
-               Margin="0 0 0 10"/>
+               Margin="0 0 0 10"
+                Focusable="False"/>
         
         <Label Content="Time Elapsed"
-               Style="{StaticResource TestLabelTheme}"/>
+               Style="{StaticResource TestLabelTheme}"
+                Focusable="False"/>
         <Label Content="{Binding TimeElapsed}"
                Style="{StaticResource TestDataTheme}"
-               Margin="0 0 0 10"/>
+               Margin="0 0 0 10"
+                Focusable="False"/>
         
         <Label Content="Words Typed"
-               Style="{StaticResource TestLabelTheme}"/>
+               Style="{StaticResource TestLabelTheme}"
+                Focusable="False"/>
         <Label Content="{Binding WordsTyped}"
                Style="{StaticResource TestDataTheme}"
-               Margin="0 0 0 10"/>
+               Margin="0 0 0 10"
+                Focusable="False"/>
         
         <Label Content="Typing Errors"
-               Style="{StaticResource TestLabelTheme}"/>
+               Style="{StaticResource TestLabelTheme}"
+                Focusable="False"/>
         <Label Content="{Binding TypingErrors}"
-               Style="{StaticResource TestDataTheme}"/>
+               Style="{StaticResource TestDataTheme}"
+                Focusable="False"/>
     </StackPanel>
     </Viewbox>
 </UserControl>

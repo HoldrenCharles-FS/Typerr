@@ -15,6 +15,7 @@ namespace Typerr.Commands
         public override void Execute(object parameter)
         {
             _mainViewModel.OverlayVisibility = Visibility.Collapsed;
+            _mainViewModel.CreateTestViewModel.Reset();
         }
     }
 }

@@ -22,8 +22,8 @@ namespace Typerr.Commands
         {
             try
             {
-                FileSystem.DeleteFile(_testPreviewViewModel.TestModel.FileName.FullName, UIOption.AllDialogs, RecycleOption.SendToRecycleBin);
-                _homeViewModel.MainViewModel.RemoveLibTile(_testPreviewViewModel.TestModel.FileName);
+                FileSystem.DeleteFile(_testPreviewViewModel.TestModel.Filename, UIOption.AllDialogs, RecycleOption.SendToRecycleBin);
+                _homeViewModel.MainViewModel.RemoveLibTile(_testPreviewViewModel.TestModel.Filename);
                 _homeViewModel.RefreshLibrary();
                 _testPreviewViewModel.TestPreviewCloseCommand.Execute(parameter);
 

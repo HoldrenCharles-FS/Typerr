@@ -25,6 +25,7 @@ namespace Typerr.ViewModel
         public ICommand ModeSwitchLeftCommand { get; }
         public ICommand ModeSwitchRightCommand { get; }
         public ICommand StartTestCommand { get; }
+        public ICommand StartTestOverCommand { get; }
         public ICommand DeleteTestCommand { get; }
         public ICommand DeleteYesCommand { get; }
         public ICommand DeleteNoCommand { get; }
@@ -98,7 +99,22 @@ namespace Typerr.ViewModel
             set
             {
                 _modeText = value;
+                ModeToolTip = ModeToolTip;
                 OnPropertyChanged(nameof(ModeText));
+            }
+        }
+
+        private string _modeToolTip;
+        public string ModeToolTip
+        {
+            get
+            {
+                return _modeToolTip;
+            }
+            set
+            {
+                _modeToolTip = User.Mode == 0 ? "Timed test" : "No time limit"; ;
+                OnPropertyChanged(nameof(ModeToolTip));
             }
         }
 
@@ -189,7 +205,8 @@ namespace Typerr.ViewModel
             User = user;
             ModeSwitchLeftCommand = new ModeSwitchLeftCommand(this);
             ModeSwitchRightCommand = new ModeSwitchRightCommand(this);
-            StartTestCommand = new StartTestCommand(navigationStore, this, homeViewModel.MainViewModel, user);
+            StartTestCommand = new StartTestCommand(navigationStore, this, homeViewModel.MainViewModel, StartTestOption.Resume);
+            StartTestOverCommand = new StartTestCommand(navigationStore, this, homeViewModel.MainViewModel, StartTestOption.Start);
             DeleteTestCommand = new DeleteTestCommand(this);
             DeleteYesCommand = new DeleteYesCommand(this, homeViewModel);
             DeleteNoCommand = new DeleteNoCommand(this);
@@ -202,10 +219,11 @@ namespace Typerr.ViewModel
 
         private void Init()
         {
+            ModeToolTip = ModeToolTip;
             Image = TestModel.Image;
             Title = TestModel.article.title;
             Summary = TestModel.article.summary;
-            ModeText = TestService.GetMode(User.Mode);
+            ModeText = FormatService.GetMode(User.Mode);
             NumericUpDownValue = (User.Mode == 0)
                 ? User.Minutes : 3;
             NumericUpDownWidth = (User.Mode == 0)
@@ -273,9 +291,9 @@ namespace Typerr.ViewModel
 
         private void FormatWordCountAndTimeRemaining()
         {
-            string wordCount = TestService.FormatNumber(TestModel.WordCount);
+            string wordCount = FormatService.FormatNumber(TestModel.WordCount);
 
-            string timeRemaining = TestService.FormatTimeRemaining(TestModel.WordCount, User.RecentWpm);
+            string timeRemaining = FormatService.FormatTimeRemaining(TestModel.WordCount, User.RecentWpm);
 
             string line1 = (string.IsNullOrEmpty(TestModel.article.author) && string.IsNullOrEmpty(TestModel.article.site_name))
                 ? ""

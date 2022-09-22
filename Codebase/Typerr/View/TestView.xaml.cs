@@ -30,12 +30,14 @@ namespace Typerr.View
             InputField.Focus();
         }
 
+        private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            InputField.Focus();
+        }
+
         private void InputField_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Back)
-            {
-                Console.WriteLine();
-            }
+            InputField.CaretIndex = InputField.Text.Length;
         }
     }
 }

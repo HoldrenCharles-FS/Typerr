@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Timers;
 using System.Windows;
@@ -16,6 +17,7 @@ namespace Typerr.ViewModel
     {
         public ICommand StopTestCommand { get; }
         public ICommand PauseTestCommand { get; }
+        public TestViewModel TestVM { get; internal set; }
 
         private readonly User _user;
 
@@ -132,26 +134,33 @@ namespace Typerr.ViewModel
             }
         }
 
+        private List<int> _wpmRates;
+
+        // Timers and time data
         private static Timer _timer;
         private static Timer _updateTimer;
         public int MinutesElapsed { get; set; }
         public int SecondsElapsed { get; set; }
 
+        // UI Elements
         public Rectangle PauseBar1 { get; private set; }
         public Rectangle PauseBar2 { get; private set; }
         public Polygon StartIcon { get; private set; }
 
-        public TestPanelViewModel(User user, int wordCount, MainViewModel mainViewModel)
+        public TestPanelViewModel(TestViewModel testVM, User user, int wordCount, MainViewModel mainViewModel)
         {
+            TestVM = testVM;
             _user = user;
             
             StopTestCommand = new StopTestCommand(this, mainViewModel);
-            PauseTestCommand = new PauseTestCommand(this);
+            PauseTestCommand = new PauseTestCommand(this, testVM);
             Init(wordCount);
         }
 
         private void Init(int wordCount)
         {
+            _wpmRates = new List<int>();
+
             PausePanel = new StackPanel();
             PausePanel.Orientation = Orientation.Horizontal;
             PauseBar1 = new Rectangle();
@@ -195,29 +204,42 @@ namespace Typerr.ViewModel
             _timer.Elapsed += OnTimedEvent;
             _timer.AutoReset = true;
             _timer.Enabled = true;
-
+            
             _updateTimer = new Timer(1000);
             _updateTimer.Elapsed += OnUpdateTimedEvent;
             _updateTimer.AutoReset = true;
             _updateTimer.Enabled = true;
         }
 
+        internal void StopTest(bool fromCommand = false)
+        {
+            _isPaused = true;
+            TestVM.Pause();
+            double wpm = GetAverage();
+            _user.RecentWpm = wpm == 0 ? _user.RecentWpm : (int)wpm;
+            _timer.Stop();
+            _updateTimer.Stop();
+            if (!fromCommand)
+            {
+                StopTestCommand.Execute(null);
+            }
+            
+        }
+
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             MinutesElapsed++;
+            CurrentWPM = TestVM.CorrectWords.ToString();
 
-            if (MinutesElapsed == _user.Minutes)
+            _wpmRates.Add(TestVM.CorrectWords);
+            TestVM.ResetCorrectWords();
+
+            if (MinutesElapsed == _user.Minutes && _user.Mode == 0)
             {
-                _timer.Stop();
-                _updateTimer.Stop();
-
-                if (_user.Mode == 0)
-                {
-                    ModeData = "0:00";
-                }
+                ModeData = "0:00";
                 TimeElapsed = $"{_user.Minutes}:00";
-
-                StopTestCommand.Execute(null);
+                TestVM.IsPaused = true;
+                StopTest();
             }
         }
 
@@ -225,10 +247,10 @@ namespace Typerr.ViewModel
         {
             SecondsElapsed++;
 
-            TimeElapsed = MinutesElapsed.ToString();
+            TimeElapsed = SecondsElapsed % 60 == 0 ? (MinutesElapsed + 1).ToString() : MinutesElapsed.ToString();
             TimeElapsed += ":";
 
-            TimeElapsed += (SecondsElapsed < 10)
+            TimeElapsed += ((SecondsElapsed % 60) < 10)
                 ? "0" + (SecondsElapsed % 60).ToString()
                 : (SecondsElapsed % 60).ToString();
 
@@ -250,14 +272,69 @@ namespace Typerr.ViewModel
             if (_isPaused)
             {
                 PausePanel.Children.Add(StartIcon);
+
+                if (_timer != null || _updateTimer != null)
+                {
+                    _timer.Stop();
+                    _updateTimer.Stop();
+                }
+                
             }
             else
             {
 
-                    PausePanel.Children.Add(PauseBar1);
-                    PausePanel.Children.Add(PauseBar2);
-                
+                PausePanel.Children.Add(PauseBar1);
+                PausePanel.Children.Add(PauseBar2);
+
+                if (_timer != null || _updateTimer != null)
+                {
+                    _timer.Start();
+                    _updateTimer.Start();
+                }
+
             }
+        }
+
+        internal int GetLowest()
+        {
+            int value = 0;
+            if (_wpmRates.Count == 0)
+            {
+                value = TestVM.CorrectWordsTotal;
+            }
+            else
+            {
+                value = _wpmRates.Min();
+            }
+            return value;
+        }
+
+        internal int GetHighest()
+        {
+            int value = 0;
+            if (_wpmRates.Count == 0)
+            {
+                value = TestVM.CorrectWordsTotal;
+            }
+            else
+            {
+                value = _wpmRates.Max();
+            }
+            return value;
+        }
+
+        internal double GetAverage()
+        {
+            int value = 0;
+            if (_wpmRates.Count == 0)
+            {
+                value = TestVM.CorrectWordsTotal;
+            }
+            else
+            {
+                value = _wpmRates.Max();
+            }
+            return value;
         }
     }
 

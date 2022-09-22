@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -36,11 +37,12 @@ namespace Typerr
             NavigationCommand goToLibraryCommand = new NavigationCommand(_navigationStore, new LibraryViewModel(mainViewModel), mainViewModel, NavigationOption.None);
             NavigationCommand goToLibraryButtonCommand = new NavigationCommand(_navigationStore, new LibraryViewModel(mainViewModel), mainViewModel, NavigationOption.GoToLibraryButton);
             HomeViewModel homeViewModel = new HomeViewModel(mainViewModel, createTestTileCommand, goToLibraryButtonCommand, User);
+            mainViewModel.SetHomeViewModel(homeViewModel);
             NavigationCommand goToHomeCommand = new NavigationCommand(_navigationStore, homeViewModel, mainViewModel, NavigationOption.None);
             CreateTestViewModel createTestViewModel = new CreateTestViewModel(createTestCloseCommand, homeViewModel);
             mainViewModel.CreateTestViewModel = createTestViewModel;
             NavPanelViewModel navPanelViewModel = new NavPanelViewModel(goToHomeCommand, goToLibraryCommand);
-            mainViewModel.NavPanelViewModel = navPanelViewModel;
+            mainViewModel.SetNavPanelViewModel(navPanelViewModel);
             mainViewModel.CurrentPanel = mainViewModel.NavPanelViewModel;
             homeViewModel.NavPanelViewModel = navPanelViewModel;
 
@@ -60,6 +62,11 @@ namespace Typerr
         {
             DirectoryInfo dir = new DirectoryInfo("tests");
 
+            if (!dir.Exists)
+            {
+                dir.Create();
+            }
+
             FileInfo[] files = dir.GetFiles();
 
             files = files.OrderBy(x => x.CreationTime).ToArray();
@@ -73,91 +80,14 @@ namespace Typerr
 
                     if (file.FullName.EndsWith(".typr") && file.Length > 0)
                     {
-                        using (FileStream fileStream = File.OpenRead(file.FullName))
-                        {
-                            using (XmlReader reader = XmlReader.Create(fileStream))
-                            {
-                                reader.MoveToFirstAttribute();
-                                reader.ReadToFollowing("TestModel");
-                                reader.MoveToFirstAttribute();
-
-                                if (reader.Value == "NULL")
-                                {
-                                    testModel.Image = null;
-                                }
-                                else
-                                {
-                                    byte[] bytes = Convert.FromBase64String(reader.Value);
-                                    MemoryStream memoryStream = new MemoryStream(bytes, 0, bytes.Length);
-                                    memoryStream.Write(bytes, 0, bytes.Length);
-                                    Image image = Image.FromStream(memoryStream, true);
-
-                                    BitmapImage bitmapImage = new BitmapImage();
-                                    using (MemoryStream memStream2 = new MemoryStream())
-                                    {
-                                        image.Save(memStream2, System.Drawing.Imaging.ImageFormat.Png);
-                                        memStream2.Position = 0;
-
-                                        bitmapImage.BeginInit();
-                                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                                        bitmapImage.UriSource = null;
-                                        bitmapImage.StreamSource = memStream2;
-                                        bitmapImage.EndInit();
-                                    }
-                                    memoryStream.Close();
-                                    testModel.Image = bitmapImage;
-                                }
-                                
-                                reader.ReadToFollowing("article");
-                                reader.MoveToFirstAttribute();
-                                testModel.article.title = reader.Value;
-
-                                reader.MoveToNextAttribute();
-                                testModel.article.text = TestService.FormatText(reader.Value);
-
-                                testModel.WordCount = TestService.GetWordCount(testModel.article.text);
-
-                                reader.MoveToNextAttribute();
-                                testModel.article.summary = reader.Value;
-
-                                reader.MoveToNextAttribute();
-                                testModel.article.author = reader.Value;
-
-                                reader.MoveToNextAttribute();
-                                testModel.article.site_name = reader.Value;
-
-                                reader.MoveToNextAttribute();
-                                testModel.article.canonical_url = reader.Value;
-
-                                reader.MoveToNextAttribute();
-                                if (string.IsNullOrEmpty(reader.Value) || !DateTime.TryParse(reader.Value, out DateTime result))
-                                {
-                                    testModel.article.pub_date = null;
-                                }
-                                else
-                                {
-                                    testModel.article.pub_date = DateTime.Parse(reader.Value);
-                                }
-
-
-                                reader.MoveToNextAttribute();
-                                testModel.article.image = reader.Value;
-
-                                reader.MoveToNextAttribute();
-                                testModel.article.favicon = reader.Value;
-
-                                reader.ReadToFollowing("testData");
-                                reader.MoveToFirstAttribute();
-                                testModel.testData.TestStarted = bool.Parse(reader.Value);
-
-                                reader.MoveToNextAttribute();
-                                testModel.testData.LastPosition = int.Parse(reader.Value);
-
-                                testModel.FileName = file;
-                            }
-                        }
+                        testModel = TestService.Read(file.FullName);
 
                         mainViewModel.AddLibTile(testModel, homeViewModel);
+                    }
+                    else if (file.Length == 0)
+                    {
+                        // The file creation was interupted and has a size of zero, clean it up
+                        File.Delete(file.FullName);
                     }
 
                 }

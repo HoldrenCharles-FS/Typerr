@@ -1,13 +1,19 @@
 ﻿using System;
-using System.Windows;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Typerr.Commands;
 using Typerr.Model;
+using Typerr.Service;
+using Typerr.View;
 
 namespace Typerr.ViewModel
 {
-    public class CreateTestViewModel : ViewModelBase
+    public class CreateTestViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         public ICommand OpenFromFileCommand { get; }
         public ICommand GetTestCommand { get; }
@@ -40,6 +46,17 @@ namespace Typerr.ViewModel
             }
             set
             {
+                ClearErrors(nameof(TextArea));
+
+                if (value.Length > 10000)
+                {
+                    TextAreaBrush = new SolidColorBrush(Colors.Red);
+                    AddError(nameof(TextArea), $"Tests cannot exceed 10,000 characters. Please delete {FormatService.FormatNumber(value.Length - 10000)} more characters.");
+                }
+                else
+                {
+                    TextAreaBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
+                }
                 _textArea = value;
                 OnPropertyChanged(nameof(TextArea));
 
@@ -51,14 +68,20 @@ namespace Typerr.ViewModel
 
                 if (!string.IsNullOrWhiteSpace(_textArea) && _textArea != DefaultMessage)
                 {
+                    TextAreaToolTip = "Typerr will automatically format the text, from here you can remove any text you don't want, such as section headers.";
                     SidebarEnabled = true;
-                    if (!string.IsNullOrWhiteSpace(Title))
+                    if (!string.IsNullOrWhiteSpace(Title) && _textArea.Length <= 10000)
                     {
                         CreateButtonEnabled = true;
+                    }
+                    else
+                    {
+                        CreateButtonEnabled = false;
                     }
                 }
                 else
                 {
+                    TextAreaToolTip = "Paste a URL here to generate a test (Ctrl+V or from the Right-Click Menu)";
                     SidebarEnabled = false;
                     CreateButtonEnabled = false;
                 }
@@ -68,7 +91,6 @@ namespace Typerr.ViewModel
                     if (Uri.IsWellFormedUriString(_textArea, UriKind.Absolute) && !ObtainedUrl)
                     {
                         Url = _textArea;
-                        ObtainedUrl = true;
                     }
                 }
                 else
@@ -94,14 +116,16 @@ namespace Typerr.ViewModel
                     TestModel.article.title = _title;
                 }
 
-                if (!string.IsNullOrWhiteSpace(_textArea) && _textArea != DefaultMessage && !string.IsNullOrWhiteSpace(_title))
+                if (!string.IsNullOrWhiteSpace(_textArea) && _textArea != DefaultMessage && !string.IsNullOrWhiteSpace(_title) && _textArea.Length <= 10000)
                 {
+                    
                     CreateButtonEnabled = true;
                 }
                 else
                 {
                     CreateButtonEnabled = false;
                 }
+
 
             }
         }
@@ -263,8 +287,45 @@ namespace Typerr.ViewModel
             }
             set
             {
+                if (value && ObtainedUrl)
+                {
+                    GetTestButtonToolTip = "Click here to reset the article.";
+                }
+                else if (value && !ObtainedUrl)
+                {
+                    GetTestButtonToolTip = "Click here to send a request to the Article and Data Extraction API.";
+                }
+                else
+                {
+                    GetTestButtonToolTip = "This button is disabled until a URL is provided.";
+                }
                 _getTestButtonEnabled = value;
                 OnPropertyChanged(nameof(GetTestButtonEnabled));
+            }
+        }
+
+        private int _httpResponseOk;
+        public int HttpResponseOk
+        {
+            get
+            {
+                return _httpResponseOk;
+            }
+            set
+            {
+                _httpResponseOk = value;
+                ClearErrors(nameof(TextArea));
+                if (_httpResponseOk == 0)
+                {
+                    TextAreaBrush = new SolidColorBrush(Colors.Red);
+                    AddError(nameof(TextArea), "Sorry, the request failed to return any data. You can try a different URL or copy and paste the text itself.");
+                }
+                else
+                {
+                    TextAreaBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
+                }
+
+                OnPropertyChanged(nameof(HttpResponseOk));
             }
         }
 
@@ -277,6 +338,14 @@ namespace Typerr.ViewModel
             }
             set
             {
+                if (value)
+                {
+                    CreateTestButtonToolTip = "Click here to create your new test.";
+                }
+                else
+                {
+                    CreateTestButtonToolTip = "This button is disabled until a title and body are provided.";
+                }
                 _createButtonEnabled = value;
                 OnPropertyChanged(nameof(CreateButtonEnabled));
             }
@@ -310,13 +379,77 @@ namespace Typerr.ViewModel
             }
         }
 
-        public bool ObtainedUrl { get; private set; } = false;
+        private SolidColorBrush _textAreaBrush;
+        public SolidColorBrush TextAreaBrush
+        {
+            get
+            {
+                return _textAreaBrush;
+            }
+            set
+            {
+                _textAreaBrush = value;
+                OnPropertyChanged(nameof(TextAreaBrush));
+            }
+        }
+
+        private string _textAreaToolTip;
+        public string TextAreaToolTip
+        {
+            get
+            {
+                return _textAreaToolTip;
+            }
+            set
+            {
+                _textAreaToolTip = value;
+                OnPropertyChanged(nameof(TextAreaToolTip));
+            }
+        }
+
+        private string _createTestButtonToolTip;
+        public string CreateTestButtonToolTip
+        {
+            get
+            {
+                return _createTestButtonToolTip;
+            }
+            set
+            {
+                _createTestButtonToolTip = value;
+                OnPropertyChanged(nameof(CreateTestButtonToolTip));
+            }
+        }
+
+        private string _getTestButtonToolTip;
+
+
+        public string GetTestButtonToolTip
+        {
+            get
+            {
+                return _getTestButtonToolTip;
+            }
+            set
+            {
+                _getTestButtonToolTip = value;
+                OnPropertyChanged(nameof(GetTestButtonToolTip));
+            }
+        }
+
+        public bool ObtainedUrl { get; set; } = false;
 
         public static string DefaultMessage { get; } = "Paste a URL here or begin typing to create your test";
 
         // Number obtained from actualheight property from the side column single row textbox's default height
         // Variable is introduced to force those fields to stay at that height.
         public double SingleRowHeight { get; } = 40.620000000000005;
+
+        private readonly Dictionary<string, List<string>> _propertyErrors;
+
+        public bool HasErrors => _propertyErrors.Any();
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         public CreateTestViewModel(ICommand createTestCloseCommand, HomeViewModel homeViewModel)
         {
@@ -326,12 +459,60 @@ namespace Typerr.ViewModel
             CreateTestCloseCommand = createTestCloseCommand;
             RemoveImageCommand = new RemoveImageCommand(this);
             AddImageCommand = new AddImageCommand(this);
+            _propertyErrors = new Dictionary<string, List<string>>();
+            Init();
+        }
+
+        private void Init()
+        {
             TextArea = DefaultMessage;
             PublishDate = null;
             SidebarEnabled = false;
             GetTestButtonEnabled = false;
+            CreateButtonEnabled = false;
             TestModel = new TestModel();
+            TextAreaBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
+            HttpResponseOk = -1;
+        }
+
+        public void Reset()
+        {
+            TestModel = null;
+            TextArea = DefaultMessage;
+            Title = "";
+            Author = "";
+            Summary = "";
+            Source = "";
+            Image = null;
+            PublishDate = null;
+        }
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return _propertyErrors.GetValueOrDefault(propertyName, null);
+        }
+
+        public void AddError(string propertyName, string errorMessage)
+        {
+            if (!_propertyErrors.ContainsKey(propertyName))
+            {
+                _propertyErrors.Add(propertyName, new List<string>());
+            }
+
+            _propertyErrors[propertyName].Add(errorMessage);
             
+            OnErrorsChanged(propertyName);
+        }
+
+        private void ClearErrors(string propertyName)
+        {
+            _propertyErrors.Remove(propertyName);
+            OnErrorsChanged(propertyName);
+        }
+
+        private void OnErrorsChanged(string propertyName)
+        {
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
     }
 }
