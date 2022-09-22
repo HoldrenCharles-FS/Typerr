@@ -91,6 +91,7 @@ namespace Typerr.ViewModel
                     if (Uri.IsWellFormedUriString(_textArea, UriKind.Absolute) && !ObtainedUrl)
                     {
                         Url = _textArea;
+                        GetTestCommand.Execute(null);
                     }
                 }
                 else
