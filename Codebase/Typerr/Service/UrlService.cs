@@ -30,6 +30,12 @@ namespace TyperrDemo.Services
             TestModel testModel;
             using (var response = await _client.SendAsync(request))
             {
+                if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+                {
+                    testModel = new TestModel();
+                    testModel.Base64Image = nameof(System.Net.HttpStatusCode.TooManyRequests);
+                    return testModel;
+                }
                 response.EnsureSuccessStatusCode();
                 string json = await response.Content.ReadAsStringAsync();
                 testModel =

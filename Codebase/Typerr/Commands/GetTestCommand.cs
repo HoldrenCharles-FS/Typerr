@@ -28,7 +28,7 @@ namespace Typerr.Commands
             if (_user.RequestTimes.Count > 75)
             {
                 _createTestViewModel.Reset();
-                _createTestViewModel.HttpResponseOk = -2;
+                _createTestViewModel.HttpResponse = -2;
                 _createTestViewModel.LoadingAnimationVisibility = Visibility.Hidden;
                 return;
             }
@@ -37,14 +37,21 @@ namespace Typerr.Commands
             UserService.Write(_user);
             _createTestViewModel.TestModel = await UrlService.GetTestByUrl(_createTestViewModel.Url);
 
+            if (_createTestViewModel.TestModel.Base64Image == nameof(System.Net.HttpStatusCode.TooManyRequests))
+            {
+                _createTestViewModel.Reset();
+                _createTestViewModel.HttpResponse = 429;
+                return;
+            }
+
             if (string.IsNullOrEmpty(_createTestViewModel.TestModel.article.text))
             {
                 _createTestViewModel.Reset();
-                _createTestViewModel.HttpResponseOk = 0;
+                _createTestViewModel.HttpResponse = 0;
             }
             else
             {
-                _createTestViewModel.HttpResponseOk = 1;
+                _createTestViewModel.HttpResponse = 1;
                 _createTestViewModel.ObtainedUrl = true;
                 _createTestViewModel.TestModel.article.text = FormatService.FormatText(_createTestViewModel.TestModel.article.text);
                 _createTestViewModel.TestModel.WordCount = FormatService.GetWordCount(_createTestViewModel.TestModel.article.text);

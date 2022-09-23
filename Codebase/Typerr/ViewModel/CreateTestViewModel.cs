@@ -48,6 +48,7 @@ namespace Typerr.ViewModel
             }
             set
             {
+                TextAreaURLValidation(value);
                 TextAreaLengthValidation(value.Length);
                 _textArea = value;
 
@@ -60,7 +61,6 @@ namespace Typerr.ViewModel
 
                 UpdateForm();
 
-                TextAreaURLValidation();
             }
         }
 
@@ -282,36 +282,40 @@ namespace Typerr.ViewModel
             }
         }
 
-        private int _httpResponseOk;
-        public int HttpResponseOk
+        private int _httpResponse;
+        public int HttpResponse
         {
             get
             {
-                return _httpResponseOk;
+                return _httpResponse;
             }
             set
             {
-                _httpResponseOk = value;
+                _httpResponse = value;
                 ClearError(nameof(TextArea));
-                if (_httpResponseOk != 1 || _httpResponseOk != -1)
+                if (_httpResponse != 1 || _httpResponse != -1)
                 {
                     TextAreaBrush = new SolidColorBrush(Colors.Red);
                 }
-                if (_httpResponseOk == 0)
+                if (_httpResponse == 0)
                 {
                     UpdateError(nameof(TextArea), "Sorry, the request failed to return any data. You can try a different URL or copy and paste the text itself.");
                 }
-                else if (_httpResponseOk == -2)
+                else if (_httpResponse == -2)
                 {
-
                     UpdateError(nameof(TextArea), $"You have reached your maximum limit of 75 requests. Your next request is available in {(DateTime.Now - _user.RequestTimes.Min()).Days} days.");
+                }
+                else if (_httpResponse == 429)
+                {
+                    UpdateError(nameof(TextArea), "Too many requests.");
+
                 }
                 else
                 {
                     TextAreaBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
                 }
 
-                OnPropertyChanged(nameof(HttpResponseOk));
+                OnPropertyChanged(nameof(HttpResponse));
             }
         }
 
@@ -462,7 +466,7 @@ namespace Typerr.ViewModel
             TestModel = new TestModel();
             TextAreaBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
             LoadingAnimationVisibility = Visibility.Hidden;
-            HttpResponseOk = -1;
+            HttpResponse = -1;
         }
 
         public void Reset()
@@ -514,7 +518,7 @@ namespace Typerr.ViewModel
             }
         }
 
-        private void TextAreaURLValidation()
+        private void TextAreaURLValidation(string value)
         {
             if (Uri.IsWellFormedUriString(_textArea, UriKind.Absolute) || Uri.IsWellFormedUriString(Url, UriKind.Absolute))
             {
@@ -525,7 +529,7 @@ namespace Typerr.ViewModel
                     || _textArea.Contains("https:") || _textArea.Contains("https:/") || _textArea.Contains("https://")
                     || _textArea.Contains("http:") || _textArea.Contains("http:/") || _textArea.Contains("http://"))
                 {
-                    if (!_textArea.Contains('.'))
+                    if (Math.Abs(_textArea.Length - value.Length) == 1)
                     {
                         _typedUrl = true;
                     }
@@ -541,7 +545,7 @@ namespace Typerr.ViewModel
                     {
                         Url = _textArea;
                         GetTestCommand.Execute(null);
-                        if (_httpResponseOk == 1 || _httpResponseOk == -1)
+                        if (_httpResponse == 1 || _httpResponse == -1)
                         {
                             LoadingAnimationVisibility = Visibility.Visible;
                         }
