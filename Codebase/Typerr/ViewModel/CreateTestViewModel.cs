@@ -520,16 +520,16 @@ namespace Typerr.ViewModel
 
         private void TextAreaURLValidation(string value)
         {
-            if (Uri.IsWellFormedUriString(_textArea, UriKind.Absolute) || Uri.IsWellFormedUriString(Url, UriKind.Absolute))
+            if (Uri.IsWellFormedUriString(value, UriKind.Absolute) || Uri.IsWellFormedUriString(Url, UriKind.Absolute))
             {
                 GetTestButtonEnabled = true;
 
-                if (_textArea.Contains("ht") || _textArea.Contains("htt") ||
-                    _textArea.Contains("http") || _textArea.Contains("https")
-                    || _textArea.Contains("https:") || _textArea.Contains("https:/") || _textArea.Contains("https://")
-                    || _textArea.Contains("http:") || _textArea.Contains("http:/") || _textArea.Contains("http://"))
+                if (value.Contains("ht") || value.Contains("htt") ||
+                    value.Contains("http") || value.Contains("https")
+                    || value.Contains("https:") || value.Contains("https:/") || value.Contains("https://")
+                    || value.Contains("http:") || value.Contains("http:/") || value.Contains("http://"))
                 {
-                    if (Math.Abs(_textArea.Length - value.Length) == 1)
+                    if (Math.Abs(_textArea.Length - value.Length) == 1 && value.Length > 0)
                     {
                         _typedUrl = true;
                     }
@@ -541,9 +541,9 @@ namespace Typerr.ViewModel
 
                 if (!_typedUrl)
                 {
-                    if (Uri.IsWellFormedUriString(_textArea, UriKind.Absolute))
+                    if (Uri.IsWellFormedUriString(value, UriKind.Absolute))
                     {
-                        Url = _textArea;
+                        Url = value;
                         GetTestCommand.Execute(null);
                         if (_httpResponse == 1 || _httpResponse == -1)
                         {
