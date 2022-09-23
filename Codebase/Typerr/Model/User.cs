@@ -3,9 +3,13 @@ using System.Collections.Generic;
 
 namespace Typerr.Model
 {
+    public struct Subscription
+    {
+        public string url;
+        public string name;
+    }
     public class User
     {
-
         public int RecentWpm { get; set; }
 
         public int Mode { get; set; }
@@ -14,9 +18,9 @@ namespace Typerr.Model
 
         public List<DateTime> RequestTimes { get; set; }
 
-        public List<string> Subscriptions { get; set; }
+        public List<Subscription> Subscriptions { get; set; }
 
-        public User(int recentWpm, int mode, int minutes, List<DateTime> requestTimes, List<string> subscriptions)
+        public User(int recentWpm, int mode, int minutes, List<DateTime> requestTimes, List<Subscription> subscriptions)
         {
             RecentWpm = recentWpm;
             Mode = mode;

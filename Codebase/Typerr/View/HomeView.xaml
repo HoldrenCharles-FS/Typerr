@@ -136,7 +136,7 @@
                         <ItemsControl ItemsSource="{Binding SubTileViewModels}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <components:LibTile/>
+                                    <components:SubTile/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                             <ItemsControl.ItemsPanel>
@@ -152,7 +152,9 @@
                     HorizontalAlignment="Right"
                     BorderThickness="0" 
                     Width="46" 
-                    Command="{Binding GoToLibraryCommand}">
+                    
+                        >
+                    <!--Command="{Binding GoToSubscriptionsCommand}"-->
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Template">

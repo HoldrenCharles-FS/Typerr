@@ -69,12 +69,12 @@ namespace Typerr.ViewModel
             _subTileViewModels = new ObservableCollection<SubTileViewModel>();
             _user = user;
             Init();
-            RefreshLibrary();
         }
 
         private void Init()
         {
             FeedContentHeight = 0;
+            RefreshLibrary();
         }
 
         public void RefreshLibrary()
@@ -86,6 +86,30 @@ namespace Typerr.ViewModel
             foreach (var r in result)
             {
                 LibTileViewModels.Add(r);
+            }
+        }
+
+        public void RefreshSubscriptions()
+        {
+            IEnumerable<SubTileViewModel> result = MainViewModel.AllSubTileViewModels.Take(8);
+
+            SubTileViewModels.Clear();
+
+            foreach (var r in result)
+            {
+                SubTileViewModels.Add(r);
+            }
+        }
+
+        public void RefreshFeed()
+        {
+            IEnumerable<FeedTileViewModel> result = MainViewModel.AllFeedTileViewModels.Take(12);
+
+            FeedTileViewModels.Clear();
+
+            foreach (var r in result)
+            {
+                FeedTileViewModels.Add(r);
             }
         }
     }

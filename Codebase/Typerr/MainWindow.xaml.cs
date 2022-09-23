@@ -97,8 +97,6 @@ namespace Typerr
 
         #endregion, 
 
-        private int _position = 0;
-
         public MainWindow()
         {
             InitializeComponent();

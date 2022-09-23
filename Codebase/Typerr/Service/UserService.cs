@@ -38,7 +38,13 @@ namespace Typerr.Service
 
                 for (int i = 0; i < user.Subscriptions.Count; i++)
                 {
-                    subscriptions += user.Subscriptions[i].ToString();
+                    subscriptions += user.Subscriptions[i].url;
+                    if (user.Subscriptions[i].name != "")
+                    {
+                        subscriptions += "|";
+                        subscriptions += user.Subscriptions[i].name;
+                    }
+                    
                     if (i != user.Subscriptions.Count - 1)
                     {
                         subscriptions += ",";
@@ -83,7 +89,7 @@ namespace Typerr.Service
                         int mode = 0;
                         int minutes = 3;
                         List<DateTime> requestTimes = new List<DateTime>();
-                        List<string> subscriptions = new List<string>();
+                        List<Subscription> subscriptions = new List<Subscription>();
                         reader.MoveToFirstAttribute();
                         reader.ReadToFollowing("User");
                         reader.MoveToFirstAttribute();
@@ -119,10 +125,20 @@ namespace Typerr.Service
                         reader.MoveToNextAttribute();
                         string[] subscriptionsData = reader.Value.Split(',');
 
-                        if (subscriptionsData.Length != 1 && subscriptionsData[0] != "")
+                        if (reader.Value != "")
                         {
-                            foreach (var subscription in subscriptionsData)
+                            foreach (var sub in subscriptionsData)
                             {
+                                Subscription subscription;
+                                subscription.name = "";
+                                string[] subData = sub.Split("|");
+                                subscription.url = subData[0];
+
+                                if (subData.Length == 2)
+                                {
+                                    subscription.name = subData[1];
+                                }
+
                                 subscriptions.Add(subscription);
                             }
                         }
@@ -151,6 +167,7 @@ namespace Typerr.Service
                 xmlWriter.WriteAttributeString("Mode", "0");
                 xmlWriter.WriteAttributeString("Minutes", "3");
                 xmlWriter.WriteAttributeString("RequestTimes", "");
+                xmlWriter.WriteAttributeString("Subscriptions", "");
                 xmlWriter.WriteEndElement();
                 xmlWriter.WriteEndDocument();
 
@@ -159,7 +176,7 @@ namespace Typerr.Service
 
             writer.Close();
 
-            return new User(33, 0, 3, new List<DateTime>(), new List<string>());
+            return new User(33, 0, 3, new List<DateTime>(), new List<Subscription>());
         }
     }
 }

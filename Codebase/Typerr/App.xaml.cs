@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using Microsoft.SyndicationFeed;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media.Imaging;
-using System.Xml;
 using Typerr.Commands;
 using Typerr.Model;
 using Typerr.Service;
@@ -29,7 +26,7 @@ namespace Typerr
         }
 
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             MainViewModel mainViewModel = new MainViewModel(_navigationStore, User);
             CreateTestTileCommand createTestTileCommand = new CreateTestTileCommand(mainViewModel);
@@ -39,14 +36,18 @@ namespace Typerr
             HomeViewModel homeViewModel = new HomeViewModel(mainViewModel, createTestTileCommand, goToLibraryButtonCommand, User);
             mainViewModel.SetHomeViewModel(homeViewModel);
             NavigationCommand goToHomeCommand = new NavigationCommand(_navigationStore, homeViewModel, mainViewModel, NavigationOption.None);
+            SubscriptionsViewModel subscriptionsViewModel = new SubscriptionsViewModel(mainViewModel);
+            NavigationCommand goToSubscriptionsCommand = new NavigationCommand(_navigationStore, subscriptionsViewModel, mainViewModel, NavigationOption.None);
             CreateTestViewModel createTestViewModel = new CreateTestViewModel(createTestCloseCommand, homeViewModel);
             mainViewModel.CreateTestViewModel = createTestViewModel;
-            NavPanelViewModel navPanelViewModel = new NavPanelViewModel(goToHomeCommand, goToLibraryCommand);
+            NavPanelViewModel navPanelViewModel = new NavPanelViewModel(goToHomeCommand, goToLibraryCommand, goToSubscriptionsCommand);
             mainViewModel.SetNavPanelViewModel(navPanelViewModel);
             mainViewModel.CurrentPanel = mainViewModel.NavPanelViewModel;
             homeViewModel.NavPanelViewModel = navPanelViewModel;
 
+            await RetrieveRss(mainViewModel, homeViewModel);
             LoadTests(mainViewModel, homeViewModel);
+            
 
             _navigationStore.CurrentViewModel = homeViewModel;
             MainWindow = new MainWindow()
@@ -94,6 +95,42 @@ namespace Typerr
 
                 homeViewModel.RefreshLibrary();
             }
+        }
+
+        private async Task RetrieveRss(MainViewModel mainViewModel, HomeViewModel homeViewModel)
+        {
+            try
+            {
+                bool enableFeed = false;
+                if (User.Subscriptions.Count > 0)
+                {
+                    foreach (Subscription subscription in User.Subscriptions)
+                    {
+                        RssModel rssModel = await RssService.Read(subscription.url);
+                        if (!string.IsNullOrWhiteSpace(subscription.name) && subscription.name != rssModel.Title)
+                        {
+                            rssModel.Title = subscription.name;
+                        }
+                        mainViewModel.AddSubTile(rssModel);
+
+                        foreach (ISyndicationItem item in rssModel.Items)
+                        {
+                            if (!enableFeed)
+                            {
+                                enableFeed = true;
+                                homeViewModel.FeedContentHeight = double.PositiveInfinity;
+                            }
+                            mainViewModel.AddFeedTile(item);
+                        }
+                    }
+                homeViewModel.RefreshSubscriptions();
+                }
+            }
+            catch (System.Net.WebException)
+            {
+                System.Console.WriteLine();
+            }
+            
         }
     }
 }

@@ -26,6 +26,9 @@
         <DataTemplate DataType="{x:Type vms:LibraryViewModel}">
             <views:LibraryView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:SubscriptionsViewModel}">
+            <views:SubscriptionsView/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vms:CreateTestViewModel}">
             <views:CreateTestView Margin="20 40"/>
         </DataTemplate>
@@ -43,6 +46,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vms:AddSubscriptionViewModel}">
             <views:AddSubscriptionView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:SubTileViewModel}">
+            <components:SubTile/>
         </DataTemplate>
     </Window.Resources>
 

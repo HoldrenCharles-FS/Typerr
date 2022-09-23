@@ -4,17 +4,21 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using System.Xml;
+using Typerr.Model;
 
 namespace Typerr.Service
 {
     public class RssService
     {
-        public static async Task Read(string filePath)
+        public static async Task<RssModel> Read(string filePath)
         {
-            using (var xmlReader = XmlReader.Create(filePath, new XmlReaderSettings() { Async = true }))
+            RssModel rssModel = new RssModel();
+
+            using (XmlReader xmlReader = XmlReader.Create(filePath, new XmlReaderSettings() { Async = true }))
             {
-                var feedReader = new RssFeedReader(xmlReader);
+                RssFeedReader feedReader = new RssFeedReader(xmlReader);
 
                 while (await feedReader.Read())
                 {
@@ -27,17 +31,22 @@ namespace Typerr.Service
 
                         // Read Image
                         case SyndicationElementType.Image:
-                            ISyndicationImage image = await feedReader.ReadImage();
+                            ISyndicationImage syndicationImage = await feedReader.ReadImage();
+
+                            rssModel.Image = new BitmapImage(syndicationImage.Url);
+
                             break;
 
                         // Read Item
                         case SyndicationElementType.Item:
                             ISyndicationItem item = await feedReader.ReadItem();
+                            rssModel.Items.Add(item);
                             break;
 
                         // Read link
                         case SyndicationElementType.Link:
                             ISyndicationLink link = await feedReader.ReadLink();
+                             rssModel.Uri = link.Uri.AbsoluteUri;
                             break;
 
                         // Read Person
@@ -48,10 +57,29 @@ namespace Typerr.Service
                         // Read content
                         default:
                             ISyndicationContent content = await feedReader.ReadContent();
+
+                            switch (content.Name)
+                            {
+                                case "title":
+                                    rssModel.Title = content.Value;
+                                    break;
+                                case "description":
+                                    rssModel.Description = content.Value;
+                                    break;
+                                case "lastBuildDate":
+                                 rssModel.LastBuildDate = DateTime.Parse(content.Value);
+                                    break;
+                                case "pubDate":
+                                    rssModel.PubDate = DateTime.Parse(content.Value);
+                                    break;
+                            }
+
                             break;
                     }
                 }
             }
+
+            return rssModel;
         }
     }
 }

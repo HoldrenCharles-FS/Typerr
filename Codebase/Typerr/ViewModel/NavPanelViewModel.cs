@@ -9,6 +9,7 @@ namespace Typerr.ViewModel
     {
         public ICommand GoToHomeCommand { get; }
         public ICommand GoToLibraryCommand { get; }
+        public ICommand GoToSubscriptionsCommand { get; }
 
         private bool _radioHomeIsChecked;
         public bool RadioHomeIsChecked
@@ -45,10 +46,11 @@ namespace Typerr.ViewModel
                 OnPropertyChanged(nameof(RadioLibraryIsChecked));
             }
         }
-        public NavPanelViewModel(ICommand goToHomeCommand, ICommand goToLibraryCommand)
+        public NavPanelViewModel(ICommand goToHomeCommand, ICommand goToLibraryCommand, ICommand goToSubscriptionsCommand)
         {
             GoToHomeCommand = goToHomeCommand;
             GoToLibraryCommand = goToLibraryCommand;
+            GoToSubscriptionsCommand = goToSubscriptionsCommand;
             RadioHomeIsChecked = true;
             RadioLibraryIsChecked = false;
         }

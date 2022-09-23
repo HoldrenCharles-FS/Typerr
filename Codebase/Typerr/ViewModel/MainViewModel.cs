@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.SyndicationFeed;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -25,6 +26,14 @@ namespace Typerr.ViewModel
         private readonly ObservableCollection<LibTileViewModel> _allLibTileViewModels;
 
         public IEnumerable<LibTileViewModel> AllLibTileViewModels => _allLibTileViewModels;
+
+        private readonly ObservableCollection<FeedTileViewModel> _allFeedTileViewModels;
+
+        public IEnumerable<FeedTileViewModel> AllFeedTileViewModels => _allFeedTileViewModels;
+
+        private readonly ObservableCollection<SubTileViewModel> _allSubTileViewModels;
+
+        public IEnumerable<SubTileViewModel> AllSubTileViewModels => _allSubTileViewModels;
 
         private ViewModelBase _currentDialog;
         public ViewModelBase CurrentDialog
@@ -89,6 +98,8 @@ namespace Typerr.ViewModel
             _navigationStore = navigationStore;
             User = user;
             _allLibTileViewModels = new ObservableCollection<LibTileViewModel>();
+            _allFeedTileViewModels = new ObservableCollection<FeedTileViewModel>();
+            _allSubTileViewModels = new ObservableCollection<SubTileViewModel>();
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
         }
 
@@ -126,6 +137,26 @@ namespace Typerr.ViewModel
                     break;
                 }
             }
+        }
+
+        public void AddFeedTile(ISyndicationItem syndicationItem)
+        {
+            _allFeedTileViewModels.Insert(0, new FeedTileViewModel(syndicationItem));
+        }
+
+        public void ClearFeedTiles()
+        {
+            _allFeedTileViewModels.Clear();
+        }
+
+        public void AddSubTile(RssModel rssModel)
+        {
+            _allSubTileViewModels.Insert(0, new SubTileViewModel(rssModel));
+        }
+
+        public void ClearSubTiles()
+        {
+            _allFeedTileViewModels.Clear();
         }
 
         private LibTileViewModel LoadTest(string filename)

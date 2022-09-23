@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.SyndicationFeed;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Media.Imaging;
@@ -11,13 +12,14 @@ namespace Typerr.Model
         public string Source { get; set; }
         public string Description { get; set; }
         public BitmapImage Image { get; set; }
+        public string Uri { get; set; }
+        public DateTime LastBuildDate { get; set; }
+        public DateTime PubDate { get; set; }
+        public List<ISyndicationItem> Items { get; set; }
 
-        public RssModel(string title, string source, string description, BitmapImage image)
+        public RssModel()
         {
-            Title = title;
-            Source = source;
-            Description = description;
-            Image = image;
+            Items = new List<ISyndicationItem>();
         }
     }
 }

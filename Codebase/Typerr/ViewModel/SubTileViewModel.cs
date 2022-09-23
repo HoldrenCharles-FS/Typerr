@@ -47,6 +47,13 @@ namespace Typerr.ViewModel
         {
             _rssModel = rssModel;
             SubTileCommand = new SubTileCommand(this);
+            Init();
+        }
+
+        private void Init()
+        {
+            Name = _rssModel.Title;
+            Image = _rssModel.Image;
         }
     }
 }

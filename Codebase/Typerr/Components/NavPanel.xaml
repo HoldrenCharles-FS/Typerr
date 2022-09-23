@@ -39,11 +39,11 @@
         <RadioButton x:Name="SubscriptionsRadioButton"  
                      Content="Subscriptions"           
                      GroupName="NavButtons"
-                     Height="50"                                 
-                     IsEnabled="False"                                 
-                     Foreground="#bbb"                                 
+                     Height="50"                                                             
+                     Foreground="White"                                 
                      FontSize="14"                                 
-                     Style="{StaticResource MenuButtonTheme}"/>
+                     Style="{StaticResource MenuButtonTheme}"
+                     Command="{Binding GoToSubscriptionsCommand}"/>
 
     </StackPanel>
 </UserControl>
