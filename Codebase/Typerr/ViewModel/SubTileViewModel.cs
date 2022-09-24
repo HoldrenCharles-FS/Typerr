@@ -5,13 +5,14 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Typerr.Commands;
 using Typerr.Model;
+using Typerr.Stores;
 
 namespace Typerr.ViewModel
 {
     public class SubTileViewModel : ViewModelBase
     {
 
-        private readonly RssModel _rssModel;
+        public RssModel RssModel { get; }
 
         public ICommand SubTileCommand { get; }
 
@@ -43,17 +44,17 @@ namespace Typerr.ViewModel
             }
         }
 
-        public SubTileViewModel(RssModel rssModel)
+        public SubTileViewModel(RssModel rssModel, NavigationStore navigationStore, MainViewModel mainViewModel)
         {
-            _rssModel = rssModel;
-            SubTileCommand = new SubTileCommand(this);
+            RssModel = rssModel;
+            SubTileCommand = new NavigationCommand(navigationStore, new SubscriptionViewModel(rssModel, mainViewModel), mainViewModel, NavigationOption.GoToSubscription, rssModel);
             Init();
         }
 
         private void Init()
         {
-            Name = _rssModel.Title;
-            Image = _rssModel.Image;
+            Name = RssModel.Title;
+            Image = RssModel.Image;
         }
     }
 }

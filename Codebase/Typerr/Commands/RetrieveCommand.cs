@@ -10,14 +10,22 @@ namespace Typerr.Commands
     public class RetrieveCommand : CommandBase
     {
         private readonly AddSubscriptionViewModel _addSubscriptionViewModel;
+        private readonly MainViewModel _mainViewModel;
 
-        public RetrieveCommand(AddSubscriptionViewModel addSubscriptionViewModel)
+        public RetrieveCommand(AddSubscriptionViewModel addSubscriptionViewModel, MainViewModel mainViewModel)
         {
             _addSubscriptionViewModel = addSubscriptionViewModel;
+            _mainViewModel = mainViewModel;
         }
 
         public override async void Execute(object parameter)
         {
+            if (_mainViewModel.ContainsRssId(_addSubscriptionViewModel.RssField))
+            {
+                _addSubscriptionViewModel.SubscriptionExists = true;
+                _addSubscriptionViewModel.RssField = AddSubscriptionViewModel.DefaultMessage;
+                return;
+            }
             RssModel rssModel = await RssService.Read(_addSubscriptionViewModel.RssField);
 
             if (rssModel.Uri == "-1")

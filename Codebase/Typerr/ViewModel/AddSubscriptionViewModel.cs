@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -8,8 +11,9 @@ using Typerr.Model;
 
 namespace Typerr.ViewModel
 {
-    public class AddSubscriptionViewModel : ViewModelBase
+    public class AddSubscriptionViewModel : ViewModelBase, INotifyDataErrorInfo
     {
+        private readonly MainViewModel _mainViewModel;
         public RssModel RssModel { get; set; }
         public ICommand DialogCloseCommand { get; }
         public ICommand RetrieveCommand { get; }
@@ -59,6 +63,24 @@ namespace Typerr.ViewModel
             }
         }
 
+        private bool _subscriptionExists;
+        public bool SubscriptionExists
+        {
+            get
+            {
+                return _subscriptionExists;
+            }
+            set
+            {
+                _subscriptionExists = value;
+                OnPropertyChanged(nameof(SubscriptionExists));
+                if (_subscriptionExists)
+                {
+                    ValidateRss(_rssField);
+                }
+            }
+        }
+
         private string _buttonText;
         public string ButtonText
         {
@@ -87,6 +109,20 @@ namespace Typerr.ViewModel
             }
         }
 
+        private SolidColorBrush _rssFieldBrush;
+        public SolidColorBrush RssFieldBrush
+        {
+            get
+            {
+                return _rssFieldBrush;
+            }
+            set
+            {
+                _rssFieldBrush = value;
+                OnPropertyChanged(nameof(RssFieldBrush));
+            }
+        }
+
         private SolidColorBrush _nameLabelForeground;
         public SolidColorBrush NameLabelForeground
         {
@@ -101,14 +137,22 @@ namespace Typerr.ViewModel
             }
         }
 
+        private readonly Dictionary<string, List<string>> _propertyErrors;
+
+        public bool HasErrors => _propertyErrors.Any();
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
         private SolidColorBrush _disabledBrush = new SolidColorBrush(Color.FromArgb(255, 136, 136, 136));
 
         public static string DefaultMessage { get; } = "Enter an RSS Feed URL Here...";
         public AddSubscriptionViewModel(MainViewModel mainViewModel)
         {
+            _mainViewModel = mainViewModel;
             DialogCloseCommand = new DialogCloseCommand(mainViewModel);
             SubscribeCommand = new SubscribeCommand(this, mainViewModel);
-            RetrieveCommand = new RetrieveCommand(this);
+            RetrieveCommand = new RetrieveCommand(this, mainViewModel);
+            _propertyErrors = new Dictionary<string, List<string>>();
             Init();
         }
 
@@ -123,8 +167,10 @@ namespace Typerr.ViewModel
             NameField = "";
             NameFieldEnabled = false;
             NameLabelForeground = _disabledBrush;
+            SubscriptionExists = false;
             ButtonText = "Retrieve";
             ButtonCommand = RetrieveCommand;
+            
         }
 
         private void ValidateRss(string value)
@@ -137,6 +183,59 @@ namespace Typerr.ViewModel
             {
                 ResetState();
             }
+            else
+            {
+                ClearError(nameof(RssField));
+                if (SubscriptionExists)
+                {
+                    SubscriptionExists = false;
+                    RssFieldBrush = new SolidColorBrush(Colors.Red);
+                    UpdateError(nameof(RssField), $"You already subscribed to this feed as {_mainViewModel.FindSubscriptionName(RssField)}");
+                }
+                else
+                {
+                    RssFieldBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
+                }
+            }
+
+
+        }
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return _propertyErrors.GetValueOrDefault(propertyName, null);
+        }
+
+        public void UpdateError(string propertyName, string errorMessage)
+        {
+            if (!_propertyErrors.ContainsKey(propertyName))
+            {
+                _propertyErrors.Add(propertyName, new List<string>());
+            }
+
+            if (_propertyErrors.Values.Any(iList => iList.Count() == 0))
+            {
+                _propertyErrors[propertyName].Add(errorMessage);
+            }
+            else
+            {
+                _propertyErrors[propertyName][0] = errorMessage;
+            }
+            OnErrorChanged(propertyName);
+        }
+
+        private void ClearError(string propertyName)
+        {
+            if (_propertyErrors.Count > 0)
+            {
+                _propertyErrors[propertyName][0] = "";
+                OnErrorChanged(propertyName);
+            }
+        }
+
+        private void OnErrorChanged(string propertyName)
+        {
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
     }
 }

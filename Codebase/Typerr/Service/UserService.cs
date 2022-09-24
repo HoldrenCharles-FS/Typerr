@@ -39,11 +39,8 @@ namespace Typerr.Service
                 for (int i = 0; i < user.Subscriptions.Count; i++)
                 {
                     subscriptions += user.Subscriptions[i].url;
-                    if (user.Subscriptions[i].name != "")
-                    {
-                        subscriptions += "|";
-                        subscriptions += user.Subscriptions[i].name;
-                    }
+                    subscriptions += "|";
+                    subscriptions += user.Subscriptions[i].name;
                     
                     if (i != user.Subscriptions.Count - 1)
                     {
@@ -130,14 +127,9 @@ namespace Typerr.Service
                             foreach (var sub in subscriptionsData)
                             {
                                 Subscription subscription;
-                                subscription.name = "";
                                 string[] subData = sub.Split("|");
                                 subscription.url = subData[0];
-
-                                if (subData.Length == 2)
-                                {
-                                    subscription.name = subData[1];
-                                }
+                                subscription.name = subData[1];
 
                                 subscriptions.Add(subscription);
                             }

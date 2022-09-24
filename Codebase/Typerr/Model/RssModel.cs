@@ -16,6 +16,7 @@ namespace Typerr.Model
         public DateTime LastBuildDate { get; set; }
         public DateTime PubDate { get; set; }
         public List<ISyndicationItem> Items { get; set; }
+        
 
         public RssModel()
         {

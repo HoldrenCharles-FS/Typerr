@@ -32,6 +32,7 @@ namespace Typerr.Commands
 
                 _mainViewModel.AddSubTile(_addSubscriptionViewModel.RssModel);
                 _mainViewModel.HomeViewModel.RefreshSubscriptions();
+                _mainViewModel.NavPanelViewModel.AddSubButton(_addSubscriptionViewModel.RssModel, _mainViewModel);
                 _addSubscriptionViewModel.DialogCloseCommand.Execute(null);
             }
             else

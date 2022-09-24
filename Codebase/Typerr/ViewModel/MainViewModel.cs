@@ -164,7 +164,7 @@ namespace Typerr.ViewModel
 
         public void AddSubTile(RssModel rssModel)
         {
-            _allSubTileViewModels.Insert(0, new SubTileViewModel(rssModel));
+            _allSubTileViewModels.Insert(0, new SubTileViewModel(rssModel, _navigationStore, this));
         }
 
         public void ClearSubTiles()
@@ -191,5 +191,14 @@ namespace Typerr.ViewModel
             NavPanelViewModel = navPanelViewModel;
         }
 
+        public bool ContainsRssId(string id)
+        {
+            return User.Subscriptions.Any(x => x.url == id);
+        }
+
+        public string FindSubscriptionName(string id)
+        {
+            return User.Subscriptions.Find(x => x.url == id).name;
+        }
     }
 }

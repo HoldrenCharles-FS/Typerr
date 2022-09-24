@@ -102,5 +102,17 @@ namespace Typerr.ViewModel
                 }
             }
         }
+
+        public void SetSubscriptionChecked(RssModel rssModel)
+        {
+            foreach (SubMenuButtonViewModel button in SubMenuButtonViewModels)
+            {
+                button.IsChecked = false;
+                if (button.RssModel.Uri == rssModel.Uri)
+                {
+                    button.IsChecked = true;
+                }
+            }
+        }
     }
 }

@@ -5,7 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Typerr.View" xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome" xmlns:viewmodel="clr-namespace:Typerr.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:AddSubscriptionViewModel}"
              mc:Ignorable="d">
-    <Grid Background="White" Width="600" Height="210">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="600"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+    
+    <Grid Background="White"
+          Grid.Row="1"
+          Grid.Column="1">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="auto"/>
@@ -42,7 +56,7 @@
                 <ColumnDefinition Width="110"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Grid.Column="0"
+                <TextBox Grid.Column="0"
                      Name="RssBox"
                  Padding="10"
                      GotFocus="TextBox_GotFocus"
@@ -50,7 +64,28 @@
                      PreviewKeyDown="TextBox_PreviewKeyDown"
                  Margin="20"
                  Height="42"
-                 Text="{Binding RssField, UpdateSourceTrigger=PropertyChanged}"/>
+                 Text="{Binding RssField, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBox.Style>
+                        <Style>
+                            <Setter Property="Validation.ErrorTemplate">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <DockPanel>
+                                            <TextBlock DockPanel.Dock="Bottom"
+                                       Foreground="Red"
+                                       FontSize="12"
+                                       Text="{Binding ElementName=placeholder, 
+                                       Path= AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
+                                            <AdornedElementPlaceholder x:Name="placeholder"/>
+                                        </DockPanel>
+                                    </ControlTemplate>
+
+
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
 
             <Button Content="{Binding ButtonText, UpdateSourceTrigger=PropertyChanged}"
                     Height="45"
@@ -97,5 +132,6 @@
                                     Foreground="Gray" 
                                     FontSize="19"/>
         </Button>
+        </Grid>
     </Grid>
 </UserControl>
