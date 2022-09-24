@@ -41,12 +41,12 @@ namespace Typerr
             NavigationCommand goToSubscriptionsCommand = new NavigationCommand(_navigationStore, subscriptionsViewModel, mainViewModel, NavigationOption.None);
             CreateTestViewModel createTestViewModel = new CreateTestViewModel(createTestCloseCommand, homeViewModel);
             mainViewModel.CreateTestViewModel = createTestViewModel;
-            NavPanelViewModel navPanelViewModel = new NavPanelViewModel(goToHomeCommand, goToLibraryCommand, goToSubscriptionsCommand);
+            NavPanelViewModel navPanelViewModel = new NavPanelViewModel(_navigationStore, goToHomeCommand, goToLibraryCommand, goToSubscriptionsCommand);
             mainViewModel.SetNavPanelViewModel(navPanelViewModel);
             mainViewModel.CurrentPanel = mainViewModel.NavPanelViewModel;
             homeViewModel.NavPanelViewModel = navPanelViewModel;
 
-            await RetrieveRss(mainViewModel, homeViewModel);
+            await RetrieveRss(mainViewModel, homeViewModel, navPanelViewModel);
             LoadTests(mainViewModel, homeViewModel);
 
 
@@ -98,7 +98,7 @@ namespace Typerr
             }
         }
 
-        private async Task RetrieveRss(MainViewModel mainViewModel, HomeViewModel homeViewModel)
+        private async Task RetrieveRss(MainViewModel mainViewModel, HomeViewModel homeViewModel, NavPanelViewModel navPanelViewModel)
         {
             try
             {
@@ -113,6 +113,7 @@ namespace Typerr
                             rssModel.Title = subscription.name;
                         }
                         mainViewModel.AddSubTile(rssModel);
+                        navPanelViewModel.AddSubButton(rssModel, mainViewModel);
 
                         foreach (ISyndicationItem item in rssModel.Items)
                         {

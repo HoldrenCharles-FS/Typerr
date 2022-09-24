@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Typerr.Commands;
@@ -141,7 +142,14 @@ namespace Typerr.ViewModel
 
         public void AddFeedTile(ISyndicationItem syndicationItem, string source)
         {
-            _allFeedTileViewModels.Insert(0, new FeedTileViewModel(syndicationItem, source, this));
+            int index = 0;
+            foreach (FeedTileViewModel feedTile in AllFeedTileViewModels)
+            {
+                if (feedTile.Item.Published.DateTime <= syndicationItem.Published.DateTime)
+                    break;
+                index++;
+            }
+            _allFeedTileViewModels.Insert(index, new FeedTileViewModel(syndicationItem, source, this));
         }
 
         public void ClearFeedTiles()

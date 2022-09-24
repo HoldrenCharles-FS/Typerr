@@ -45,6 +45,24 @@
                      IsChecked="{Binding RadioSubscriptionsIsChecked}"
                      Style="{StaticResource MenuButtonTheme}"
                      Command="{Binding GoToSubscriptionsCommand}"/>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <ItemsControl ItemsSource="{Binding SubMenuButtonViewModels}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <local:SubMenuButton/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+        
 
     </StackPanel>
 </UserControl>

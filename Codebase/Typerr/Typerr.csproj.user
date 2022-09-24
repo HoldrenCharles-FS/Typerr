@@ -22,6 +22,9 @@
     <Compile Update="Components\NavPanel.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Components\SubMenuButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Components\SubTile.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -29,6 +32,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="ViewModel\ItemPreviewView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\SubscriptionView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\AddSubscriptionView.xaml.cs">
@@ -72,6 +78,9 @@
     <Page Update="Components\NavPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Components\SubMenuButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Components\SubTile.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -82,6 +91,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ViewModel\ItemPreviewView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\SubscriptionView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\AddSubscriptionView.xaml">

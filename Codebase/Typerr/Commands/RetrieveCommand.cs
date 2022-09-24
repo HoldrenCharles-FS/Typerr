@@ -22,6 +22,7 @@ namespace Typerr.Commands
 
             if (rssModel.Uri == "-1")
             {
+                _addSubscriptionViewModel.RssModel = null;
                 return;
             }
 

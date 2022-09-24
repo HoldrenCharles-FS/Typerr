@@ -55,6 +55,9 @@
         <DataTemplate DataType="{x:Type vms:ItemPreviewViewModel}">
             <vms:ItemPreviewView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:SubscriptionViewModel}">
+            <vms:SubscriptionView/>
+        </DataTemplate>
     </Window.Resources>
 
     <WindowChrome.WindowChrome>
