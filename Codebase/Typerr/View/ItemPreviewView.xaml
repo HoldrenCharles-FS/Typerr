@@ -47,12 +47,10 @@
                            >
 
                             <TextBlock TextWrapping="Wrap" 
-                                       Width="540" 
+                                       Width="520" 
                                        TextTrimming="CharacterEllipsis"
                                        FontSize="28"
-                            Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
-                                   />
-
+                                       Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
 
                         </Label>
                     </Border>
