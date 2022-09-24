@@ -141,7 +141,7 @@ namespace Typerr.ViewModel
 
         public void AddFeedTile(ISyndicationItem syndicationItem, string source)
         {
-            _allFeedTileViewModels.Insert(0, new FeedTileViewModel(syndicationItem, source));
+            _allFeedTileViewModels.Insert(0, new FeedTileViewModel(syndicationItem, source, this));
         }
 
         public void ClearFeedTiles()

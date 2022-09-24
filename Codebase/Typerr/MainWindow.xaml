@@ -53,6 +53,9 @@
         <DataTemplate DataType="{x:Type vms:FeedTileViewModel}">
             <components:FeedTile/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:ItemPreviewViewModel}">
+            <vms:ItemPreviewView/>
+        </DataTemplate>
     </Window.Resources>
 
     <WindowChrome.WindowChrome>

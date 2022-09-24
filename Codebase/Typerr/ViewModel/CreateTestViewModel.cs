@@ -456,6 +456,20 @@ namespace Typerr.ViewModel
             Init();
         }
 
+        public CreateTestViewModel(TestModel testModel, ICommand createTestCloseCommand, HomeViewModel homeViewModel)
+        {
+            _testModel = testModel;
+            _user = homeViewModel.MainViewModel.User;
+            OpenFromFileCommand = new OpenFromFileCommand(this);
+            GetTestCommand = new GetTestCommand(this, homeViewModel.MainViewModel.User);
+            CreateCommand = new CreateCommand(this, homeViewModel);
+            CreateTestCloseCommand = createTestCloseCommand;
+            RemoveImageCommand = new RemoveImageCommand(this);
+            AddImageCommand = new AddImageCommand(this);
+            _propertyErrors = new Dictionary<string, List<string>>();
+            LoadFromModel();
+        }
+
         private void Init()
         {
             TextArea = DefaultMessage;
@@ -467,6 +481,11 @@ namespace Typerr.ViewModel
             TextAreaBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
             LoadingAnimationVisibility = Visibility.Hidden;
             HttpResponse = -1;
+        }
+
+        private void LoadFromModel()
+        {
+
         }
 
         public void Reset()

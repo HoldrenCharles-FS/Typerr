@@ -25,7 +25,8 @@
                 <Button Width="auto"
                         Height="auto"
                         OpacityMask="#222"
-                        BorderThickness="0">
+                        BorderThickness="0"
+                        Command="{Binding FeedTileCommand}">
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" 
@@ -78,7 +79,7 @@
                                 Width="212">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="auto"/>
                             <RowDefinition Height="20"/>
                         </Grid.RowDefinitions>
                         <Border Grid.Row="0"
@@ -95,19 +96,22 @@
                         </Border>
 
 
-                        <Label Grid.Row="1" VerticalContentAlignment="Bottom"
+                        <Label Grid.Row="1" 
+                               VerticalContentAlignment="Bottom"
                                Foreground="Black"
                                Padding="5 0"
                                Width="210" 
-                               Height="40"
+                               MaxHeight="40"
                                FontSize="13">
                             <TextBlock TextTrimming="CharacterEllipsis" 
                                        Text="{Binding Description}"
                                        TextWrapping="Wrap"/>
                         </Label>
-                        <Label Grid.Row="2" VerticalContentAlignment="Bottom"
+                        <Label Grid.Row="2" 
+                               VerticalContentAlignment="Bottom"
                                Foreground="Black"
                                Padding="5 0"
+                               HorizontalContentAlignment="Right"
                                Width="210" 
                                FontSize="13">
                             <TextBlock TextTrimming="CharacterEllipsis" 

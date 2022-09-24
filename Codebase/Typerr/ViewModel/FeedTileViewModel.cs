@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
+using Typerr.Commands;
 using Typerr.Model;
 
 namespace Typerr.ViewModel
@@ -9,6 +11,9 @@ namespace Typerr.ViewModel
     public class FeedTileViewModel : ViewModelBase
     {
         public ISyndicationItem Item { get; }
+
+        public ICommand FeedTileCommand { get; }
+
         private string _title;
         public string Title
         {
@@ -51,12 +56,13 @@ namespace Typerr.ViewModel
             }
         }
 
-        public FeedTileViewModel(ISyndicationItem syndicationItem, string source)
+        public FeedTileViewModel(ISyndicationItem syndicationItem, string source, MainViewModel mainViewModel)
         {
             Item = syndicationItem;
             Title = syndicationItem.Title;
             Description = syndicationItem.Description;
             Source = source;
+            FeedTileCommand = new FeedTileCommand(this, mainViewModel);
            // PubDate = syndicationItem.Published.ToString("MMMM dd yyyy");
         }
     }
