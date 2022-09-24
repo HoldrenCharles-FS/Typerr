@@ -15,7 +15,7 @@
             CornerRadius="30">
         <Border.Background>
             <ImageBrush ImageSource="{Binding Image, UpdateSourceTrigger=PropertyChanged}" 
-                        Stretch="UniformToFill"/>
+                        Stretch="Uniform"/>
         </Border.Background>
 
         <Border CornerRadius="30"
@@ -70,27 +70,20 @@
                                           Offset="1"/>
                         </LinearGradientBrush>
                     </Button.Background>
-
-                    <Grid VerticalAlignment="Center" 
-                                Height="120" 
-                                Width="120">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="10"/>
-                        </Grid.RowDefinitions>
-                        <Border Grid.Row="0"
-                                VerticalAlignment="Bottom">
-                            <TextBlock Padding="5 0"
-                                       TextAlignment="Center"
+                        <Label Padding="5 0"
+                               HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Bottom"
                                Foreground="Black"
                                FontSize="20"
                                FontWeight="Bold"
                                Width="110" 
-                               TextTrimming="CharacterEllipsis"
-                               TextWrapping="Wrap"
-                               Text="{Binding Name}" Height="110" Margin="5,0,5,0"/>
-                        </Border>
-                    </Grid>
+                               Height="110" 
+                               Margin="5,0,5,0">
+                            <TextBlock TextTrimming="CharacterEllipsis"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       Text="{Binding Name}"/>
+                        </Label>
                 </Button>
             </Grid>
         </Border>
