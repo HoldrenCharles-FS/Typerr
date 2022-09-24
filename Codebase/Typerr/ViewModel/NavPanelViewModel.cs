@@ -88,7 +88,14 @@ namespace Typerr.ViewModel
 
         public void AddSubButton(RssModel rssModel, MainViewModel mainViewModel)
         {
-            _subMenuButtonViewModels.Insert(0, new SubMenuButtonViewModel(_navigationStore, mainViewModel, rssModel));
+            int index = 0;
+            foreach (SubMenuButtonViewModel subButton in SubMenuButtonViewModels)
+            {
+                if (string.Compare(subButton.Name, rssModel.Title) > 0)
+                    break;
+                index++;
+            }
+            _subMenuButtonViewModels.Insert(index, new SubMenuButtonViewModel(_navigationStore, mainViewModel, rssModel));
         }
 
         public void RemoveSubButton(string uri)
