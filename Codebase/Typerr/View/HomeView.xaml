@@ -21,7 +21,8 @@
                    FontSize="24"
                    Grid.Column="0"
                    HorizontalAlignment="Left"
-                   Margin="30,20,0,20"/>
+                   Margin="30,20,0,20"
+                   ToolTip="Your most recently created tests"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -102,7 +103,8 @@
                    FontWeight="Bold"
                    FontSize="24"
                    HorizontalAlignment="Left"
-                   Margin="30,20,0,20"/>
+                   Margin="30,20,0,20"
+                   ToolTip="Your most recent RSS Feed items"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -178,7 +180,8 @@
                    FontSize="24"
                    Grid.Column="0"
                    HorizontalAlignment="Left"
-                   Margin="30,20,0,20"/>
+                   Margin="30,20,0,20"
+                   ToolTip="Your most recent subscriptions"/>
             
             <Grid>
                 <Grid.ColumnDefinitions>
