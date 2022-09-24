@@ -129,9 +129,9 @@ namespace Typerr
                     homeViewModel.RefreshFeed();
                 }
             }
-            catch (System.Net.WebException)
+            catch (System.Net.WebException e)
             {
-                System.Console.WriteLine();
+                System.Console.WriteLine(e.ToString());
             }
 
         }

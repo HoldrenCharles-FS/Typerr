@@ -31,7 +31,7 @@
     <Compile Update="Components\TestPanel.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="ViewModel\ItemPreviewView.xaml.cs">
+    <Compile Update="View\ItemPreviewView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\SubscriptionView.xaml.cs">
@@ -90,7 +90,7 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ViewModel\ItemPreviewView.xaml">
+    <Page Update="View\ItemPreviewView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\SubscriptionView.xaml">

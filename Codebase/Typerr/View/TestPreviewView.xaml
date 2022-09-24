@@ -62,8 +62,12 @@
                                Foreground="Black"
                                FontWeight="Bold">
                             <Viewbox HorizontalAlignment="Left">
-                            <TextBlock TextWrapping="Wrap" TextTrimming="CharacterEllipsis"
-                               Text="{Binding Title}" MaxHeight="100" FontSize="{Binding TitleFontSize}" Width="{Binding TitleColumnWidth}"/>
+                            <TextBlock TextWrapping="Wrap" 
+                                       TextTrimming="CharacterEllipsis"
+                                       Text="{Binding Title}" 
+                                       MaxHeight="100" 
+                                       FontSize="{Binding TitleFontSize}" 
+                                       Width="{Binding TitleColumnWidth}"/>
                             </Viewbox>
                         </Label>
                         

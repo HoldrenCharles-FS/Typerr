@@ -55,6 +55,20 @@ namespace Typerr.ViewModel
             }
         }
 
+        private double _descriptionHeight;
+        public double DescriptionHeight
+        {
+            get
+            {
+                return _descriptionHeight;
+            }
+            set
+            {
+                _descriptionHeight = value;
+                OnPropertyChanged(nameof(DescriptionHeight));
+            }
+        }
+
         public ItemPreviewViewModel(FeedTileViewModel feedTileViewModel, MainViewModel mainViewModel)
         {
             FeedTileViewModel = feedTileViewModel;
@@ -67,6 +81,7 @@ namespace Typerr.ViewModel
         {
             Title = FeedTileViewModel.Title;
             Description = FeedTileViewModel.Description;
+            DescriptionHeight = string.IsNullOrWhiteSpace(Description) ? 0 : 80;
             PubDate = (FeedTileViewModel.Item.Published.DateTime == DateTime.MinValue) ? "" : FeedTileViewModel.Item.Published.ToString("MMM dd yyyy");
         }
     }
