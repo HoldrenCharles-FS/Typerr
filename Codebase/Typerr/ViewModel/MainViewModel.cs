@@ -142,6 +142,11 @@ namespace Typerr.ViewModel
 
         public void AddFeedTile(ISyndicationItem syndicationItem, string source)
         {
+            if (AllFeedTileViewModels.Any(x => x.Item.Id == syndicationItem.Id))
+            {
+                return;
+            }
+
             int index = 0;
             foreach (FeedTileViewModel feedTile in AllFeedTileViewModels)
             {
