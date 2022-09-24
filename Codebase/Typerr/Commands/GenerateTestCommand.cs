@@ -18,10 +18,9 @@ namespace Typerr.Commands
             _mainViewModel = mainViewModel;
         }
 
-        public override async void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             _mainViewModel.CreateTestViewModel.TextArea = _itemPreviewViewModel.FeedTileViewModel.Item.Id;
-           // _mainViewModel.CreateTestViewModel.GetTestCommand.Execute(null);
             _mainViewModel.CurrentDialog = _mainViewModel.CreateTestViewModel;
             _mainViewModel.OverlayVisibility = System.Windows.Visibility.Visible;
         }
