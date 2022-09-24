@@ -33,7 +33,8 @@ namespace Typerr
             DialogCloseCommand createTestCloseCommand = new DialogCloseCommand(mainViewModel);
             NavigationCommand goToLibraryCommand = new NavigationCommand(_navigationStore, new LibraryViewModel(mainViewModel), mainViewModel, NavigationOption.None);
             NavigationCommand goToLibraryButtonCommand = new NavigationCommand(_navigationStore, new LibraryViewModel(mainViewModel), mainViewModel, NavigationOption.GoToLibraryButton);
-            HomeViewModel homeViewModel = new HomeViewModel(mainViewModel, createTestTileCommand, goToLibraryButtonCommand, User);
+            NavigationCommand goToSubscriptionsButtonCommand = new NavigationCommand(_navigationStore, new SubscriptionsViewModel(mainViewModel), mainViewModel, NavigationOption.GoToSubscriptionsButton);
+            HomeViewModel homeViewModel = new HomeViewModel(mainViewModel, createTestTileCommand, goToLibraryButtonCommand, goToSubscriptionsButtonCommand, User);
             mainViewModel.SetHomeViewModel(homeViewModel);
             NavigationCommand goToHomeCommand = new NavigationCommand(_navigationStore, homeViewModel, mainViewModel, NavigationOption.None);
             SubscriptionsViewModel subscriptionsViewModel = new SubscriptionsViewModel(mainViewModel);
@@ -47,7 +48,7 @@ namespace Typerr
 
             await RetrieveRss(mainViewModel, homeViewModel);
             LoadTests(mainViewModel, homeViewModel);
-            
+
 
             _navigationStore.CurrentViewModel = homeViewModel;
             MainWindow = new MainWindow()
@@ -118,19 +119,20 @@ namespace Typerr
                             if (!enableFeed)
                             {
                                 enableFeed = true;
-                                homeViewModel.FeedContentHeight = double.PositiveInfinity;
+                                homeViewModel.FeedContentHeight = 318;
                             }
-                            mainViewModel.AddFeedTile(item);
+                            mainViewModel.AddFeedTile(item, rssModel.Title);
                         }
                     }
-                homeViewModel.RefreshSubscriptions();
+                    homeViewModel.RefreshSubscriptions();
+                    homeViewModel.RefreshFeed();
                 }
             }
             catch (System.Net.WebException)
             {
                 System.Console.WriteLine();
             }
-            
+
         }
     }
 }

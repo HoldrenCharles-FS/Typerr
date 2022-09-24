@@ -8,6 +8,7 @@ namespace Typerr.ViewModel
 {
     public class FeedTileViewModel : ViewModelBase
     {
+        public ISyndicationItem Item { get; }
         private string _title;
         public string Title
         {
@@ -50,26 +51,13 @@ namespace Typerr.ViewModel
             }
         }
 
-        private string _pubDate;
-        public string PubDate
+        public FeedTileViewModel(ISyndicationItem syndicationItem, string source)
         {
-            get
-            {
-                return _pubDate;
-            }
-            set
-            {
-                _pubDate = value;
-                OnPropertyChanged(nameof(PubDate));
-            }
-        }
-
-        public FeedTileViewModel(ISyndicationItem syndicationItem)
-        {
+            Item = syndicationItem;
             Title = syndicationItem.Title;
             Description = syndicationItem.Description;
-            Source = syndicationItem.Id;
-            PubDate = syndicationItem.Published.ToString("MMMM dd yyyy");
+            Source = source;
+           // PubDate = syndicationItem.Published.ToString("MMMM dd yyyy");
         }
     }
 }

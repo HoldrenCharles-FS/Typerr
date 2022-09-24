@@ -42,6 +42,7 @@ namespace Typerr.ViewModel
         public ICommand CreateTestTileCommand { get; }
         public ICommand AddSubscriptionTileCommand { get; }
         public ICommand GoToLibraryCommand { get; }
+        public ICommand GoToSubscriptionsCommand { get; }
 
         private double _feedContentHeight;
         public double FeedContentHeight
@@ -58,11 +59,12 @@ namespace Typerr.ViewModel
         }
 
 
-        public HomeViewModel(MainViewModel mainViewModel, ICommand createTestTileCommand, ICommand goToLibraryCommand, User user)
+        public HomeViewModel(MainViewModel mainViewModel, ICommand createTestTileCommand, ICommand goToLibraryCommand, ICommand goToSubscriptionsCommand, User user)
         {
             MainViewModel = mainViewModel;
             CreateTestTileCommand = createTestTileCommand;
             GoToLibraryCommand = goToLibraryCommand;
+            GoToSubscriptionsCommand = goToSubscriptionsCommand;
             AddSubscriptionTileCommand = new AddSubscriptionTileCommand(mainViewModel);
             _libTileViewModels = new ObservableCollection<LibTileViewModel>();
             _feedTileViewModels = new ObservableCollection<FeedTileViewModel>();

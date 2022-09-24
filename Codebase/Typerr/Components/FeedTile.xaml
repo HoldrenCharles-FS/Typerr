@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Typerr.Components"
+             xmlns:local="clr-namespace:Typerr.Components" xmlns:viewmodel="clr-namespace:Typerr.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:FeedTileViewModel}"
              mc:Ignorable="d">
     <Border Width="250"
             Height="150"
@@ -73,30 +73,47 @@
                         </LinearGradientBrush>
                     </Button.Background>
 
-
-
-
-                    <StackPanel VerticalAlignment="Center" 
-                                Height="auto" 
-                                Width="auto">
-                        <Label Content="Coming Soon!"
-                               VerticalContentAlignment="Bottom"
-                               Padding="5 0"
+                    <Grid VerticalAlignment="Center" 
+                                Height="120" 
+                                Width="212">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0"
+                                VerticalAlignment="Bottom">
+                            <TextBlock Padding="5 0"
                                Foreground="Black"
-                               FontSize="21"
+                               FontSize="20"
                                FontWeight="Bold"
-                               HorizontalAlignment="Left" 
+                               HorizontalAlignment="Right"
                                Width="210" 
-                               Height="91"/>
+                               TextTrimming="CharacterEllipsis"
+                                TextWrapping="WrapWithOverflow"
+                                Text="{Binding Title}"/>
+                        </Border>
 
-                        <Label VerticalContentAlignment="Bottom"
-                               Content="{Binding VM.Description, ElementName=FeedTile}"
+
+                        <Label Grid.Row="1" VerticalContentAlignment="Bottom"
                                Foreground="Black"
-                               Padding="5 0 "
-                               FontSize="13"/>
-                        <Label Content="{Binding VM.WebsiteName}"
-                               HorizontalContentAlignment="Right"/>
-                    </StackPanel>
+                               Padding="5 0"
+                               Width="210" 
+                               Height="40"
+                               FontSize="13">
+                            <TextBlock TextTrimming="CharacterEllipsis" 
+                                       Text="{Binding Description}"
+                                       TextWrapping="Wrap"/>
+                        </Label>
+                        <Label Grid.Row="2" VerticalContentAlignment="Bottom"
+                               Foreground="Black"
+                               Padding="5 0"
+                               Width="210" 
+                               FontSize="13">
+                            <TextBlock TextTrimming="CharacterEllipsis" 
+                                       Text="{Binding Source}"/>
+                        </Label>
+                    </Grid>
 
                 </Button>
             </Grid>

@@ -41,7 +41,8 @@
                      GroupName="NavButtons"
                      Height="50"                                                             
                      Foreground="White"                                 
-                     FontSize="14"                                 
+                     FontSize="14"
+                     IsChecked="{Binding RadioSubscriptionsIsChecked}"
                      Style="{StaticResource MenuButtonTheme}"
                      Command="{Binding GoToSubscriptionsCommand}"/>
 

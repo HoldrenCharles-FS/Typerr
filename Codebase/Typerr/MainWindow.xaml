@@ -9,7 +9,7 @@
         xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome" xmlns:components="clr-namespace:Typerr.Components"
         d:DataContext="{d:DesignInstance Type=vms:MainViewModel}"
         mc:Ignorable="d"
-        Height="650" Width="1000"
+        Height="650" Width="1123"
         WindowStyle="None"
         WindowState="Maximized"
         ResizeMode="CanResize"
@@ -49,6 +49,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vms:SubTileViewModel}">
             <components:SubTile/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:FeedTileViewModel}">
+            <components:FeedTile/>
         </DataTemplate>
     </Window.Resources>
 

@@ -46,6 +46,20 @@ namespace Typerr.ViewModel
                 OnPropertyChanged(nameof(RadioLibraryIsChecked));
             }
         }
+
+        private bool _radioSubscriptionsIsChecked;
+        public bool RadioSubscriptionsIsChecked
+        {
+            get
+            {
+                return _radioSubscriptionsIsChecked;
+            }
+            set
+            {
+                _radioSubscriptionsIsChecked = value;
+                OnPropertyChanged(nameof(RadioSubscriptionsIsChecked));
+            }
+        }
         public NavPanelViewModel(ICommand goToHomeCommand, ICommand goToLibraryCommand, ICommand goToSubscriptionsCommand)
         {
             GoToHomeCommand = goToHomeCommand;
@@ -53,6 +67,7 @@ namespace Typerr.ViewModel
             GoToSubscriptionsCommand = goToSubscriptionsCommand;
             RadioHomeIsChecked = true;
             RadioLibraryIsChecked = false;
+            RadioSubscriptionsIsChecked = false;
         }
     }
 }

@@ -22,7 +22,7 @@
         <ItemsControl ItemsSource="{Binding LibTiles}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <components:LibTile Margin="0,0,10,10"/>
+                    <components:LibTile Margin="0,0,5,10"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>

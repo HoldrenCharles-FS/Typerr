@@ -9,6 +9,7 @@ namespace Typerr.Commands
     public enum NavigationOption
     {
         GoToLibraryButton,
+        GoToSubscriptionsButton,
         None
     }
     public class NavigationCommand : CommandBase
@@ -32,8 +33,15 @@ namespace Typerr.Commands
             {
                 _mainViewModel.NavPanelViewModel.RadioHomeIsChecked = false;
                 _mainViewModel.NavPanelViewModel.RadioLibraryIsChecked = true;
+                _mainViewModel.NavPanelViewModel.RadioSubscriptionsIsChecked = false;
             }
-            _navigationStore.CurrentViewModel = _viewModel;
+            else if (_navigationOption == NavigationOption.GoToSubscriptionsButton)
+            {
+                _mainViewModel.NavPanelViewModel.RadioHomeIsChecked = false;
+                _mainViewModel.NavPanelViewModel.RadioLibraryIsChecked = false;
+                _mainViewModel.NavPanelViewModel.RadioSubscriptionsIsChecked = true;
+            }
+                _navigationStore.CurrentViewModel = _viewModel;
         }
     }
 }
