@@ -9,12 +9,11 @@
         xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome" xmlns:components="clr-namespace:Typerr.Components"
         d:DataContext="{d:DesignInstance Type=vms:MainViewModel}"
         mc:Ignorable="d"
-        Height="650" Width="1000"
         WindowStyle="None"
         WindowState="Maximized"
         ResizeMode="CanResize"
         FontSize="14"
-        MinHeight="650" MinWidth="1090">
+        MinHeight="650" MinWidth="1123">
     
     <Window.Resources>
         <DataTemplate DataType="{x:Type vms:NavPanelViewModel}">
@@ -25,6 +24,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vms:LibraryViewModel}">
             <views:LibraryView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:SubscriptionsViewModel}">
+            <views:SubscriptionsView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vms:CreateTestViewModel}">
             <views:CreateTestView Margin="20 40"/>
@@ -40,6 +42,21 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vms:ResultsViewModel}">
             <views:ResultsViewxaml/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:AddSubscriptionViewModel}">
+            <views:AddSubscriptionView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:SubTileViewModel}">
+            <components:SubTile/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:FeedTileViewModel}">
+            <components:FeedTile/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:ItemPreviewViewModel}">
+            <vms:ItemPreviewView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:SubscriptionViewModel}">
+            <vms:SubscriptionView/>
         </DataTemplate>
     </Window.Resources>
 

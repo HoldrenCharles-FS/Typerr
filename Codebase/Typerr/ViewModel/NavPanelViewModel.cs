@@ -1,14 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
+using Typerr.Model;
+using Typerr.Stores;
 
 namespace Typerr.ViewModel
 {
     public class NavPanelViewModel : ViewModelBase
     {
+        private readonly NavigationStore _navigationStore;
         public ICommand GoToHomeCommand { get; }
         public ICommand GoToLibraryCommand { get; }
+        public ICommand GoToSubscriptionsCommand { get; }
+
+        private ObservableCollection<SubMenuButtonViewModel> _subMenuButtonViewModels;
+
+        public ObservableCollection<SubMenuButtonViewModel> SubMenuButtonViewModels
+        {
+            get { return _subMenuButtonViewModels; }
+            set { _subMenuButtonViewModels = value; }
+        }
 
         private bool _radioHomeIsChecked;
         public bool RadioHomeIsChecked
@@ -45,12 +58,68 @@ namespace Typerr.ViewModel
                 OnPropertyChanged(nameof(RadioLibraryIsChecked));
             }
         }
-        public NavPanelViewModel(ICommand goToHomeCommand, ICommand goToLibraryCommand)
+
+        private bool _radioSubscriptionsIsChecked;
+        public bool RadioSubscriptionsIsChecked
         {
+            get
+            {
+                return _radioSubscriptionsIsChecked;
+            }
+            set
+            {
+                _radioSubscriptionsIsChecked = value;
+                OnPropertyChanged(nameof(RadioSubscriptionsIsChecked));
+            }
+        }
+
+
+        public NavPanelViewModel(NavigationStore navigationStore, ICommand goToHomeCommand, ICommand goToLibraryCommand, ICommand goToSubscriptionsCommand)
+        {
+            _navigationStore = navigationStore;
             GoToHomeCommand = goToHomeCommand;
             GoToLibraryCommand = goToLibraryCommand;
+            GoToSubscriptionsCommand = goToSubscriptionsCommand;
             RadioHomeIsChecked = true;
             RadioLibraryIsChecked = false;
+            RadioSubscriptionsIsChecked = false;
+            _subMenuButtonViewModels = new ObservableCollection<SubMenuButtonViewModel>();
+        }
+
+        public void AddSubButton(RssModel rssModel, MainViewModel mainViewModel)
+        {
+            int index = 0;
+            foreach (SubMenuButtonViewModel subButton in SubMenuButtonViewModels)
+            {
+                if (string.Compare(subButton.Name, rssModel.Title) > 0)
+                    break;
+                index++;
+            }
+            _subMenuButtonViewModels.Insert(index, new SubMenuButtonViewModel(_navigationStore, mainViewModel, rssModel));
+        }
+
+        public void RemoveSubButton(string uri)
+        {
+            foreach (SubMenuButtonViewModel subButton in _subMenuButtonViewModels)
+            {
+                if (subButton.RssModel.Uri == uri)
+                {
+                    _subMenuButtonViewModels.Remove(subButton);
+                    break;
+                }
+            }
+        }
+
+        public void SetSubscriptionChecked(RssModel rssModel)
+        {
+            foreach (SubMenuButtonViewModel button in SubMenuButtonViewModels)
+            {
+                button.IsChecked = false;
+                if (button.RssModel.Uri == rssModel.Uri)
+                {
+                    button.IsChecked = true;
+                }
+            }
         }
     }
 }

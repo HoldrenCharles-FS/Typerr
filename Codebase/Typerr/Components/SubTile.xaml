@@ -1,0 +1,149 @@
+﻿<UserControl x:Class="Typerr.Components.SubTile"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Typerr.Components" 
+             xmlns:viewmodel="clr-namespace:Typerr.ViewModel" xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome"
+             d:DataContext="{d:DesignInstance Type=viewmodel:SubTileViewModel}"
+             mc:Ignorable="d">
+    <Border Width="150"
+            Height="150"
+            BorderThickness="2"
+            BorderBrush="Black"
+            Margin="0,0,10,0"
+            CornerRadius="30">
+        <Border.Background>
+            <ImageBrush ImageSource="{Binding Image, UpdateSourceTrigger=PropertyChanged}" 
+                        Stretch="Uniform"/>
+        </Border.Background>
+
+        <Border CornerRadius="30"
+                Background="#88EBEBEB">
+            <Grid>
+                <Button OpacityMask="#222"
+                        BorderThickness="0"
+                        IsHitTestVisible="{Binding IsHitTestVisible}"
+                        Command="{Binding SubTileCommand}">
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" 
+                                    Value="30"/>
+                        </Style>
+                    </Button.Resources>
+
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" 
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                              VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" 
+                                                     Value="True">
+                                                <Setter Property="Background" 
+                                                        Value="#ddfdfdfd" 
+                                                        TargetName="Border" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" 
+                                                     Value="True">
+                                                <Setter Property="Background" 
+                                                        Value="#caaaaaaa" 
+                                                        TargetName="Border" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="2,0" 
+                                             EndPoint="2,6">
+                            <GradientStop Color="#88fdfdfd" 
+                                          Offset="0.0"/>
+                            <GradientStop Color="#fdfdfd" 
+                                          Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                        <Label Padding="5 0"
+                               HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Bottom"
+                               Foreground="Black"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Width="110" 
+                               Height="110" 
+                               Margin="5,0,5,0">
+                            <TextBlock TextTrimming="CharacterEllipsis"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       Text="{Binding Name}"/>
+                        </Label>
+                </Button>
+                <Button HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        BorderThickness="0" 
+                        Width="46" 
+                        Height="46"
+                        Background="Transparent"
+                        IsHitTestVisible="True"
+                        Visibility="{Binding DeleteButtonVisibility}"
+                        Command="{Binding RemoveSubscriptionCommand}">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="wButton" 
+                                                Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" 
+                                                     Value="True">
+                                                <Setter Property="Background" 
+                                                        Value="#eee" 
+                                                        TargetName="wButton" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" 
+                                                     Value="True">
+                                                <Setter Property="Background"
+                                                        Value="#ddd" 
+                                                        TargetName="wButton" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Ellipse Width="19"
+                         Height="19"
+                         Stroke="Transparent"
+                         Fill="Transparent"
+                         StrokeThickness="5"/>
+                                <Border Width="50"
+                           Height="50"
+                        BorderThickness="4"
+                        CornerRadius="2"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <fa:FontAwesomeIcon SolidIcon="TimesCircle" 
+                                    Foreground="#FFeF2000" 
+                                    FontSize="19"/>
+                </Button>
+            </Grid>
+        </Border>
+    </Border>
+</UserControl>

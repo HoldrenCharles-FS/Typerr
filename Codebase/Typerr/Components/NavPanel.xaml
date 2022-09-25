@@ -39,11 +39,30 @@
         <RadioButton x:Name="SubscriptionsRadioButton"  
                      Content="Subscriptions"           
                      GroupName="NavButtons"
-                     Height="50"                                 
-                     IsEnabled="False"                                 
-                     Foreground="#bbb"                                 
-                     FontSize="14"                                 
-                     Style="{StaticResource MenuButtonTheme}"/>
+                     Height="50"                                                             
+                     Foreground="White"                                 
+                     FontSize="14"
+                     IsChecked="{Binding RadioSubscriptionsIsChecked}"
+                     Style="{StaticResource MenuButtonTheme}"
+                     Command="{Binding GoToSubscriptionsCommand}"/>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <ItemsControl ItemsSource="{Binding SubMenuButtonViewModels}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <local:SubMenuButton/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+        
 
     </StackPanel>
 </UserControl>

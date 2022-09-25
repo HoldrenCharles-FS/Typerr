@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Media.Imaging;
+using Typerr.Model;
 using Typerr.Service;
 using Typerr.ViewModel;
 using TyperrDemo.Services;
@@ -9,10 +11,12 @@ namespace Typerr.Commands
     public class GetTestCommand : CommandBase
     {
         private readonly CreateTestViewModel _createTestViewModel;
+        private readonly User _user;
 
-        public GetTestCommand(CreateTestViewModel createTestViewModel)
+        public GetTestCommand(CreateTestViewModel createTestViewModel, User user)
         {
             _createTestViewModel = createTestViewModel;
+            _user = user;
         }
 
         public override async void Execute(object parameter)
@@ -20,16 +24,35 @@ namespace Typerr.Commands
             if (!Uri.IsWellFormedUriString(_createTestViewModel.Url, UriKind.Absolute))
                 return;
 
+            // 75 requests a month
+            if (_user.RequestTimes.Count > 75)
+            {
+                _createTestViewModel.Reset();
+                _createTestViewModel.HttpResponse = -2;
+                _createTestViewModel.Url = "";
+                _createTestViewModel.LoadingAnimationVisibility = Visibility.Hidden;
+                return;
+            }
+
+            _user.RequestTimes.Add(DateTime.Now);
+            UserService.Write(_user);
             _createTestViewModel.TestModel = await UrlService.GetTestByUrl(_createTestViewModel.Url);
+
+            if (_createTestViewModel.TestModel.Base64Image == nameof(System.Net.HttpStatusCode.TooManyRequests))
+            {
+                _createTestViewModel.Reset();
+                _createTestViewModel.HttpResponse = 429;
+                return;
+            }
 
             if (string.IsNullOrEmpty(_createTestViewModel.TestModel.article.text))
             {
                 _createTestViewModel.Reset();
-                _createTestViewModel.HttpResponseOk = 0;
+                _createTestViewModel.HttpResponse = 0;
             }
             else
             {
-                _createTestViewModel.HttpResponseOk = 1;
+                _createTestViewModel.HttpResponse = 1;
                 _createTestViewModel.ObtainedUrl = true;
                 _createTestViewModel.TestModel.article.text = FormatService.FormatText(_createTestViewModel.TestModel.article.text);
                 _createTestViewModel.TestModel.WordCount = FormatService.GetWordCount(_createTestViewModel.TestModel.article.text);
@@ -45,7 +68,7 @@ namespace Typerr.Commands
                 // Refresh the Prompt Message
                 _createTestViewModel.UploadImagePrompt = _createTestViewModel.UploadImagePrompt;
             }
-            
+            _createTestViewModel.LoadingAnimationVisibility = System.Windows.Visibility.Hidden;
         }
     }
 }

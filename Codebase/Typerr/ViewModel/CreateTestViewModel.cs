@@ -3,18 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Typerr.Commands;
 using Typerr.Model;
 using Typerr.Service;
-using Typerr.View;
 
 namespace Typerr.ViewModel
 {
     public class CreateTestViewModel : ViewModelBase, INotifyDataErrorInfo
     {
+        private readonly User _user;
+
         public ICommand OpenFromFileCommand { get; }
         public ICommand GetTestCommand { get; }
         public ICommand CreateCommand { get; }
@@ -46,18 +48,13 @@ namespace Typerr.ViewModel
             }
             set
             {
-                ClearErrors(nameof(TextArea));
-
-                if (value.Length > 10000)
+                TextAreaURLValidation(value);
+                if (_httpResponse == 1 || _httpResponse == -1)
                 {
-                    TextAreaBrush = new SolidColorBrush(Colors.Red);
-                    AddError(nameof(TextArea), $"Tests cannot exceed 10,000 characters. Please delete {FormatService.FormatNumber(value.Length - 10000)} more characters.");
-                }
-                else
-                {
-                    TextAreaBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
+                    TextAreaLengthValidation(value.Length);
                 }
                 _textArea = value;
+
                 OnPropertyChanged(nameof(TextArea));
 
                 if (TestModel != null)
@@ -65,38 +62,8 @@ namespace Typerr.ViewModel
                     TestModel.article.text = _textArea;
                 }
 
+                UpdateForm();
 
-                if (!string.IsNullOrWhiteSpace(_textArea) && _textArea != DefaultMessage)
-                {
-                    TextAreaToolTip = "Typerr will automatically format the text, from here you can remove any text you don't want, such as section headers.";
-                    SidebarEnabled = true;
-                    if (!string.IsNullOrWhiteSpace(Title) && _textArea.Length <= 10000)
-                    {
-                        CreateButtonEnabled = true;
-                    }
-                    else
-                    {
-                        CreateButtonEnabled = false;
-                    }
-                }
-                else
-                {
-                    TextAreaToolTip = "Paste a URL here to generate a test (Ctrl+V or from the Right-Click Menu)";
-                    SidebarEnabled = false;
-                    CreateButtonEnabled = false;
-                }
-                if (Uri.IsWellFormedUriString(_textArea, UriKind.Absolute) || Uri.IsWellFormedUriString(Url, UriKind.Absolute))
-                {
-                    GetTestButtonEnabled = true;
-                    if (Uri.IsWellFormedUriString(_textArea, UriKind.Absolute) && !ObtainedUrl)
-                    {
-                        Url = _textArea;
-                    }
-                }
-                else
-                {
-                    GetTestButtonEnabled = false;
-                }
             }
         }
 
@@ -118,7 +85,7 @@ namespace Typerr.ViewModel
 
                 if (!string.IsNullOrWhiteSpace(_textArea) && _textArea != DefaultMessage && !string.IsNullOrWhiteSpace(_title) && _textArea.Length <= 10000)
                 {
-                    
+
                     CreateButtonEnabled = true;
                 }
                 else
@@ -304,28 +271,54 @@ namespace Typerr.ViewModel
             }
         }
 
-        private int _httpResponseOk;
-        public int HttpResponseOk
+        private Visibility _loadingAnimationVisibility;
+        public Visibility LoadingAnimationVisibility
         {
             get
             {
-                return _httpResponseOk;
+                return _loadingAnimationVisibility;
             }
             set
             {
-                _httpResponseOk = value;
-                ClearErrors(nameof(TextArea));
-                if (_httpResponseOk == 0)
+                _loadingAnimationVisibility = value;
+                OnPropertyChanged(nameof(LoadingAnimationVisibility));
+            }
+        }
+
+        private int _httpResponse;
+        public int HttpResponse
+        {
+            get
+            {
+                return _httpResponse;
+            }
+            set
+            {
+                _httpResponse = value;
+                ClearError(nameof(TextArea));
+                if (_httpResponse != 1 || _httpResponse != -1)
                 {
                     TextAreaBrush = new SolidColorBrush(Colors.Red);
-                    AddError(nameof(TextArea), "Sorry, the request failed to return any data. You can try a different URL or copy and paste the text itself.");
+                }
+                if (_httpResponse == 0)
+                {
+                    UpdateError(nameof(TextArea), "Sorry, the request failed to return any data. You can try a different URL or copy and paste the text itself.");
+                }
+                else if (_httpResponse == -2)
+                {
+                    UpdateError(nameof(TextArea), $"You have reached your maximum limit of 75 requests. Your next request is available in {(DateTime.Now - _user.RequestTimes.Min()).Days} days.");
+                }
+                else if (_httpResponse == 429)
+                {
+                    UpdateError(nameof(TextArea), "Too many requests.");
+
                 }
                 else
                 {
                     TextAreaBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
                 }
 
-                OnPropertyChanged(nameof(HttpResponseOk));
+                OnPropertyChanged(nameof(HttpResponse));
             }
         }
 
@@ -439,6 +432,8 @@ namespace Typerr.ViewModel
 
         public bool ObtainedUrl { get; set; } = false;
 
+        private bool _typedUrl = false;
+
         public static string DefaultMessage { get; } = "Paste a URL here or begin typing to create your test";
 
         // Number obtained from actualheight property from the side column single row textbox's default height
@@ -453,14 +448,29 @@ namespace Typerr.ViewModel
 
         public CreateTestViewModel(ICommand createTestCloseCommand, HomeViewModel homeViewModel)
         {
+            _user = homeViewModel.MainViewModel.User;
             OpenFromFileCommand = new OpenFromFileCommand(this);
-            GetTestCommand = new GetTestCommand(this);
+            GetTestCommand = new GetTestCommand(this, homeViewModel.MainViewModel.User);
             CreateCommand = new CreateCommand(this, homeViewModel);
             CreateTestCloseCommand = createTestCloseCommand;
             RemoveImageCommand = new RemoveImageCommand(this);
             AddImageCommand = new AddImageCommand(this);
             _propertyErrors = new Dictionary<string, List<string>>();
             Init();
+        }
+
+        public CreateTestViewModel(TestModel testModel, ICommand createTestCloseCommand, HomeViewModel homeViewModel)
+        {
+            _testModel = testModel;
+            _user = homeViewModel.MainViewModel.User;
+            OpenFromFileCommand = new OpenFromFileCommand(this);
+            GetTestCommand = new GetTestCommand(this, homeViewModel.MainViewModel.User);
+            CreateCommand = new CreateCommand(this, homeViewModel);
+            CreateTestCloseCommand = createTestCloseCommand;
+            RemoveImageCommand = new RemoveImageCommand(this);
+            AddImageCommand = new AddImageCommand(this);
+            _propertyErrors = new Dictionary<string, List<string>>();
+            LoadFromModel();
         }
 
         private void Init()
@@ -472,19 +482,103 @@ namespace Typerr.ViewModel
             CreateButtonEnabled = false;
             TestModel = new TestModel();
             TextAreaBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
-            HttpResponseOk = -1;
+            LoadingAnimationVisibility = Visibility.Hidden;
+            HttpResponse = -1;
+        }
+
+        private void LoadFromModel()
+        {
+
         }
 
         public void Reset()
         {
             TestModel = null;
-            TextArea = DefaultMessage;
             Title = "";
             Author = "";
             Summary = "";
             Source = "";
             Image = null;
             PublishDate = null;
+            Init();
+        }
+
+        private void UpdateForm()
+        {
+            if (!string.IsNullOrWhiteSpace(_textArea) && _textArea != DefaultMessage)
+            {
+                TextAreaToolTip = "Typerr will automatically format the text, from here you can remove any text you don't want, such as section headers.";
+                SidebarEnabled = true;
+                if (!string.IsNullOrWhiteSpace(Title) && _textArea.Length <= 10000)
+                {
+                    CreateButtonEnabled = true;
+                }
+                else
+                {
+                    CreateButtonEnabled = false;
+                }
+            }
+            else
+            {
+                TextAreaToolTip = "Paste a URL here to generate a test (Ctrl+V or from the Right-Click Menu)";
+                SidebarEnabled = false;
+                CreateButtonEnabled = false;
+            }
+        }
+
+        private void TextAreaLengthValidation(int value)
+        {
+            ClearError(nameof(TextArea));
+            if (value > 10000)
+            {
+                TextAreaBrush = new SolidColorBrush(Colors.Red);
+                UpdateError(nameof(TextArea), $"Tests cannot exceed 10,000 characters. Please delete {FormatService.FormatNumber(value - 10000)} more characters.");
+            }
+            else
+            {
+                TextAreaBrush = new SolidColorBrush(Color.FromArgb(255, 171, 173, 179));
+            }
+        }
+
+        private void TextAreaURLValidation(string value)
+        {
+            if (Uri.IsWellFormedUriString(value, UriKind.Absolute) || Uri.IsWellFormedUriString(Url, UriKind.Absolute))
+            {
+                GetTestButtonEnabled = true;
+
+                if (value.Contains("ht") || value.Contains("htt") ||
+                    value.Contains("http") || value.Contains("https")
+                    || value.Contains("https:") || value.Contains("https:/") || value.Contains("https://")
+                    || value.Contains("http:") || value.Contains("http:/") || value.Contains("http://"))
+                {
+                    if (Math.Abs(_textArea.Length - value.Length) == 1 && value.Length > 0)
+                    {
+                        _typedUrl = true;
+                    }
+                    else
+                    {
+                        _typedUrl = false;
+                    }
+                }
+
+                if (!_typedUrl)
+                {
+                    if (Uri.IsWellFormedUriString(value, UriKind.Absolute))
+                    {
+                        Url = value;
+                        GetTestCommand.Execute(null);
+                        if (_httpResponse == 1 || _httpResponse == -1)
+                        {
+                            LoadingAnimationVisibility = Visibility.Visible;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                HttpResponse = -1;
+                GetTestButtonEnabled = false;
+            }
         }
 
         public IEnumerable GetErrors(string propertyName)
@@ -492,25 +586,34 @@ namespace Typerr.ViewModel
             return _propertyErrors.GetValueOrDefault(propertyName, null);
         }
 
-        public void AddError(string propertyName, string errorMessage)
+        public void UpdateError(string propertyName, string errorMessage)
         {
             if (!_propertyErrors.ContainsKey(propertyName))
             {
                 _propertyErrors.Add(propertyName, new List<string>());
             }
 
-            _propertyErrors[propertyName].Add(errorMessage);
-            
-            OnErrorsChanged(propertyName);
+            if (_propertyErrors.Values.Any(iList => iList.Count() == 0))
+            {
+                _propertyErrors[propertyName].Add(errorMessage);
+            }
+            else
+            {
+                _propertyErrors[propertyName][0] = errorMessage;
+            }
+            OnErrorChanged(propertyName);
         }
 
-        private void ClearErrors(string propertyName)
+        private void ClearError(string propertyName)
         {
-            _propertyErrors.Remove(propertyName);
-            OnErrorsChanged(propertyName);
+            if (_propertyErrors.Count > 0)
+            {
+                _propertyErrors[propertyName][0] = "";
+                OnErrorChanged(propertyName);
+            }
         }
 
-        private void OnErrorsChanged(string propertyName)
+        private void OnErrorChanged(string propertyName)
         {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }

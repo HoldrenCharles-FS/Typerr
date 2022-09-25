@@ -36,18 +36,18 @@
             <Label Grid.Row="0" 
                    Content="Create a New Test"
                    FontWeight="Bold"
-                   FontSize="24"
-                   />
+                   FontSize="24"/>
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition Height="20"/>
                 </Grid.RowDefinitions>
-            
-            <TextBox x:Name="TextAreaBox" 
+                
+                <TextBox x:Name="TextAreaBox" 
                      TextWrapping="Wrap" 
                      AcceptsReturn="True" 
                      VerticalScrollBarVisibility="Auto" 
+                     PreviewKeyDown="TextAreaBox_PreviewKeyDown"
                      Padding="10"
                      BorderBrush="{Binding TextAreaBrush}"
                      Grid.Row="0"
@@ -88,6 +88,14 @@
                              UpdateSourceTrigger="PropertyChanged"/>
                 </TextBox.ToolTip>
             </TextBox>
+                <fa:FontAwesomeIcon Foreground="{StaticResource AppTheme}"
+                                    Grid.Row="0"
+                                    Width="200"
+                                    Height="200"
+                                    Visibility="{Binding LoadingAnimationVisibility}"
+                                    FontSize="30"
+                                    SolidIcon="Spinner"
+                                    AnimationType="Spin"/>
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>

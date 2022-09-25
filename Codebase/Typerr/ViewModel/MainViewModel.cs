@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.SyndicationFeed;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Typerr.Commands;
@@ -25,6 +27,14 @@ namespace Typerr.ViewModel
         private readonly ObservableCollection<LibTileViewModel> _allLibTileViewModels;
 
         public IEnumerable<LibTileViewModel> AllLibTileViewModels => _allLibTileViewModels;
+
+        private readonly ObservableCollection<FeedTileViewModel> _allFeedTileViewModels;
+
+        public IEnumerable<FeedTileViewModel> AllFeedTileViewModels => _allFeedTileViewModels;
+
+        private readonly ObservableCollection<SubTileViewModel> _allSubTileViewModels;
+
+        public IEnumerable<SubTileViewModel> AllSubTileViewModels => _allSubTileViewModels;
 
         private ViewModelBase _currentDialog;
         public ViewModelBase CurrentDialog
@@ -89,6 +99,8 @@ namespace Typerr.ViewModel
             _navigationStore = navigationStore;
             User = user;
             _allLibTileViewModels = new ObservableCollection<LibTileViewModel>();
+            _allFeedTileViewModels = new ObservableCollection<FeedTileViewModel>();
+            _allSubTileViewModels = new ObservableCollection<SubTileViewModel>();
             _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
         }
 
@@ -128,6 +140,38 @@ namespace Typerr.ViewModel
             }
         }
 
+        public void AddFeedTile(ISyndicationItem syndicationItem, string source)
+        {
+            if (AllFeedTileViewModels.Any(x => x.Item.Id == syndicationItem.Id))
+            {
+                return;
+            }
+
+            int index = 0;
+            foreach (FeedTileViewModel feedTile in AllFeedTileViewModels)
+            {
+                if (feedTile.Item.Published.DateTime <= syndicationItem.Published.DateTime)
+                    break;
+                index++;
+            }
+            _allFeedTileViewModels.Insert(index, new FeedTileViewModel(syndicationItem, source, this));
+        }
+
+        public void ClearFeedTiles()
+        {
+            _allFeedTileViewModels.Clear();
+        }
+
+        public void AddSubTile(RssModel rssModel)
+        {
+            _allSubTileViewModels.Insert(0, new SubTileViewModel(rssModel, _navigationStore, this));
+        }
+
+        public void ClearSubTiles()
+        {
+            _allFeedTileViewModels.Clear();
+        }
+
         private LibTileViewModel LoadTest(string filename)
         {
             return new LibTileViewModel(_navigationStore, HomeViewModel, TestService.Read(filename), User);
@@ -147,5 +191,25 @@ namespace Typerr.ViewModel
             NavPanelViewModel = navPanelViewModel;
         }
 
+        public bool ContainsRssId(string id)
+        {
+            return User.Subscriptions.Any(x => x.url == id);
+        }
+
+        public string FindSubscriptionName(string id)
+        {
+            return User.Subscriptions.Find(x => x.url == id).name;
+        }
+
+        public void RemoveFeedTiles(RssModel rssModel)
+        {
+            foreach (FeedTileViewModel item in AllFeedTileViewModels)
+            {
+                if (item.Source == rssModel.Title)
+                {
+                    _allFeedTileViewModels.Remove(item);
+                }
+            }
+        }
     }
 }

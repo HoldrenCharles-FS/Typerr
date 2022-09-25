@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Typerr.Service;
 using Typerr.ViewModel;
 
@@ -15,22 +16,6 @@ namespace Typerr.View
         public CreateTestView()
         {
             InitializeComponent();
-            DataObject.AddPastingHandler(TextAreaBox, OnDescriptionPaste);
-        }
-        private void OnDescriptionPaste(object sender, DataObjectPastingEventArgs e)
-        {
-            if (!e.SourceDataObject.GetDataPresent(DataFormats.UnicodeText, true))
-                return;
-
-            var pastedText = e.SourceDataObject.GetData(DataFormats.UnicodeText) as string;
-            if (string.IsNullOrEmpty(pastedText))
-                return;
-
-            if (Uri.IsWellFormedUriString(pastedText, UriKind.Absolute))
-            {
-                TextAreaBox.Text = pastedText;
-                GetTestButton.Command.Execute(e.DataObject);
-            }
         }
 
         private void TextAreaBox_GotFocus(object sender, RoutedEventArgs e)
@@ -47,6 +32,18 @@ namespace Typerr.View
             {
                 TextAreaBox.Text = CreateTestViewModel.DefaultMessage;
             }
+        }
+
+        private void TextAreaBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (TextAreaBox.Text.Length > 0)
+            {
+                if (TextAreaBox.Text == CreateTestViewModel.DefaultMessage)
+                {
+                    TextAreaBox.Text = "";
+                }
+            }
+            
         }
     }
 }
