@@ -56,6 +56,20 @@ namespace Typerr.ViewModel
             }
         }
 
+        private bool _buttonIsHitTestVisible;
+        public bool ButtonIsHitTestVisible
+        {
+            get
+            {
+                return _buttonIsHitTestVisible;
+            }
+            set
+            {
+                _buttonIsHitTestVisible = value;
+                OnPropertyChanged(nameof(ButtonIsHitTestVisible));
+            }
+        }
+
         public FeedTileViewModel(ISyndicationItem syndicationItem, string source, MainViewModel mainViewModel)
         {
             Item = syndicationItem;
@@ -63,6 +77,7 @@ namespace Typerr.ViewModel
             Description = syndicationItem.Description;
             Source = source;
             FeedTileCommand = new FeedTileCommand(this, mainViewModel);
+            ButtonIsHitTestVisible = true;
            // PubDate = syndicationItem.Published.ToString("MMMM dd yyyy");
         }
     }

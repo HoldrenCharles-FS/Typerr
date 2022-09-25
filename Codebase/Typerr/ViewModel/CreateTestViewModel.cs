@@ -49,7 +49,10 @@ namespace Typerr.ViewModel
             set
             {
                 TextAreaURLValidation(value);
-                TextAreaLengthValidation(value.Length);
+                if (_httpResponse == 1 || _httpResponse == -1)
+                {
+                    TextAreaLengthValidation(value.Length);
+                }
                 _textArea = value;
 
                 OnPropertyChanged(nameof(TextArea));
@@ -573,6 +576,7 @@ namespace Typerr.ViewModel
             }
             else
             {
+                HttpResponse = -1;
                 GetTestButtonEnabled = false;
             }
         }

@@ -121,7 +121,7 @@ namespace Typerr
                             if (!enableFeed)
                             {
                                 enableFeed = true;
-                                homeViewModel.FeedContentHeight = 318;
+                                homeViewModel.FeedContentHeight = 385;
                             }
                             mainViewModel.AddFeedTile(item, rssModel.Title);
                         }

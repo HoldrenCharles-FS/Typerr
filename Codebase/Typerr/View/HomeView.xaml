@@ -98,80 +98,83 @@
             </Grid>
             <!--#endregion-->
             <!--#region Feed-->
-            <TextBlock Text="Feed"
+            <StackPanel Height="{Binding FeedContentHeight}">
+                <TextBlock Text="Feed"
                    Foreground="Black"
                    FontWeight="Bold"
                    FontSize="24"
                    HorizontalAlignment="Left"
                    Margin="30,20,0,20"
                    ToolTip="Your most recent RSS Feed items"/>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="46"/>
-                </Grid.ColumnDefinitions>
-                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="46"/>
+                    </Grid.ColumnDefinitions>
 
-                <WrapPanel x:Name="FeedContent"
+
+                    <WrapPanel x:Name="FeedContent"
                             Orientation="Horizontal"
                            Margin="20,0,0,20">
-                    <ItemsControl ItemsSource="{Binding FeedTileViewModels}"
+                        <ItemsControl ItemsSource="{Binding FeedTileViewModels}"
                               Height="{Binding FeedContentHeight}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <components:FeedTile Margin="0,0,5,10"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </WrapPanel>
-                <Button Grid.Column="1"
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <components:FeedTile Margin="0,0,5,10"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </WrapPanel>
+                    <Button Grid.Column="1"
                     Background="White"
                     HorizontalAlignment="Right"
                     BorderThickness="0" 
                     Width="46" 
                     Command="{Binding GoToSubscriptionsCommand}">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border x:Name="wButton" 
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border x:Name="wButton" 
                                                 Background="{TemplateBinding Background}">
-                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                        </Border>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" 
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" 
                                                      Value="True">
-                                                <Setter Property="Background" 
+                                                    <Setter Property="Background" 
                                                         Value="#eee" 
                                                         TargetName="wButton" />
-                                            </Trigger>
-                                            <Trigger Property="IsPressed" 
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" 
                                                      Value="True">
-                                                <Setter Property="Background"
+                                                    <Setter Property="Background"
                                                         Value="#ddd" 
                                                         TargetName="wButton" />
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
-                    <Button.ToolTip>
-                        Go to subscriptions
-                    </Button.ToolTip>
-                    <iconPacks:PackIconCoolicons Kind="ChevronRight" 
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <Button.ToolTip>
+                            Go to subscriptions
+                        </Button.ToolTip>
+                        <iconPacks:PackIconCoolicons Kind="ChevronRight" 
                                     Foreground="{StaticResource AppTheme}" 
                                     />
 
-                </Button>
-            </Grid>
+                    </Button>
+            
+            
+            </Grid></StackPanel>
             <!--#endregion-->
             <!--#region Subscriptions-->
             <TextBlock Text="Subscriptions"

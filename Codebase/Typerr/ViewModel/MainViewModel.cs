@@ -200,5 +200,16 @@ namespace Typerr.ViewModel
         {
             return User.Subscriptions.Find(x => x.url == id).name;
         }
+
+        public void RemoveFeedTiles(RssModel rssModel)
+        {
+            foreach (FeedTileViewModel item in AllFeedTileViewModels)
+            {
+                if (item.Source == rssModel.Title)
+                {
+                    _allFeedTileViewModels.Remove(item);
+                }
+            }
+        }
     }
 }

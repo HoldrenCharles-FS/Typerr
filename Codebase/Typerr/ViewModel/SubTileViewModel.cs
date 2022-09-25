@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Typerr.Commands;
@@ -15,6 +16,7 @@ namespace Typerr.ViewModel
         public RssModel RssModel { get; }
 
         public ICommand SubTileCommand { get; }
+        public ICommand RemoveSubscriptionCommand { get; }
 
         private string _name;
         public string Name
@@ -44,10 +46,39 @@ namespace Typerr.ViewModel
             }
         }
 
+        private Visibility _deleteButtonVisibility;
+        public Visibility DeleteButtonVisibility
+        {
+            get
+            {
+                return _deleteButtonVisibility;
+            }
+            set
+            {
+                _deleteButtonVisibility = value;
+                OnPropertyChanged(nameof(DeleteButtonVisibility));
+            }
+        }
+
+        private bool _buttonIsHitTestVisible;
+        public bool IsHitTestVisible
+        {
+            get
+            {
+                return _buttonIsHitTestVisible;
+            }
+            set
+            {
+                _buttonIsHitTestVisible = value;
+                OnPropertyChanged(nameof(IsHitTestVisible));
+            }
+        }
+
         public SubTileViewModel(RssModel rssModel, NavigationStore navigationStore, MainViewModel mainViewModel)
         {
             RssModel = rssModel;
             SubTileCommand = new NavigationCommand(navigationStore, new SubscriptionViewModel(rssModel, mainViewModel), mainViewModel, NavigationOption.GoToSubscription, rssModel);
+            RemoveSubscriptionCommand = new RemoveSubscriptionCommand(this, mainViewModel);
             Init();
         }
 
@@ -55,6 +86,8 @@ namespace Typerr.ViewModel
         {
             Name = RssModel.Title;
             Image = RssModel.Image;
+            DeleteButtonVisibility = Visibility.Hidden;
+            IsHitTestVisible = true;
         }
     }
 }

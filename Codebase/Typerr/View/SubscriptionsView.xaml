@@ -9,13 +9,23 @@
                   VerticalScrollBarVisibility="Auto">
 
         <StackPanel Background="White" VerticalAlignment="Top">
-            <TextBlock Text="Subscriptions"
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Subscriptions"
                    Foreground="Black"
                    FontWeight="Bold"
                    FontSize="24"
                    Grid.Column="0"
                    HorizontalAlignment="Left"
                    Margin="30,20,0,20"/>
+                <TextBlock VerticalAlignment="Center"
+                           Margin="10 8 0 0">
+                    <Hyperlink Foreground="{StaticResource AppTheme}"
+                               Command="{Binding ManageSubscriptionsCommand}">
+                        Manage
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+            
             <ScrollViewer VerticalScrollBarVisibility="Disabled"
                           HorizontalScrollBarVisibility="Auto"
                           PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">

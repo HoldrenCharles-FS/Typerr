@@ -29,6 +29,7 @@ namespace Typerr.Commands
             {
                 _createTestViewModel.Reset();
                 _createTestViewModel.HttpResponse = -2;
+                _createTestViewModel.Url = "";
                 _createTestViewModel.LoadingAnimationVisibility = Visibility.Hidden;
                 return;
             }
