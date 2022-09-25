@@ -1,6 +1,7 @@
 ﻿using Microsoft.SyndicationFeed;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Typerr.Commands;
@@ -132,6 +133,12 @@ namespace Typerr
             catch (System.Net.WebException e)
             {
                 System.Console.WriteLine(e.ToString());
+
+                if (e.Status == System.Net.WebExceptionStatus.ProtocolError)
+                {
+                    Thread.Sleep(5000);
+                    await RetrieveRss(mainViewModel, homeViewModel, navPanelViewModel);
+                }
             }
 
         }

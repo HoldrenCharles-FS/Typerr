@@ -37,7 +37,7 @@
                 <Grid Grid.Column="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
-                        <RowDefinition MaxHeight="30"/>
+                        <RowDefinition MinHeight="30"/>
                     </Grid.RowDefinitions>
                     <Border VerticalAlignment="Bottom"
                         Grid.Row="0">
@@ -54,20 +54,19 @@
 
                         </Label>
                     </Border>
-
-
-
-                    <Border Grid.Row="1"
-                    VerticalAlignment="Bottom">
-                        <TextBlock Padding="10 0"
+                    <StackPanel Grid.Row="1">
+                        <Border VerticalAlignment="Bottom"
+                                Height="{Binding PubDateHeight}">
+                            <TextBlock Padding="10 0"
                                Margin="10 0 10 0"
                            Foreground="Black"
                            FontSize="16"
-                           TextWrapping="Wrap"
                            Text="{Binding PubDate, UpdateSourceTrigger=PropertyChanged}"
                            />
-
-                    </Border>
+                        </Border>
+                        <ContentControl Content="{Binding Link, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                    
                 </Grid>
             </Grid>
             <Button Grid.Row="0"
