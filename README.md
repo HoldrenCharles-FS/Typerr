@@ -20,6 +20,7 @@ Improve your typing accuracy and WPM with Typerr. The primary features of the ty
 - **Stats:** View your current WPM, time, number of words typed and number of typing errors.
 - **Visual Feedback:** Typing errors are indicated in red.
 - **No Handrails:** The test does not stop you from typing when you make an error. Errors can be undone by using the Backspace key at the cost of time, or you can continue typing.
+- **Position Memory:** If you can't finish a test, stop it and it will save your last position allowing you to pick up where you left off.
 
 ## Other Features
 
