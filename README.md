@@ -8,7 +8,7 @@ To create a new test, open the **Create Test Form** from Home. From here the use
 
 - **From URL:** Copy and Paste any URL containing text data and Typerr will do the rest for you. You are given opportunity to review extracted data before creating the test.
 - **From File:** Import any .txt file
-- **Manually:** Type out your own test or copy/paste text into the field!
+- **Manually:** Type out your own test or copy/paste text into the field.
 
 ## RSS Subscriptions
 In addition to being able to create a typing test from any article, Typerr supports RSS Subscriptions. You can browse RSS feeds within the app and create tests from their attached URLs.
