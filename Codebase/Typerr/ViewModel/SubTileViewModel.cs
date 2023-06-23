@@ -78,7 +78,7 @@ namespace Typerr.ViewModel
         {
             RssModel = rssModel;
             SubTileCommand = new NavigationCommand(navigationStore, new SubscriptionViewModel(rssModel, mainViewModel), mainViewModel, NavigationOption.GoToSubscription, rssModel);
-            RemoveSubscriptionCommand = new RemoveSubscriptionCommand(this, mainViewModel);
+          //  RemoveSubscriptionCommand = new RemoveSubscriptionCommand(this, mainViewModel);
             Init();
         }
 

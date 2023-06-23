@@ -20,7 +20,7 @@ namespace Typerr.ViewModel
         {
             _mainViewModel = mainViewModel;
             AddSubscriptionTileCommand = new AddSubscriptionTileCommand(mainViewModel);
-            ManageSubscriptionsCommand = new ManageSubscriptionsCommand(this);
+           // ManageSubscriptionsCommand = new ManageSubscriptionsCommand(this);
         }
 
         public void ManageSubscriptions()
